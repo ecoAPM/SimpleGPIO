@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.Properties;
 
@@ -15,39 +14,16 @@ namespace SimpleGPIO.Tests.GPIO
         public Power Power { get; set; }
         public Voltage Voltage { get; set; }
 
-        public void Enable()
-        {
-            throw new NotImplementedException();
-        }
+        public void Enable() => throw new NotImplementedException();
+        public void Disable() => throw new NotImplementedException();
+        public void TurnOn() => throw new NotImplementedException();
+        public void TurnOff() => throw new NotImplementedException();
+        public void Toggle() => throw new NotImplementedException();
+        public void Toggle(double hz, TimeSpan duration) => throw new NotImplementedException();
+        public void Toggle(double hz, ulong iterations) => throw new NotImplementedException();
 
-        public void Disable()
+        public void Dispose()
         {
-            throw new NotImplementedException();
-        }
-
-        public void TurnOn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TurnOff()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Toggle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Toggle(double hz, TimeSpan duration)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Toggle(double hz, ulong iterations)
-        {
-            throw new NotImplementedException();
         }
     }
 }

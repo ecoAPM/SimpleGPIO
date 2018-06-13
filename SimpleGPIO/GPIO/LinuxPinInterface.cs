@@ -47,6 +47,7 @@ namespace SimpleGPIO.GPIO
                 if (!Enabled)
                     Enable();
 
+                _fs.WaitFor(DirectionPath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
                 return (Direction)(direction ?? (direction = _fs.Read(DirectionPath).ToDirection()));
             }
             set
@@ -55,6 +56,7 @@ namespace SimpleGPIO.GPIO
                     Enable();
 
                 direction = value;
+                _fs.WaitForWriteable(DirectionPath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
                 _fs.Write(DirectionPath, value.ToString().ToLower());
             }
         }
@@ -73,6 +75,7 @@ namespace SimpleGPIO.GPIO
                 if (!Enabled)
                     Enable();
 
+                _fs.WaitFor(VoltagePath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
                 return (Voltage)(voltage ?? (voltage = (Voltage)byte.Parse(_fs.Read(VoltagePath))));
             }
             set
@@ -81,6 +84,7 @@ namespace SimpleGPIO.GPIO
                     IOMode = IOMode.Write;
 
                 voltage = value;
+                _fs.WaitForWriteable(VoltagePath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
                 _fs.Write(VoltagePath, ((byte)value).ToString());
             }
         }
@@ -128,5 +132,7 @@ namespace SimpleGPIO.GPIO
             while (run++ < iterations)
                 RunToggleIteration(stopwatch, delay);
         }
+
+        public void Dispose() => Disable();
     }
 }

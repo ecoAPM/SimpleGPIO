@@ -332,22 +332,6 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
-        public void CanToggleAtHighFrequency()
-        {
-            //arrange
-            var fs = Substitute.For<IFileSystem>();
-            fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
-            fs.Read("/sys/class/gpio/gpio123/value").Returns("0");
-            var pinInterface = new LinuxPinInterface(123, fs);
-
-            //act
-            pinInterface.Toggle(TimeSpan.TicksPerMillisecond, TimeSpan.FromMilliseconds(1));
-
-            //assert
-            fs.Received(20).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
-        }
-
-        [Fact]
         public void CanToggleForSetIterations()
         {
             //arrange
@@ -361,6 +345,21 @@ namespace SimpleGPIO.Tests.GPIO
 
             //assert
             fs.Received(20).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
+        }
+
+        [Fact]
+        public void DisablesOnDispose()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.Dispose();
+
+            //assert
+            fs.Received().Write("/sys/class/gpio/unexport", "123");
         }
     }
 }

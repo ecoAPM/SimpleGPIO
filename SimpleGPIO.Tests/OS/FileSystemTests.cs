@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using NSubstitute;
 using SimpleGPIO.OS;
 using Xunit;
 
@@ -69,6 +72,60 @@ namespace SimpleGPIO.Tests.OS
 
             //assert
             Assert.False(exists);
+        }
+
+        [Fact]
+        public async Task WaitForPassesWhenFileExists()
+        {
+            //arrange
+            var fs = new FileSystem();
+
+            //act
+            var wait = fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(1));
+
+            //assert
+            await wait;
+        }
+
+        [Fact]
+        public async Task WaitForFailsWhenFileDoesNotExist()
+        {
+            //arrange
+            var fs = new FileSystem();
+
+            //act
+            var wait = fs.WaitFor("other", TimeSpan.FromMilliseconds(1));
+
+            //assert
+            await Assert.ThrowsAsync<TimeoutException>(() => wait);
+        }
+
+        [Fact]
+        public async Task WaitForWriteablePassesWhenFileIsWriteable()
+        {
+            //arrange
+            var fs = new FileSystem();
+
+            //act
+            var wait = fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(1));
+
+            //assert
+            await wait;
+        }
+
+        [Fact]
+        public async Task WaitForWriteableFailsWhenFileIsReadOnly()
+        {
+            //arrange
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            fileInfo.IsReadOnly.Returns(true);
+            var fs = new FileSystem(path => fileInfo);
+
+            //act
+            var wait = fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(1));
+
+            //assert
+            await Assert.ThrowsAsync<TimeoutException>(() => wait);
         }
     }
 }

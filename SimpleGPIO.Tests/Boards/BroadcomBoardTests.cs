@@ -55,5 +55,23 @@ namespace SimpleGPIO.Tests.Boards
             for (var x = 0; x < 28; x++)
                 Assert.Equal(x, pins[x].Pin);
         }
+
+        [Fact]
+        public void DisposesAllPins()
+        {
+            //arrange
+            var newPin = Substitute.For<Func<byte, IPinInterface>>();
+            var pin = Substitute.For<IPinInterface>();
+            newPin.Invoke(Arg.Any<byte>()).Returns(p => pin);
+            var board = new BroadcomBoard(newPin);
+            for (var x = 0; x < 28; x++)
+                board.GetType().GetProperty($"GPIO{x}").GetValue(board);
+
+            //act
+            board.Dispose();
+
+            //assert
+            pin.Received(28).Dispose();
+        }
     }
 }

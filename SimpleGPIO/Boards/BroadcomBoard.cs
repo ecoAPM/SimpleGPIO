@@ -3,7 +3,7 @@ using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Boards
 {
-    public class BroadcomBoard
+    public class BroadcomBoard : IDisposable
     {
         private readonly Func<byte, IPinInterface> _pinInterfaceFactory;
 
@@ -47,5 +47,11 @@ namespace SimpleGPIO.Boards
         public IPinInterface GPIO25 => GetGPIO(25);
         public IPinInterface GPIO26 => GetGPIO(26);
         public IPinInterface GPIO27 => GetGPIO(27);
+
+        public void Dispose()
+        {
+            for (var id = 0; id < 28; id++)
+                gpio[id]?.Dispose();
+        }
     }
 }

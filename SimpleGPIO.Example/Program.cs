@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Threading;
 using SimpleGPIO.Boards;
 
 namespace SimpleGPIO.Example
 {
     internal static class Program
     {
-        //GPIO on a Raspberry Pi made easy!
-        private static async Task Main()
+        private static void Main()
         {
-            //first, instantiate a new board
             var pi = new RaspberryPi();
 
-            //physical pin numbers are easier to determine
-            var redLED = pi.Pin7;
+            var redLED = pi.Pin16;
+            var yellowLED = pi.Pin18;
+            var greenLED = pi.Pin22;
             
-            //helper methods abstract away the implementation details
             redLED.TurnOn();
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             redLED.TurnOff();
-            await Task.Delay(TimeSpan.FromSeconds(1));
 
-            //you can also use the Broadcom identifiers
-            var sameRedLED = pi.GPIO4;
+            yellowLED.TurnOn();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            yellowLED.TurnOff();
 
-            //now make the light flash!
-            sameRedLED.Toggle(10, TimeSpan.FromSeconds(2));
+            greenLED.TurnOn();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            greenLED.TurnOff();
 
-            //always clean up your toys when you're done
-            sameRedLED.TurnOff();
+            pi.Dispose();
         }
     }
 }

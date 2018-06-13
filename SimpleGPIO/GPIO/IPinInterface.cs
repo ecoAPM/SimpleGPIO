@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using SimpleGPIO.Properties;
 
 namespace SimpleGPIO.GPIO
 {
-    public interface IPinInterface
+    public interface IPinInterface : IDisposable
     {
         IOMode IOMode { get; set; }
         Direction Direction { get; set; }
