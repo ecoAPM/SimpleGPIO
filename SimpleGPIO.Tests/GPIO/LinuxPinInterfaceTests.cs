@@ -1,8 +1,9 @@
 ﻿using System;
 using NSubstitute;
 using SimpleGPIO.GPIO;
+using SimpleGPIO.IO;
 using SimpleGPIO.OS;
-using SimpleGPIO.Properties;
+using SimpleGPIO.Power;
 using Xunit;
 
 namespace SimpleGPIO.Tests.GPIO
@@ -140,15 +141,20 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Theory]
-        [InlineData("1", Power.Off)]
-        [InlineData("0", Power.On)]
-        public void CanGetPower(string value, Power expected)
+        [InlineData(typeof(Direct), "0", PowerValue.Off)]
+        [InlineData(typeof(Direct), "1", PowerValue.On)]
+        [InlineData(typeof(Differential), "1", PowerValue.Off)]
+        [InlineData(typeof(Differential), "0", PowerValue.On)]
+        public void CanGetPower(Type powerModeType, string value, PowerValue expected)
         {
             //arrange
             var fs = Substitute.For<IFileSystem>();
             fs.Read("/sys/class/gpio/gpio123/value").Returns(value);
 
-            var pinInterface = new LinuxPinInterface(123, fs);
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)
+            };
 
             //act
             var power = pinInterface.Power;
@@ -173,9 +179,11 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Theory]
-        [InlineData(Power.Off, "1")]
-        [InlineData(Power.On, "0")]
-        public void CanSetPower(Power power, string expected)
+        [InlineData(typeof(Direct), PowerValue.Off, "0")]
+        [InlineData(typeof(Direct), PowerValue.On, "1")]
+        [InlineData(typeof(Differential), PowerValue.Off, "1")]
+        [InlineData(typeof(Differential), PowerValue.On, "0")]
+        public void CanSetPower(Type powerModeType, PowerValue power, string expected)
         {
             //arrange
             var fs = Substitute.For<IFileSystem>();
@@ -185,6 +193,7 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new LinuxPinInterface(123, fs)
             {
                 Enabled = true,
+                PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType),
                 Power = power
             };
 
@@ -202,7 +211,7 @@ namespace SimpleGPIO.Tests.GPIO
             //act
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = Power.On
+                Power = PowerValue.On
             };
 
             //assert
@@ -251,14 +260,14 @@ namespace SimpleGPIO.Tests.GPIO
             fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = Power.Off
+                Power = PowerValue.Off
             };
 
             //act
             pinInterface.TurnOn();
 
             //assert
-            Assert.Equal(Power.On, pinInterface.Power);
+            Assert.Equal(PowerValue.On, pinInterface.Power);
         }
 
         [Fact]
@@ -269,14 +278,14 @@ namespace SimpleGPIO.Tests.GPIO
             fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = Power.On
+                Power = PowerValue.On
             };
 
             //act
             pinInterface.TurnOff();
 
             //assert
-            Assert.Equal(Power.Off, pinInterface.Power);
+            Assert.Equal(PowerValue.Off, pinInterface.Power);
         }
 
         [Fact]
@@ -287,14 +296,14 @@ namespace SimpleGPIO.Tests.GPIO
             fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = Power.Off
+                Power = PowerValue.Off
             };
 
             //act
             pinInterface.Toggle();
 
             //assert
-            Assert.Equal(Power.On, pinInterface.Power);
+            Assert.Equal(PowerValue.On, pinInterface.Power);
         }
 
         [Fact]
@@ -305,14 +314,14 @@ namespace SimpleGPIO.Tests.GPIO
             fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = Power.On
+                Power = PowerValue.On
             };
 
             //act
             pinInterface.Toggle();
 
             //assert
-            Assert.Equal(Power.Off, pinInterface.Power);
+            Assert.Equal(PowerValue.Off, pinInterface.Power);
         }
 
         [Fact]

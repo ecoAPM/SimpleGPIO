@@ -1,4 +1,4 @@
-﻿namespace SimpleGPIO.Properties
+﻿namespace SimpleGPIO.IO
 {
     public enum Direction
     {

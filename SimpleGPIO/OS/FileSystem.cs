@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleGPIO.OS
@@ -21,13 +22,13 @@ namespace SimpleGPIO.OS
         public bool Exists(string path)
             => Directory.Exists(path) || File.Exists(path);
 
-        public async Task WaitFor(string path, TimeSpan timeout)
-            => await WaitFor(path, false, timeout);
+        public void WaitFor(string path, TimeSpan timeout)
+            => WaitFor(path, false, timeout);
 
-        public async Task WaitForWriteable(string path, TimeSpan timeout)
-            => await WaitFor(path, true, timeout);
+        public void WaitForWriteable(string path, TimeSpan timeout)
+            => WaitFor(path, true, timeout);
 
-        private async Task WaitFor(string path, bool writeable, TimeSpan timeout)
+        private void WaitFor(string path, bool writeable, TimeSpan timeout)
         {
             var time = Stopwatch.StartNew();
             var fileInfo = _newFileInfo(path);
@@ -35,7 +36,7 @@ namespace SimpleGPIO.OS
             while ((!fileInfo.Exists || writeable && fileInfo.IsReadOnly) && time.Elapsed < timeout)
             {
                 fileInfo.Refresh();
-                await Task.Delay(1);
+                Thread.Sleep(1);
             }
 
             time.Stop();

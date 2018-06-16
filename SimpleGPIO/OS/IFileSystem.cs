@@ -8,7 +8,7 @@ namespace SimpleGPIO.OS
         string Read(string path);
         void Write(string path, string content);
         bool Exists(string path);
-        Task WaitFor(string path, TimeSpan timeout);
-        Task WaitForWriteable(string path, TimeSpan timeout);
+        void WaitFor(string path, TimeSpan timeout);
+        void WaitForWriteable(string path, TimeSpan timeout);
     }
 }

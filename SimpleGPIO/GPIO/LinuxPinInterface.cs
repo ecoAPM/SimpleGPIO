@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using SimpleGPIO.IO;
 using SimpleGPIO.OS;
-using SimpleGPIO.Properties;
+using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO
 {
@@ -21,6 +22,8 @@ namespace SimpleGPIO.GPIO
         private string PinDir => BaseDir + "gpio" + _pin;
         private string DirectionPath => PinDir + "/direction";
         private string VoltagePath => PinDir + "/value";
+
+        public IPowerMode PowerMode { get; set; } = SimpleGPIO.Power.PowerMode.Direct;
 
         private bool? enabled;
         public bool Enabled
@@ -47,7 +50,9 @@ namespace SimpleGPIO.GPIO
                 if (!Enabled)
                     Enable();
 
-                _fs.WaitFor(DirectionPath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+                if(direction == null)
+                    _fs.WaitFor(DirectionPath, TimeSpan.FromSeconds(1));
+
                 return (Direction)(direction ?? (direction = _fs.Read(DirectionPath).ToDirection()));
             }
             set
@@ -56,15 +61,15 @@ namespace SimpleGPIO.GPIO
                     Enable();
 
                 direction = value;
-                _fs.WaitForWriteable(DirectionPath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+                _fs.WaitForWriteable(DirectionPath, TimeSpan.FromSeconds(1));
                 _fs.Write(DirectionPath, value.ToString().ToLower());
             }
         }
 
-        public Power Power
+        public PowerValue Power
         {
-            get => (Power)Voltage;
-            set => Voltage = (Voltage)value;
+            get => Voltage.ToPowerValue(PowerMode);
+            set => Voltage = value == PowerValue.On ? PowerMode.On : PowerMode.Off;
         }
 
         private Voltage? voltage;
@@ -75,7 +80,8 @@ namespace SimpleGPIO.GPIO
                 if (!Enabled)
                     Enable();
 
-                _fs.WaitFor(VoltagePath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+                if(voltage == null)
+                    _fs.WaitFor(VoltagePath, TimeSpan.FromSeconds(1));
                 return (Voltage)(voltage ?? (voltage = (Voltage)byte.Parse(_fs.Read(VoltagePath))));
             }
             set
@@ -84,7 +90,7 @@ namespace SimpleGPIO.GPIO
                     IOMode = IOMode.Write;
 
                 voltage = value;
-                _fs.WaitForWriteable(VoltagePath, TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+                _fs.WaitForWriteable(VoltagePath, TimeSpan.FromSeconds(1));
                 _fs.Write(VoltagePath, ((byte)value).ToString());
             }
         }
@@ -92,9 +98,9 @@ namespace SimpleGPIO.GPIO
         public void Enable() => Enabled = true;
         public void Disable() => Enabled = false;
 
-        public void TurnOn() => Power = Power.On;
-        public void TurnOff() => Power = Power.Off;
-        public void Toggle() => Power = Power == Power.Off ? Power.On : Power.Off;
+        public void TurnOn() => Power = PowerValue.On;
+        public void TurnOff() => Power = PowerValue.Off;
+        public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
 
         public void Toggle(double hz, TimeSpan duration)
         {

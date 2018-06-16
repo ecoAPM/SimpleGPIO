@@ -1,4 +1,4 @@
-﻿namespace SimpleGPIO.Properties
+﻿namespace SimpleGPIO.Power
 {
     public enum Voltage
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using NSubstitute;
 using SimpleGPIO.OS;
 using Xunit;
@@ -75,46 +74,46 @@ namespace SimpleGPIO.Tests.OS
         }
 
         [Fact]
-        public async Task WaitForPassesWhenFileExists()
+        public void WaitForPassesWhenFileExists()
         {
             //arrange
             var fs = new FileSystem();
 
             //act
-            var wait = fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(1));
+            fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(1));
 
             //assert
-            await wait;
+            Assert.True(true);
         }
 
         [Fact]
-        public async Task WaitForFailsWhenFileDoesNotExist()
+        public void WaitForFailsWhenFileDoesNotExist()
         {
             //arrange
             var fs = new FileSystem();
 
             //act
-            var wait = fs.WaitFor("other", TimeSpan.FromMilliseconds(1));
+            var wait = new Action(() => fs.WaitFor("other", TimeSpan.FromMilliseconds(1)));
 
             //assert
-            await Assert.ThrowsAsync<TimeoutException>(() => wait);
+            Assert.Throws<TimeoutException>(wait);
         }
 
         [Fact]
-        public async Task WaitForWriteablePassesWhenFileIsWriteable()
+        public void WaitForWriteablePassesWhenFileIsWriteable()
         {
             //arrange
             var fs = new FileSystem();
 
             //act
-            var wait = fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(1));
+            fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(1));
 
             //assert
-            await wait;
+            Assert.True(true);
         }
 
         [Fact]
-        public async Task WaitForWriteableFailsWhenFileIsReadOnly()
+        public void WaitForWriteableFailsWhenFileIsReadOnly()
         {
             //arrange
             var fileInfo = Substitute.For<IFileInfoWrapper>();
@@ -122,10 +121,10 @@ namespace SimpleGPIO.Tests.OS
             var fs = new FileSystem(path => fileInfo);
 
             //act
-            var wait = fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(1));
+            var wait = new Action(() => fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(1)));
 
             //assert
-            await Assert.ThrowsAsync<TimeoutException>(() => wait);
+            Assert.Throws<TimeoutException>(wait);
         }
     }
 }

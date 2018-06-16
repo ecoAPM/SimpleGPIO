@@ -1,6 +1,7 @@
 ﻿using System;
 using SimpleGPIO.GPIO;
-using SimpleGPIO.Properties;
+using SimpleGPIO.IO;
+using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Tests.GPIO
 {
@@ -9,9 +10,12 @@ namespace SimpleGPIO.Tests.GPIO
         public StubPinInterface(byte pin) => Pin = pin;
 
         public byte Pin { get; }
+        
         public IOMode IOMode { get; set; }
         public Direction Direction { get; set; }
-        public Power Power { get; set; }
+        
+        public IPowerMode PowerMode { get; set; }
+        public PowerValue Power { get; set; }
         public Voltage Voltage { get; set; }
 
         public void Enable() => throw new NotImplementedException();

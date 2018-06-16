@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace SimpleGPIO.Properties
+namespace SimpleGPIO.IO
 {
-    public static class PropertiesHelpers
+    public static class IOHelpers
     {
         public static IOMode ToIOMode(this Direction direction)
         {

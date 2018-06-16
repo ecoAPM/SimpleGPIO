@@ -1,9 +1,9 @@
-﻿using SimpleGPIO.Properties;
+﻿using SimpleGPIO.IO;
 using Xunit;
 
-namespace SimpleGPIO.Tests.Properties
+namespace SimpleGPIO.Tests.IO
 {
-    public class PropertiesHelpersTests
+    public class IOHelpersTests
     {
         [Theory]
         [InlineData(Direction.In, IOMode.Read)]

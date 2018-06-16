@@ -1,5 +1,6 @@
 ﻿using System;
-using SimpleGPIO.Properties;
+using SimpleGPIO.IO;
+using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO
 {
@@ -7,7 +8,9 @@ namespace SimpleGPIO.GPIO
     {
         IOMode IOMode { get; set; }
         Direction Direction { get; set; }
-        Power Power { get; set; }
+        
+        IPowerMode PowerMode { get; set; }
+        PowerValue Power { get; set; }
         Voltage Voltage { get; set; }
 
         void Enable();
