@@ -55,7 +55,7 @@ redLED.Voltage = Voltage.Low;  //off
 
 All of the above examples assume the default `Direct` power mode, where the positive terminal of the LED is connected to the GPIO pin, and the negative terminal is connected to the ground pin.
 
-If, instead, you want to supply constant power by, e.g. the `3v3` pin, and the have the GPIO pin supply (or does not supply) resistance, you can use the `Differential` power mode, where `PowerValue.On == Voltage.Low` and `PowerValue.Off == Voltage.High`:
+If, instead, you want to supply constant power by, e.g. the `3v3` pin, and the have the GPIO pin supply (or not supply) resistance, you can use the `Differential` power mode, where `PowerValue.On == Voltage.Low` and `PowerValue.Off == Voltage.High`:
 ```C#
 var yellowLED = pi.Pin18;
 yellowLED.PowerMode = PowerMode.Differential;
@@ -94,7 +94,4 @@ This way, you should be able to read the `Power` and `Voltage` variables, though
 
 First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO)
 
-If you're looking to contribute code, there are 3 specific things I'd love help with:
-1. Windows support: Right now this is Linux-only. I'm not sure if UWP is the only way to access GPIO on the Windows side, but if not, create a new class implementing IPinInterface with the Windows IoT Core mappings.
-2. Adding components: I'll be filling these out over time, but it would be great to be able to have some higher-level component access (e.g. digit displays, LED grids, LCD scrollers, etc.)
-3. Adding new boards: I only have a Raspberry Pi, so if you have something else and want to map the GPIO pins, that would be awesome!
+If you're looking to contribute code, but don't have any ideas of your own, there are some specific things I'd love help with over in the Issues tab!
