@@ -3,7 +3,7 @@ A simple, low-ceremony GPIO library for all your IoT needs
 
 ## Overview
 
-`SimpleGPIO` takes a high-level, object-oriented approach to IoT programming. In the same way that high-level programming languages provide features that help abstract what's happening on the metal away from the code, such as memory management and multithreading, .
+`SimpleGPIO` takes a high-level, object-oriented approach to IoT programming, in the same way that high-level programming languages provide features that help abstract what's happening on the metal away from the code.
 
 ## Installation
 
