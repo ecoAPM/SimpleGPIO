@@ -82,13 +82,13 @@ redLED.Toggle(2, 3);
 
 ## What about inputs?
 
-This is still a work-in-progress, but you can set the `Direction` to `In`:
+Input components such as buttons can be declared the same way as output components, and the `Power` and `Voltage` can be read from the new variable:
 ```C#
-var knobThingy = pi.Pin22;
-knobThingy.Direction = Direction.In;
+var button = pi.Pin11;
+var isPressed = button.Power == PowerValue.On;
 ```
 
-This way, you should be able to read the `Power` and `Voltage` variables, though *mental note* there are probably caching issues with this.
+The `Direct` Power Mode for an input component expects power from e.g. the 3v3 pin, so that electricity flows through to the GPIO pin when the button is depressed.
 
 ## Cleaning up
 

@@ -153,6 +153,7 @@ namespace SimpleGPIO.Tests.GPIO
 
             var pinInterface = new LinuxPinInterface(123, fs)
             {
+                Direction = Direction.Out,
                 PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)
             };
 
@@ -169,7 +170,10 @@ namespace SimpleGPIO.Tests.GPIO
             //arrange
             var fs = Substitute.For<IFileSystem>();
             fs.Read("/sys/class/gpio/gpio123/value").Returns("1");
-            var pinInterface = new LinuxPinInterface(123, fs);
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                Direction = Direction.In
+            };
 
             //act
             var power = pinInterface.Power;
@@ -216,6 +220,45 @@ namespace SimpleGPIO.Tests.GPIO
 
             //assert
             fs.Received().Write("/sys/class/gpio/gpio123/direction", "out");
+        }
+
+        [Fact]
+        public void GettingPowerGetsCachedValueWhenOutput()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/value").Returns("0");
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                Direction = Direction.Out
+            };
+            var power = pinInterface.Power;
+
+            //act
+            power = pinInterface.Power;
+
+            //assert
+            fs.Received(1).Read("/sys/class/gpio/gpio123/value");
+        }
+
+        [Fact]
+        public void GettingPowerDoesNotGetCachedValueWhenInput()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/value").Returns("0");
+            
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                Direction = Direction.In
+            };
+            var power = pinInterface.Power;
+
+            //act
+            power = pinInterface.Power;
+
+            //assert
+            fs.Received(2).Read("/sys/class/gpio/gpio123/value");
         }
 
         [Fact]

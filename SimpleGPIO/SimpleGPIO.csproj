@@ -2,5 +2,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Authors>Steve Desmond</Authors>
+    <Company>Steve Desmond Software Development</Company>
+    <Copyright>Steve Desmond</Copyright>
+    <PackageLicenseUrl>https://github.com/stevedesmond-ca/SimpleGPIO/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/stevedesmond-ca/SimpleGPIO/</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/stevedesmond-ca/SimpleGPIO/</PackageProjectUrl>
+    <Version>1.0.0-b1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>

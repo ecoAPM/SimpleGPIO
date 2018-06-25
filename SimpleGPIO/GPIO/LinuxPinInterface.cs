@@ -82,7 +82,9 @@ namespace SimpleGPIO.GPIO
 
                 if(voltage == null)
                     _fs.WaitFor(VoltagePath, TimeSpan.FromSeconds(1));
-                return (Voltage)(voltage ?? (voltage = (Voltage)byte.Parse(_fs.Read(VoltagePath))));
+                return Direction == Direction.In
+                    ? getVoltageFromFileSystem()
+                    : (Voltage)(voltage ?? (voltage = getVoltageFromFileSystem()));
             }
             set
             {
@@ -93,6 +95,11 @@ namespace SimpleGPIO.GPIO
                 _fs.WaitForWriteable(VoltagePath, TimeSpan.FromSeconds(1));
                 _fs.Write(VoltagePath, ((byte)value).ToString());
             }
+        }
+
+        private Voltage getVoltageFromFileSystem()
+        {
+            return (Voltage)byte.Parse(_fs.Read(VoltagePath));
         }
 
         public void Enable() => Enabled = true;
