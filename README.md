@@ -64,7 +64,7 @@ yellowLED.TurnOn();
 
 ## Techno Dance Parties
 
-There are some helper methods for toggling values. If power is currently on, it will turn it off; if power is off, it will turn it on:
+There are some helper methods for toggling values. If power is currently on, toggling it will turn it off; if power is off, toggling will turn it on:
 ```C#
 redLED.Toggle();
 ```
@@ -90,8 +90,18 @@ knobThingy.Direction = Direction.In;
 
 This way, you should be able to read the `Power` and `Voltage` variables, though *mental note* there are probably caching issues with this.
 
+## Cleaning up
+
+If you want to turn off everything that was turned on while your application was running, simply `Dispose()` of your `RaspberryPi` at the end of your code.
+
+```C#
+pi.Dispose();
+```
+
+This will turn off and close all open GPIO pins. As with all `IDisposable`s, this also works if you wrap the `RaspberryPi` you're using in a `using(){}` block.
+
 ## How can I help?
 
-First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO)
+First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO). If you had any problems, feel free to [file an issue](https://github.com/stevedesmond-ca/SimpleGPIO/issues/new).
 
 If you're looking to contribute code, but don't have any ideas of your own, there are some specific things I'd love help with over in the Issues tab!
