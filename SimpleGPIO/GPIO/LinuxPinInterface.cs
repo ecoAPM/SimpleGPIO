@@ -9,10 +9,10 @@ namespace SimpleGPIO.GPIO
 {
     public class LinuxPinInterface : IPinInterface
     {
-        public LinuxPinInterface(byte bcmIdentifier, IFileSystem fileSystem = null)
+        public LinuxPinInterface(byte bcmIdentifier, IFileSystem fileSystem)
         {
             _pin = bcmIdentifier;
-            _fs = fileSystem ?? new FileSystem();
+            _fs = fileSystem;
         }
 
         private readonly byte _pin;
@@ -82,8 +82,9 @@ namespace SimpleGPIO.GPIO
 
                 if(voltage == null)
                     _fs.WaitFor(VoltagePath, TimeSpan.FromSeconds(1));
+
                 return Direction == Direction.In
-                    ? getVoltageFromFileSystem()
+                    ? (Voltage)(voltage = getVoltageFromFileSystem())
                     : (Voltage)(voltage ?? (voltage = getVoltageFromFileSystem()));
             }
             set
@@ -144,6 +145,30 @@ namespace SimpleGPIO.GPIO
             ulong run = 0;
             while (run++ < iterations)
                 RunToggleIteration(stopwatch, delay);
+        }
+
+        public void OnPowerOn(Action action)
+        {
+            if (!Enabled)
+                Enable();
+
+            _fs.Watch(VoltagePath, () => Power == PowerValue.On, action);
+        }
+
+        public void OnPowerOff(Action action)
+        {
+            if (!Enabled)
+                Enable();
+            
+            _fs.Watch(VoltagePath, () => Power == PowerValue.Off, action);
+        }
+
+        public void OnPowerChange(Action action)
+        {
+            if (!Enabled)
+                Enable();
+            
+            _fs.Watch(VoltagePath, () => true, action);
         }
 
         public void Dispose() => Disable();

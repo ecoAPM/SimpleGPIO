@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using SimpleGPIO.Boards;
 
 namespace SimpleGPIO.Examples.Input
@@ -8,12 +7,14 @@ namespace SimpleGPIO.Examples.Input
     {
         public static void Main()
         {
-            var pi = new RaspberryPi();
-            var button = pi.GPIO17;
-            while (true)
+            using (var pi = new RaspberryPi())
             {
-                Console.WriteLine(button.Power);
-                Thread.Sleep(50);
+                var button = pi.Pin11;
+                var led = pi.Pin16;
+                button.OnPowerOn(() => led.Toggle());
+
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
             }
         }
     }

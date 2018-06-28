@@ -20,11 +20,17 @@ namespace SimpleGPIO.Tests.GPIO
 
         public void Enable() => throw new NotImplementedException();
         public void Disable() => throw new NotImplementedException();
+        
         public void TurnOn() => throw new NotImplementedException();
         public void TurnOff() => throw new NotImplementedException();
+        
         public void Toggle() => throw new NotImplementedException();
         public void Toggle(double hz, TimeSpan duration) => throw new NotImplementedException();
         public void Toggle(double hz, ulong iterations) => throw new NotImplementedException();
+        
+        public void OnPowerOn(Action action) => throw new NotImplementedException();
+        public void OnPowerOff(Action action) => throw new NotImplementedException();
+        public void OnPowerChange(Action action) => throw new NotImplementedException();
 
         public void Dispose()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using NSubstitute;
+using NSubstitute.Extensions;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
 using SimpleGPIO.OS;
@@ -247,7 +248,7 @@ namespace SimpleGPIO.Tests.GPIO
             //arrange
             var fs = Substitute.For<IFileSystem>();
             fs.Read("/sys/class/gpio/gpio123/value").Returns("0");
-            
+
             var pinInterface = new LinuxPinInterface(123, fs)
             {
                 Direction = Direction.In
@@ -377,7 +378,7 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new LinuxPinInterface(123, fs);
 
             //act
-            pinInterface.Toggle(100, TimeSpan.FromMilliseconds(100));
+            pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(10));
 
             //assert
             fs.Received(20).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
@@ -397,6 +398,117 @@ namespace SimpleGPIO.Tests.GPIO
 
             //assert
             fs.Received(20).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
+        }
+
+        [Fact]
+        public void OnPowerOnEnablesIfNotEnabled()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.OnPowerOn(null);
+
+            //assert
+            fs.Received().Write("/sys/class/gpio/export", "123");
+        }
+
+        [Fact]
+        public void OnPowerOnPerformsAction()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            fs.When(f => f.Watch(Arg.Any<string>(), Arg.Any<Func<bool>>(), Arg.Any<Action>())).Do(c =>
+            {
+                if (c.Arg<Func<bool>>().Invoke()) c.Arg<Action>().Invoke();
+            });
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                Power = PowerValue.On 
+            };
+            var called = false;
+
+            //act
+            pinInterface.OnPowerOn(() => called = true);
+
+            //assert
+            Assert.True(called);
+        }
+
+        [Fact]
+        public void OnPowerOffEnablesIfNotEnabled()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.OnPowerOff(null);
+
+            //assert
+            fs.Received().Write("/sys/class/gpio/export", "123");
+        }
+
+        [Fact]
+        public void OnPowerOffPerformsAction()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            fs.When(f => f.Watch(Arg.Any<string>(), Arg.Any<Func<bool>>(), Arg.Any<Action>())).Do(c =>
+            {
+                if (c.Arg<Func<bool>>().Invoke()) c.Arg<Action>().Invoke();
+            });
+            var pinInterface = new LinuxPinInterface(123, fs)
+            {
+                Power = PowerValue.Off
+            };
+            var called = false;
+
+            //act
+            pinInterface.OnPowerOff(() => called = true);
+
+            //assert
+            Assert.True(called);
+        }
+
+        [Fact]
+        public void OnPowerChangeEnablesIfNotEnabled()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.OnPowerChange(null);
+
+            //assert
+            fs.Received().Write("/sys/class/gpio/export", "123");
+        }
+
+        [Fact]
+        public void OnPowerChangePerformsAction()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("in");
+            fs.When(f => f.Watch(Arg.Any<string>(), Arg.Any<Func<bool>>(), Arg.Any<Action>())).Do(c =>
+            {
+                if (c.Arg<Func<bool>>().Invoke()) c.Arg<Action>().Invoke();
+            });
+            var pinInterface = new LinuxPinInterface(123, fs);
+            var called = false;
+
+            //act
+            pinInterface.OnPowerChange(() => called = true);
+
+            //assert
+            Assert.True(called);
         }
 
         [Fact]

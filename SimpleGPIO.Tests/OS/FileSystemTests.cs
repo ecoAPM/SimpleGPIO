@@ -12,7 +12,9 @@ namespace SimpleGPIO.Tests.OS
         public void ReadTrimsBlankLines()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
             var data = fs.Read("readme.txt");
@@ -25,7 +27,9 @@ namespace SimpleGPIO.Tests.OS
         public void WriteTrimsBlankLines()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
             fs.Write("writeme.txt", "456\n");
@@ -38,7 +42,9 @@ namespace SimpleGPIO.Tests.OS
         public void ExistsWhenDirectoryExists()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
             var exists = fs.Exists(Directory.GetCurrentDirectory());
@@ -51,7 +57,9 @@ namespace SimpleGPIO.Tests.OS
         public void ExistsWhenFileExists()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
             var exists = fs.Exists("readme.txt");
@@ -64,7 +72,9 @@ namespace SimpleGPIO.Tests.OS
         public void DoesNotExistWhenNeitherDirectoryNorFileExists()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
             var exists = fs.Exists("other");
@@ -77,10 +87,13 @@ namespace SimpleGPIO.Tests.OS
         public void WaitForPassesWhenFileExists()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            fileInfo.Exists.Returns(true);
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(1));
+            fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(10));
 
             //assert
             Assert.True(true);
@@ -90,10 +103,12 @@ namespace SimpleGPIO.Tests.OS
         public void WaitForFailsWhenFileDoesNotExist()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            var wait = new Action(() => fs.WaitFor("other", TimeSpan.FromMilliseconds(1)));
+            var wait = new Action(() => fs.WaitFor("other", TimeSpan.FromMilliseconds(10)));
 
             //assert
             Assert.Throws<TimeoutException>(wait);
@@ -103,10 +118,14 @@ namespace SimpleGPIO.Tests.OS
         public void WaitForWriteablePassesWhenFileIsWriteable()
         {
             //arrange
-            var fs = new FileSystem();
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            fileInfo.Exists.Returns(true);
+            fileInfo.IsReadOnly.Returns(false);
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(1));
+            fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(10));
 
             //assert
             Assert.True(true);
@@ -118,13 +137,60 @@ namespace SimpleGPIO.Tests.OS
             //arrange
             var fileInfo = Substitute.For<IFileInfoWrapper>();
             fileInfo.IsReadOnly.Returns(true);
-            var fs = new FileSystem(path => fileInfo);
+            var nfw = Substitute.For<IFileWatcher>();
+            var fs = new FileSystem(path => fileInfo, (fileSystem, path, predicate, action) => nfw);
 
             //act
-            var wait = new Action(() => fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(1)));
+            var wait = new Action(() => fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(10)));
 
             //assert
             Assert.Throws<TimeoutException>(wait);
+        }
+
+        [Fact]
+        public void WatchStartsWatcherWhenActionIsNotNull()
+        {
+            //arrange
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<IFileWatcher>();
+            var fs = new FileSystem(path => fileInfo, (fileSystem, path, predicate, action) => nfw);
+
+            //act
+            fs.Watch("", () => true, () => { });
+
+            //assert
+            nfw.Received().Watch();
+        }
+
+        [Fact]
+        public void WatchStopsWatcherWhenActionIsNull()
+        {
+            //arrange
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<IFileWatcher>();
+            var fs = new FileSystem(path => fileInfo, (fileSystem, path, predicate, action) => nfw);
+
+            //act
+            fs.Watch("", () => true, null);
+
+            //assert
+            nfw.Received().Stop();
+        }
+
+        [Fact]
+        public void WatchUsesCachedWatcherWhenExists()
+        {
+            //arrange
+            var fileInfo = Substitute.For<IFileInfoWrapper>();
+            var nfw = Substitute.For<Func<IFileSystem, string, Func<bool>, Action, IFileWatcher>>();
+            var fs = new FileSystem(path => fileInfo, nfw);
+            fs.Watch("", () => true, () => { });
+
+            //act
+            fs.Watch("", () => true, () => { });
+
+            //assert
+            nfw.Received(1).Invoke(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<Func<bool>>(), Arg.Any<Action>());
         }
     }
 }

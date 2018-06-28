@@ -22,5 +22,8 @@ namespace SimpleGPIO.GPIO
 
         void Toggle(double hz, TimeSpan duration);
         void Toggle(double hz, ulong iterations);
+        void OnPowerOn(Action action);
+        void OnPowerOff(Action action);
+        void OnPowerChange(Action action);
     }
 }

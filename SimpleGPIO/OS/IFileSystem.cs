@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 
 namespace SimpleGPIO.OS
 {
@@ -10,5 +9,6 @@ namespace SimpleGPIO.OS
         bool Exists(string path);
         void WaitFor(string path, TimeSpan timeout);
         void WaitForWriteable(string path, TimeSpan timeout);
+        void Watch(string path, Func<bool> predicate, Action action);
     }
 }
