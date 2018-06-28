@@ -55,7 +55,7 @@ redLED.Voltage = Voltage.Low;  //off
 
 All of the above examples assume the default `Direct` power mode, where the positive terminal of the LED is connected to the GPIO pin, and the negative terminal is connected to the ground pin.
 
-If, instead, you want to supply constant power by, e.g. the `3v3` pin, and the have the GPIO pin supply (or not supply) resistance, you can use the `Differential` power mode, where `PowerValue.On == Voltage.Low` and `PowerValue.Off == Voltage.High`:
+If, instead, you want to supply constant power by, e.g. the 3v3 pin, and the have the GPIO pin supply (or not supply) resistance, you can use the `Differential` power mode, where `PowerValue.On == Voltage.Low` and `PowerValue.Off == Voltage.High`:
 ```C#
 var yellowLED = pi.Pin18;
 yellowLED.PowerMode = PowerMode.Differential;
@@ -89,6 +89,19 @@ var isPressed = button.Power == PowerValue.On;
 ```
 
 The `Direct` Power Mode for an input component expects power from e.g. the 3v3 pin, so that electricity flows through to the GPIO pin when the button is depressed.
+
+## Reacting to Change
+
+Three methods are provided on a pin that accept an `Action` as a parameter, so that when that pin's state changes, some subsequent steps can be performed:
+```C#
+var button = pi.Pin11;
+var redLED = pi.Pin16;
+var buzzer = pi.Pin18;
+
+button.OnPowerOn(() => redLED.TurnOn());
+button.OnPowerOff(() => redLED.TurnOff());
+redLED.OnPowerChange(() => buzzer.Toggle(1, 1));
+```
 
 ## Cleaning up
 
