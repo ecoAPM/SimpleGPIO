@@ -103,6 +103,8 @@ button.OnPowerOff(() => redLED.TurnOff());
 redLED.OnPowerChange(() => buzzer.Toggle(1, 1));
 ```
 
+Whenever the button is pressed down, the LED will turn on. When the button is released, the LED will turn off. Whenever the LED turns on or off, the buzzer will beep for half a second (reminder why: because Toggle will complete a single cycle at 1Hz, which means 0.5s on, then 0.5s off).
+
 ## Cleaning up
 
 If you want to turn off everything that was turned on while your application was running, simply `Dispose()` of your `RaspberryPi` at the end of your code.
