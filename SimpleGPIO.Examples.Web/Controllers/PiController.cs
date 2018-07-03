@@ -19,21 +19,12 @@ namespace SimpleGPIO.Examples.Web.Controllers
         }
 
         [HttpPost("red")]
-        public void Red()
-        {
-            _redLED.Toggle();
-        }
+        public void Red() => _redLED.Toggle();
 
         [HttpPost("yellow")]
-        public void Yellow()
-        {
-            _yellowLED.Toggle();
-        }
+        public void Yellow() => _yellowLED.Toggle();
 
         [HttpPost("green")]
-        public void Green()
-        {
-            _greenLED.Toggle();
-        }
+        public void Green() => _greenLED.Toggle();
     }
 }
