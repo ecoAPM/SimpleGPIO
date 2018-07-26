@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.CLI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Web", "SimpleGPIO.Examples.Web\SimpleGPIO.Examples.Web.csproj", "{B5420D95-EC02-4FAA-A3DA-471372577239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Input", "SimpleGPIO.Examples.Input\SimpleGPIO.Examples.Input.csproj", "{FCC2F919-0434-4C96-B069-6563DF5B0B1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Input", "SimpleGPIO.Examples.Input\SimpleGPIO.Examples.Input.csproj", "{FCC2F919-0434-4C96-B069-6563DF5B0B1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Components.RGBLED", "SimpleGPIO.Examples.Components.RGBLED\SimpleGPIO.Examples.Components.RGBLED.csproj", "{DDCCE85B-649D-4D91-A1F0-E0333CF29496}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,18 @@ Global
 		{FCC2F919-0434-4C96-B069-6563DF5B0B1F}.Release|x64.Build.0 = Release|Any CPU
 		{FCC2F919-0434-4C96-B069-6563DF5B0B1F}.Release|x86.ActiveCfg = Release|Any CPU
 		{FCC2F919-0434-4C96-B069-6563DF5B0B1F}.Release|x86.Build.0 = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|x64.Build.0 = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Debug|x86.Build.0 = Debug|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|x64.ActiveCfg = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|x64.Build.0 = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|x86.ActiveCfg = Release|Any CPU
+		{DDCCE85B-649D-4D91-A1F0-E0333CF29496}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
