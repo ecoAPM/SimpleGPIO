@@ -1,6 +1,5 @@
 ﻿using System;
 using NSubstitute;
-using NSubstitute.Extensions;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
 using SimpleGPIO.OS;

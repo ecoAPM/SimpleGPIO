@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SimpleGPIO.Power;
+﻿using SimpleGPIO.Power;
 using Xunit;
 
 namespace SimpleGPIO.Tests.Power

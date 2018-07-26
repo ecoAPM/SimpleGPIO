@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SimpleGPIO.GPIO;
+﻿using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Components
 {

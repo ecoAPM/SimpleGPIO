@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using SimpleGPIO.OS;
+﻿using SimpleGPIO.OS;
 using Xunit;
 
 namespace SimpleGPIO.Tests.OS

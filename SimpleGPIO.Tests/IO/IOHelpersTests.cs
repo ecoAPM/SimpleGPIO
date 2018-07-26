@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using SimpleGPIO.IO;
+﻿using SimpleGPIO.IO;
 using Xunit;
 
 namespace SimpleGPIO.Tests.IO
