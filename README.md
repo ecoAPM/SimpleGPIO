@@ -115,6 +115,52 @@ pi.Dispose();
 
 This will turn off and close all open GPIO pins. As with all `IDisposable`s, this also works if you wrap the `RaspberryPi` you're using in a `using(){}` block.
 
+## Components
+
+Several components have been implemented to help make development easier.
+
+### RGB LED
+
+The RGB LED contains a separate pin for red, green, and blue, which can be combined to show different colors.
+
+```C#
+var redPin = pi.Pin11;
+var greenPin = pi.Pin16;
+var bluePin = pi.Pin18;
+
+var rgbLED = new RGBLED(redPin, greenPin, bluePin);
+
+rgbLED.TurnRed();
+rgbLED.TurnOrange();
+rgbLED.TurnYellow();
+rgbLED.TurnGreen();
+rgbLED.TurnCyan();
+rgbLED.TurnBlue();
+rgbLED.TurnPurple();
+rgbLED.TurnWhite();
+rgbLED.TurnOff();
+```
+
+### 7-Segment Display
+
+7-segment displays are currently supported for direct connections to GPIO pins (support for bit-shift registers coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
+
+```C#
+var display = new SevenSegmentDisplay(centerPin, upperLeftPin, topPin, upperRightPin, lowerLeftPin, bottomPin, lowerRightPin, /*optional*/decimalPin);
+display.Show('A');
+display.Show('B');
+display.Show('C');
+display.Show('1');
+display.Show('2');
+display.Show('3');
+```
+
+Custom characters can also be displayed with:
+```C#
+//same order:          center,        upper-left,     top,           upper-right,    lower-left,    bottom,         lower-right,   decimal (optional)
+display.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
+```
+
 ## How can I help?
 
 First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO). If you had any problems, feel free to [file an issue](https://github.com/stevedesmond-ca/SimpleGPIO/issues/new).
