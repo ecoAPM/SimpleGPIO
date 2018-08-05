@@ -15,7 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Input",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Components.RGBLED", "SimpleGPIO.Examples.Components.RGBLED\SimpleGPIO.Examples.Components.RGBLED.csproj", "{DDCCE85B-649D-4D91-A1F0-E0333CF29496}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Components.SevenSegmentDisplay", "SimpleGPIO.Examples.Components.SevenSegmentDisplay\SimpleGPIO.Examples.Components.SevenSegmentDisplay.csproj", "{42070653-DC63-4684-B44D-4D3106259C8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Components.SevenSegmentDisplay", "SimpleGPIO.Examples.Components.SevenSegmentDisplay\SimpleGPIO.Examples.Components.SevenSegmentDisplay.csproj", "{42070653-DC63-4684-B44D-4D3106259C8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB2B51C3-D0A6-4B70-9557-0A7CE48BC438}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
