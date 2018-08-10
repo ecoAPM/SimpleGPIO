@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NSubstitute;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
@@ -329,6 +330,26 @@ namespace SimpleGPIO.Tests.GPIO
 
             //assert
             Assert.Equal(PowerValue.Off, pinInterface.Power);
+        }
+
+        [Fact]
+        public void SpikeTurnsOnThenOff()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.Spike();
+
+            //assert
+            var calls = fs.ReceivedCalls()
+                .Where(c => c.GetMethodInfo().Name == "Write"
+                            && c.GetArguments()[0].ToString().EndsWith("value"))
+                .ToArray();
+            Assert.Equal("1", calls[0].GetArguments()[1]);
+            Assert.Equal("0", calls[1].GetArguments()[1]);
         }
 
         [Fact]

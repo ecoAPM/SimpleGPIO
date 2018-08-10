@@ -18,10 +18,12 @@ namespace SimpleGPIO.GPIO
         
         void TurnOn();
         void TurnOff();
+        void Spike();
+        
         void Toggle();
-
         void Toggle(double hz, TimeSpan duration);
         void Toggle(double hz, ulong iterations);
+        
         void OnPowerOn(Action action);
         void OnPowerOff(Action action);
         void OnPowerChange(Action action);

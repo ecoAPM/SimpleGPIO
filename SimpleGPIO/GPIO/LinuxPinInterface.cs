@@ -108,6 +108,13 @@ namespace SimpleGPIO.GPIO
 
         public void TurnOn() => Power = PowerValue.On;
         public void TurnOff() => Power = PowerValue.Off;
+
+        public void Spike()
+        {
+            TurnOn();
+            TurnOff();
+        }
+
         public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
 
         public void Toggle(double hz, TimeSpan duration)
