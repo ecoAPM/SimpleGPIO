@@ -93,7 +93,7 @@ namespace SimpleGPIO.Tests.OS
             var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(10));
+            fs.WaitFor("readme.txt", TimeSpan.FromMilliseconds(20));
 
             //assert
             Assert.True(true);
@@ -108,7 +108,7 @@ namespace SimpleGPIO.Tests.OS
             var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            var wait = new Action(() => fs.WaitFor("other", TimeSpan.FromMilliseconds(10)));
+            var wait = new Action(() => fs.WaitFor("other", TimeSpan.FromMilliseconds(20)));
 
             //assert
             Assert.Throws<TimeoutException>(wait);
@@ -125,7 +125,7 @@ namespace SimpleGPIO.Tests.OS
             var fs = new FileSystem(path => fileInfo, nfw);
 
             //act
-            fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(10));
+            fs.WaitForWriteable("readme.txt", TimeSpan.FromMilliseconds(20));
 
             //assert
             Assert.True(true);
@@ -141,7 +141,7 @@ namespace SimpleGPIO.Tests.OS
             var fs = new FileSystem(path => fileInfo, (fileSystem, path, predicate, action) => nfw);
 
             //act
-            var wait = new Action(() => fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(10)));
+            var wait = new Action(() => fs.WaitForWriteable("readonly.txt", TimeSpan.FromMilliseconds(20)));
 
             //assert
             Assert.Throws<TimeoutException>(wait);
