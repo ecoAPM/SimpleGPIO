@@ -22,10 +22,7 @@ namespace SimpleGPIO.OS
             _fs = fs;
         }
 
-        public void Watch()
-        {
-            Task.Run(() => RunWatch());
-        }
+        public void Watch() => Task.Run(() => RunWatch());
 
         private void RunWatch()
         {
@@ -41,9 +38,8 @@ namespace SimpleGPIO.OS
             }
         }
 
-        public void Stop()
-        {
-            IsRunning = false;
-        }
+        public void Stop() => IsRunning = false;
+
+        public void Dispose() => Stop();
     }
 }

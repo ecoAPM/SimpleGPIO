@@ -1,6 +1,8 @@
-﻿namespace SimpleGPIO.OS
+﻿using System;
+
+namespace SimpleGPIO.OS
 {
-    public interface IFileWatcher
+    public interface IFileWatcher : IDisposable
     {
         void Watch();
         void Stop();

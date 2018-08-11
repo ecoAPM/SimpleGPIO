@@ -12,14 +12,15 @@ namespace SimpleGPIO.Tests.OS
         {
             //arrange
             var fs = Substitute.For<IFileSystem>();
-            var watcher = new FileWatcher(fs, "", () => true, () => {});
+            using (var watcher = new FileWatcher(fs, "", () => true, () => { }))
+            {
+                //act
+                watcher.Watch();
+                await Task.Delay(1);
 
-            //act
-            watcher.Watch();
-            await Task.Delay(1);
-            
-            //assert
-            Assert.True(watcher.IsRunning);
+                //assert
+                Assert.True(watcher.IsRunning);
+            }
         }
 
         [Fact]
@@ -27,16 +28,18 @@ namespace SimpleGPIO.Tests.OS
         {
             //arrange
             var fs = Substitute.For<IFileSystem>();
-            var watcher = new FileWatcher(fs, "", () => true, () => {});
-            watcher.Watch();
-            await Task.Delay(1);
+            using (var watcher = new FileWatcher(fs, "", () => true, () => { }))
+            {
+                watcher.Watch();
+                await Task.Delay(1);
 
-            //act
-            watcher.Stop();
-            await Task.Delay(1);
+                //act
+                watcher.Stop();
+                await Task.Delay(1);
 
-            //assert
-            Assert.False(watcher.IsRunning);
+                //assert
+                Assert.False(watcher.IsRunning);
+            }
         }
     }
 }
