@@ -208,11 +208,41 @@ motor.TurnClockwiseFor(TimeSpan.FromSeconds(1));
 motor.TurnCounterclockwiseFor(TimeSpan.FromSeconds(2), true); //optional parameter to coast instead of stop
 ```
 
+If you never need to coast (only stop) and your `enabled` pin is always on (e.g. 3.3 or 5V), you can pass `null` as the first constructor parameter.
+
 If using all 4 inputs on a single driver, declare another `Motor` to handle inputs 3 and 4.
 
 To drive a single-direction motor (by only having input 1 connected), simply pass `null` as the `counterclockwisePin` to the `Motor` constructor. Counterclockwise methods are not expected to function under this condition.
 
-## How can I help?
+### Bit Shift Register
+
+A bit shift register allows you to control more outputs than you have inputs. The `BitShiftRegister` component abstracts the implementation details of the integrated circuit away, so you can simply send the data you want as a `byte`!
+
+```C#
+var enabledPin = pi.Pin11;
+var dataPin = pi.Pin13;
+var shiftPin = pi.Pin15;
+var outputPin = pi.Pin16; //aka "latch"
+var clearPin = pi.Pin18;
+var bsr = new BitShiftRegister(enabledPin, dataPin, shiftPin, outputPin, clearPin);
+
+bsr.SetValue(255); //sets all 8 bits to On
+bsr.SetValue(0b11111111); //does the same
+
+bsr.SetValue(0b10101010); //these two are also identical to each other
+bsr.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
+
+//you can also accomplish this more manually
+dataPin.TurnOn();
+shiftPin.Spike();
+dataPin.TurnOff();
+shiftPin.Spike();
+outputPin.Spike();
+```
+
+Similar to the `Motor` component, the `enabled` and `clear` parameters are optional; if you choose to have the register always on/enabled by connecting it to the 3.3 or 5V rail, set the first param to `null`. If you never need to clear, and that pin is also connected to 3.3 or 5V, just leave the last param out.
+
+## "Wow, this is great! How can I help?"
 
 First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO). If you had any problems, feel free to [file an issue](https://github.com/stevedesmond-ca/SimpleGPIO/issues/new).
 
