@@ -141,9 +141,21 @@ rgbLED.TurnWhite();
 rgbLED.TurnOff();
 ```
 
-### 7-Segment Display
+### Rotary Encoder
 
-7-segment displays are currently supported for direct connections to GPIO pins (support for bit-shift registers coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
+Rotary encoders have actions that can be performed when the dial is turned.
+
+```C#
+var dial = new RotaryEncoder(clockPin, dataPin);
+dial.OnIncrease(() => Console.WriteLine("up"));
+dial.OnDecrease(() => Console.WriteLine("down"));
+```
+
+Built-in button functionality is not yet supported.
+
+### Seven-Segment Display
+
+Seven-segment displays are currently supported for direct connections to GPIO pins (support for bit-shift registers coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
 
 ```C#
 var display = new SevenSegmentDisplay(centerPin, upperLeftPin, topPin, upperRightPin, lowerLeftPin, bottomPin, lowerRightPin, /*optional*/decimalPin);
