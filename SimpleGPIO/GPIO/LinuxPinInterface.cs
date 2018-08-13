@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
 using SimpleGPIO.IO;
 using SimpleGPIO.OS;
 using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO
 {
-    public class LinuxPinInterface : IPinInterface
+    public class LinuxPinInterface : PinInterface
     {
         public LinuxPinInterface(byte bcmIdentifier, IFileSystem fileSystem)
         {
@@ -23,10 +21,8 @@ namespace SimpleGPIO.GPIO
         private string DirectionPath => PinDir + "/direction";
         private string VoltagePath => PinDir + "/value";
 
-        public IPowerMode PowerMode { get; set; } = SimpleGPIO.Power.PowerMode.Direct;
-
         private bool? enabled;
-        public bool Enabled
+        public override bool Enabled
         {
             get => (bool)(enabled ?? (enabled = _fs.Exists(PinDir)));
             set
@@ -36,14 +32,8 @@ namespace SimpleGPIO.GPIO
             }
         }
 
-        public IOMode IOMode
-        {
-            get => Direction.ToIOMode();
-            set => Direction = value.ToDirection();
-        }
-
         private Direction? direction;
-        public Direction Direction
+        public override Direction Direction
         {
             get
             {
@@ -66,14 +56,8 @@ namespace SimpleGPIO.GPIO
             }
         }
 
-        public PowerValue Power
-        {
-            get => Voltage.ToPowerValue(PowerMode);
-            set => Voltage = value == PowerValue.On ? PowerMode.On : PowerMode.Off;
-        }
-
         private Voltage? voltage;
-        public Voltage Voltage
+        public override Voltage Voltage
         {
             get
             {
@@ -103,58 +87,7 @@ namespace SimpleGPIO.GPIO
             return (Voltage)byte.Parse(_fs.Read(VoltagePath));
         }
 
-        public void Enable() => Enabled = true;
-        public void Disable() => Enabled = false;
-
-        public void TurnOn() => Power = PowerValue.On;
-        public void TurnOff() => Power = PowerValue.Off;
-
-        public void Spike()
-        {
-            TurnOn();
-            TurnOff();
-        }
-
-        public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
-
-        public void Toggle(double hz, TimeSpan duration)
-        {
-            var delay = Delay(hz);
-            var stopwatch = Stopwatch.StartNew();
-            var expected = hz * duration.TotalSeconds;
-            var count = 0;
-            while (stopwatch.Elapsed.Ticks <= duration.Ticks && count++ < expected)
-                RunToggleIteration(stopwatch, delay);
-        }
-
-        private void RunToggleIteration(Stopwatch stopwatch, long delay)
-        {
-            RunToggleHalfIteration(stopwatch, delay);
-            RunToggleHalfIteration(stopwatch, delay);
-        }
-
-        private void RunToggleHalfIteration(Stopwatch stopwatch, long delay)
-        {
-            var start = stopwatch.Elapsed.Ticks;
-            Toggle();
-            var end = stopwatch.Elapsed.Ticks;
-            var spent = end - start;
-            Thread.Sleep(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
-        }
-
-        private static long Delay(double hz)
-            => (long)(TimeSpan.TicksPerSecond / hz / 2);
-
-        public void Toggle(double hz, ulong iterations)
-        {
-            var delay = Delay(hz);
-            var stopwatch = Stopwatch.StartNew();
-            ulong run = 0;
-            while (run++ < iterations)
-                RunToggleIteration(stopwatch, delay);
-        }
-
-        public void OnPowerOn(Action action)
+        public override void OnPowerOn(Action action)
         {
             if (!Enabled)
                 Enable();
@@ -162,7 +95,7 @@ namespace SimpleGPIO.GPIO
             _fs.Watch(VoltagePath, () => Power == PowerValue.On, action);
         }
 
-        public void OnPowerOff(Action action)
+        public override void OnPowerOff(Action action)
         {
             if (!Enabled)
                 Enable();
@@ -170,14 +103,12 @@ namespace SimpleGPIO.GPIO
             _fs.Watch(VoltagePath, () => Power == PowerValue.Off, action);
         }
 
-        public void OnPowerChange(Action action)
+        public override void OnPowerChange(Action action)
         {
             if (!Enabled)
                 Enable();
             
             _fs.Watch(VoltagePath, () => true, action);
         }
-
-        public void Dispose() => Disable();
     }
 }

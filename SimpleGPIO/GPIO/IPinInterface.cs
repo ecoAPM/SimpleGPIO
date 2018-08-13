@@ -6,6 +6,7 @@ namespace SimpleGPIO.GPIO
 {
     public interface IPinInterface : IDisposable
     {
+        bool Enabled { get; set; }
         IOMode IOMode { get; set; }
         Direction Direction { get; set; }
         
