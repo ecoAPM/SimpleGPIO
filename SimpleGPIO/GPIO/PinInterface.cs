@@ -40,6 +40,20 @@ namespace SimpleGPIO.GPIO
             TurnOff();
         }
 
+        public void TurnOnFor(TimeSpan length)
+        {
+            TurnOn();
+            Thread.Sleep(length);
+            TurnOff();
+        }
+
+        public void TurnOffFor(TimeSpan length)
+        {
+            TurnOff();
+            Thread.Sleep(length);
+            TurnOn();
+        }
+
         public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
 
         public void Toggle(double hz, TimeSpan duration)

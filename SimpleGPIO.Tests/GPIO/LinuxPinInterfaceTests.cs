@@ -353,6 +353,46 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
+        public void TurnOnForTurnsOffAfter()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.TurnOnFor(TimeSpan.Zero);
+
+            //assert
+            var calls = fs.ReceivedCalls()
+                .Where(c => c.GetMethodInfo().Name == "Write"
+                            && c.GetArguments()[0].ToString().EndsWith("value"))
+                .ToArray();
+            Assert.Equal("1", calls[0].GetArguments()[1]);
+            Assert.Equal("0", calls[1].GetArguments()[1]);
+        }
+
+        [Fact]
+        public void TurnOffForTurnsOnAfter()
+        {
+            //arrange
+            var fs = Substitute.For<IFileSystem>();
+            fs.Read("/sys/class/gpio/gpio123/direction").Returns("out");
+            var pinInterface = new LinuxPinInterface(123, fs);
+
+            //act
+            pinInterface.TurnOffFor(TimeSpan.Zero);
+
+            //assert
+            var calls = fs.ReceivedCalls()
+                .Where(c => c.GetMethodInfo().Name == "Write"
+                            && c.GetArguments()[0].ToString().EndsWith("value"))
+                .ToArray();
+            Assert.Equal("0", calls[0].GetArguments()[1]);
+            Assert.Equal("1", calls[1].GetArguments()[1]);
+        }
+
+        [Fact]
         public void ToggleTurnsOnIfOff()
         {
             //arrange
@@ -447,7 +487,7 @@ namespace SimpleGPIO.Tests.GPIO
             });
             var pinInterface = new LinuxPinInterface(123, fs)
             {
-                Power = PowerValue.On 
+                Power = PowerValue.On
             };
             var called = false;
 

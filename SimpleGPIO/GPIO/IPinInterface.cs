@@ -20,6 +20,8 @@ namespace SimpleGPIO.GPIO
         void TurnOn();
         void TurnOff();
         void Spike();
+        void TurnOnFor(TimeSpan length);
+        void TurnOffFor(TimeSpan length);
         
         void Toggle();
         void Toggle(double hz, TimeSpan duration);
