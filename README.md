@@ -62,6 +62,17 @@ yellowLED.PowerMode = PowerMode.Differential;
 yellowLED.TurnOn();
 ```
 
+## Timed Power
+
+Pins can be turned on or off for specific lengths of time via the following:
+```C#
+var led = pi.Pin18;
+led.TurnOnFor(TimeSpan.FromSeconds(1)); //will turn off after 1 second
+
+led.TurnOn();
+led.TurnOffFor(TimeSpan.FromSeconds(0.5)); //will turn back on after 0.5 seconds
+```
+
 ## Techno Dance Parties
 
 There are some helper methods for toggling values. If power is currently on, toggling it will turn it off; if power is off, toggling will turn it on:
@@ -172,6 +183,31 @@ Custom characters can also be displayed with:
 //same order:          center,        upper-left,     top,           upper-right,    lower-left,    bottom,         lower-right,   decimal (optional)
 display.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
 ```
+
+### Bidirectional Motor
+
+The wiring required to safely run a motor is rather complicated. The code, however, can be quite eloquent. The `Motor` component assumes an L293D-compatible driver.
+
+```C#
+var enabledPin = pi.Pin11;
+var clockwisePin = pi.Pin13; //name assumes connected to L293D pin 1A
+var counterclockwisePin = pi.Pin15; // name assumes connected to L293D pin 2A
+var motor = new Motor(enabledPin, clockwisePin, counterclockwisePin);
+motor.Direction = Rotation.Clockwise;
+motor.Start();
+motor.Stop();
+
+motor.Direction = Rotation.Counterclockwise;
+motor.Start();
+motor.Coast();
+
+motor.TurnClockwise();
+motor.TurnCounterclockwise();
+motor.TurnClockwiseFor(TimeSpan.FromSeconds(1));
+motor.TurnCounterclockwiseFor(TimeSpan.FromSeconds(2), true); //optional parameter to coast instead of stop
+```
+
+If using all 4 inputs on a single driver, declare another `Motor` to handle inputs 3 and 4.
 
 ## How can I help?
 
