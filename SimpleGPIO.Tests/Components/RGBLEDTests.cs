@@ -1,6 +1,8 @@
 ﻿using NSubstitute;
 using SimpleGPIO.Components;
 using SimpleGPIO.GPIO;
+using SimpleGPIO.Power;
+using SimpleGPIO.Tests.GPIO;
 using Xunit;
 
 namespace SimpleGPIO.Tests.Components
@@ -11,144 +13,144 @@ namespace SimpleGPIO.Tests.Components
         public void TestRed()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnRed();
 
             //assert
-            red.Received().TurnOn();
-            green.Received().TurnOff();
-            blue.Received().TurnOff();
+            Assert.Equal(PowerValue.On, red.Power);
+            Assert.Equal(PowerValue.Off, green.Power);
+            Assert.Equal(PowerValue.Off, blue.Power);
         }
 
         [Fact]
         public void TestYellow()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnYellow();
 
             //assert
-            red.Received().TurnOn();
-            green.Received().TurnOn();
-            blue.Received().TurnOff();
+            Assert.Equal(PowerValue.On, red.Power);
+            Assert.Equal(PowerValue.On, green.Power);
+            Assert.Equal(PowerValue.Off, blue.Power);
         }
 
         [Fact]
         public void TestGreen()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnGreen();
 
             //assert
-            red.Received().TurnOff();
-            green.Received().TurnOn();
-            blue.Received().TurnOff();
+            Assert.Equal(PowerValue.Off, red.Power);
+            Assert.Equal(PowerValue.On, green.Power);
+            Assert.Equal(PowerValue.Off, blue.Power);
         }
 
         [Fact]
         public void TestCyan()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnCyan();
 
             //assert
-            red.Received().TurnOff();
-            green.Received().TurnOn();
-            blue.Received().TurnOn();
+            Assert.Equal(PowerValue.Off, red.Power);
+            Assert.Equal(PowerValue.On, green.Power);
+            Assert.Equal(PowerValue.On, blue.Power);
         }
 
         [Fact]
         public void TestBlue()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnBlue();
 
             //assert
-            red.Received().TurnOff();
-            green.Received().TurnOff();
-            blue.Received().TurnOn();
+            Assert.Equal(PowerValue.Off, red.Power);
+            Assert.Equal(PowerValue.Off, green.Power);
+            Assert.Equal(PowerValue.On, blue.Power);
         }
 
         [Fact]
         public void TestPurple()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnPurple();
 
             //assert
-            red.Received().TurnOn();
-            green.Received().TurnOff();
-            blue.Received().TurnOn();
+            Assert.Equal(PowerValue.On, red.Power);
+            Assert.Equal(PowerValue.Off, green.Power);
+            Assert.Equal(PowerValue.On, blue.Power);
         }
 
         [Fact]
         public void TestWhite()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnWhite();
 
             //assert
-            red.Received().TurnOn();
-            green.Received().TurnOn();
-            blue.Received().TurnOn();
+            Assert.Equal(PowerValue.On, red.Power);
+            Assert.Equal(PowerValue.On, green.Power);
+            Assert.Equal(PowerValue.On, blue.Power);
         }
 
         [Fact]
         public void TestOff()
         {
             //arrange
-            var red = Substitute.For<IPinInterface>();
-            var green = Substitute.For<IPinInterface>();
-            var blue = Substitute.For<IPinInterface>();
+            var red = new StubPinInterface(1);
+            var green = new StubPinInterface(2);
+            var blue = new StubPinInterface(3);
             var led = new RGBLED(red, green, blue);
 
             //act
             led.TurnOff();
 
             //assert
-            red.Received().TurnOff();
-            green.Received().TurnOff();
-            blue.Received().TurnOff();
+            Assert.Equal(PowerValue.Off, red.Power);
+            Assert.Equal(PowerValue.Off, green.Power);
+            Assert.Equal(PowerValue.Off, blue.Power);
         }
     }
 }
