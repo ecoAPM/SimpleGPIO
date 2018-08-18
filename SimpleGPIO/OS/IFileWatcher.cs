@@ -4,7 +4,7 @@ namespace SimpleGPIO.OS
 {
     public interface IFileWatcher : IDisposable
     {
-        void Watch();
+        void Watch(int pollInterval = 1);
         void Stop();
     }
 }

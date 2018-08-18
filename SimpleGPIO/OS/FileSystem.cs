@@ -26,11 +26,11 @@ namespace SimpleGPIO.OS
         public bool Exists(string path)
             => Directory.Exists(path) || File.Exists(path);
 
-        public void WaitFor(string path, TimeSpan timeout)
-            => WaitFor(path, false, timeout);
+        public void WaitFor(string path, TimeSpan timeout, int pollInterval = 1)
+            => WaitFor(path, false, timeout, pollInterval);
 
-        public void WaitForWriteable(string path, TimeSpan timeout)
-            => WaitFor(path, true, timeout);
+        public void WaitForWriteable(string path, TimeSpan timeout, int pollInterval = 1)
+            => WaitFor(path, true, timeout, pollInterval);
 
         private readonly IDictionary<string, IFileWatcher> watchers = new Dictionary<string, IFileWatcher>();
         public void Watch(string path, Func<bool> predicate, Action action)
@@ -45,7 +45,7 @@ namespace SimpleGPIO.OS
                 watcher.Stop();
         }
 
-        private void WaitFor(string path, bool writeable, TimeSpan timeout)
+        private void WaitFor(string path, bool writeable, TimeSpan timeout, int pollInterval)
         {
             var time = Stopwatch.StartNew();
             var fileInfo = _newFileInfo(path);
@@ -53,7 +53,7 @@ namespace SimpleGPIO.OS
             while ((!fileInfo.Exists || writeable && fileInfo.IsReadOnly) && time.Elapsed < timeout)
             {
                 fileInfo.Refresh();
-                Thread.Sleep(1);
+                Thread.Sleep(pollInterval);
             }
 
             time.Stop();

@@ -7,8 +7,8 @@ namespace SimpleGPIO.OS
         string Read(string path);
         void Write(string path, string content);
         bool Exists(string path);
-        void WaitFor(string path, TimeSpan timeout);
-        void WaitForWriteable(string path, TimeSpan timeout);
+        void WaitFor(string path, TimeSpan timeout, int pollInterval = 1);
+        void WaitForWriteable(string path, TimeSpan timeout, int pollInterval = 1);
         void Watch(string path, Func<bool> predicate, Action action);
     }
 }

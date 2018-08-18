@@ -22,9 +22,9 @@ namespace SimpleGPIO.OS
             _fs = fs;
         }
 
-        public void Watch() => Task.Run(() => RunWatch());
+        public void Watch(int pollInterval = 1) => Task.Run(() => RunWatch(pollInterval));
 
-        private void RunWatch()
+        private void RunWatch(int pollInterval)
         {
             IsRunning = true;
             string lastValue = null;
@@ -33,7 +33,7 @@ namespace SimpleGPIO.OS
                 var newValue = _fs.Read(_path);
                 if (newValue != lastValue && _predicate())
                     _action();
-                Thread.Sleep(1);
+                Thread.Sleep(pollInterval);
                 lastValue = newValue;
             }
         }

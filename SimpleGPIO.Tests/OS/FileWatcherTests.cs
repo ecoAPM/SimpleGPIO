@@ -15,7 +15,7 @@ namespace SimpleGPIO.Tests.OS
             using (var watcher = new FileWatcher(fs, "", () => true, () => { }))
             {
                 //act
-                watcher.Watch();
+                watcher.Watch(0);
                 await Task.Delay(1);
 
                 //assert
@@ -30,7 +30,7 @@ namespace SimpleGPIO.Tests.OS
             var fs = Substitute.For<IFileSystem>();
             using (var watcher = new FileWatcher(fs, "", () => true, () => { }))
             {
-                watcher.Watch();
+                watcher.Watch(0);
                 await Task.Delay(1);
 
                 //act
