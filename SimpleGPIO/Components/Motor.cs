@@ -86,9 +86,6 @@ namespace SimpleGPIO.Components
             _enabled.TurnOff();
         }
 
-        public void Coast()
-        {
-            _enabled.TurnOff();
-        }
+        public void Coast() => _enabled.TurnOff();
     }
 }

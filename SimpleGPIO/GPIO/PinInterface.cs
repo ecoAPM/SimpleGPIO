@@ -81,8 +81,7 @@ namespace SimpleGPIO.GPIO
             Thread.Sleep(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
         }
 
-        private static long Delay(double hz)
-            => (long)(TimeSpan.TicksPerSecond / hz / 2);
+        private static long Delay(double hz) => (long)(TimeSpan.TicksPerSecond / hz / 2);
 
         public void Toggle(double hz, ulong iterations)
         {

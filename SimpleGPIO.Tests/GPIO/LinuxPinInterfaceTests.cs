@@ -438,10 +438,10 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new LinuxPinInterface(123, fs);
 
             //act
-            pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(10));
+            pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(1));
 
             //assert
-            fs.Received(20).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
+            fs.Received(2).Write("/sys/class/gpio/gpio123/value", Arg.Any<string>());
         }
 
         [Fact]
