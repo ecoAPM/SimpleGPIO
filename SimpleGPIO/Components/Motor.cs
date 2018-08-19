@@ -32,11 +32,11 @@ namespace SimpleGPIO.Components
             {
                 case Rotation.Clockwise:
                     _clockwise.TurnOn();
-                    _counterclockwise.TurnOff();
+                    _counterclockwise?.TurnOff();
                     break;
                 case Rotation.Counterclockwise:
                     _clockwise.TurnOff();
-                    _counterclockwise.TurnOn();
+                    _counterclockwise?.TurnOn();
                     break;
                 default:
                     throw new InvalidEnumArgumentException(nameof(Direction));
@@ -82,7 +82,7 @@ namespace SimpleGPIO.Components
         public void Stop()
         {
             _clockwise.TurnOff();
-            _counterclockwise.TurnOff();
+            _counterclockwise?.TurnOff();
             _enabled.TurnOff();
         }
 

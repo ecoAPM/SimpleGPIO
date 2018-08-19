@@ -209,6 +209,8 @@ motor.TurnCounterclockwiseFor(TimeSpan.FromSeconds(2), true); //optional paramet
 
 If using all 4 inputs on a single driver, declare another `Motor` to handle inputs 3 and 4.
 
+To drive a single-direction motor (by only having input 1 connected), simply pass `null` as the `counterclockwisePin` to the `Motor` constructor. Counterclockwise methods are not expected to function under this condition.
+
 ## How can I help?
 
 First, thank you for your enthusiasm! I'd love feedback on how you felt using this. If you had an awesome experience, let me know on [Twitter](https://twitter.com/intent/tweet?text=.@stevedesmond_ca&hashtags=SimpleGPIO). If you had any problems, feel free to [file an issue](https://github.com/stevedesmond-ca/SimpleGPIO/issues/new).
