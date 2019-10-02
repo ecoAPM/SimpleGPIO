@@ -1,13 +1,16 @@
 # SimpleGPIO [![Build Status](https://travis-ci.org/stevedesmond-ca/SimpleGPIO.svg?branch=master)](https://travis-ci.org/stevedesmond-ca/SimpleGPIO)
 A simple, low-ceremony GPIO library for all your IoT needs
 
+
 ## Overview
 
 `SimpleGPIO` takes a high-level, object-oriented approach to IoT programming, in the same way that high-level programming languages provide features that help abstract what's happening on the metal away from the code.
 
+
 ## Installation
 
 Simply add the `SimpleGPIO` library to your project from NuGet.
+
 
 ## Initialization
 
@@ -21,6 +24,7 @@ If you're using a dependency injection container, you can register the board as 
 services.AddSingleton<RaspberryPi>();
 ```
 
+
 ## Accessing GPIO pins
 
 GPIO pins can be accessed by both their physical location on the board, and/or their Broadcom identifier GPIO#.
@@ -28,6 +32,7 @@ GPIO pins can be accessed by both their physical location on the board, and/or t
 var redLED = pi.Pin16;
 var sameRedLED = pi.GPIO23;
 ```
+
 
 ## Moving electrons
 
@@ -51,6 +56,7 @@ redLED.Voltage = Voltage.High; //on
 redLED.Voltage = Voltage.Low;  //off
 ```
 
+
 ### Power Modes
 
 All of the above examples assume the default `Direct` power mode, where the positive terminal of the LED is connected to the GPIO pin, and the negative terminal is connected to the ground pin.
@@ -62,6 +68,7 @@ yellowLED.PowerMode = PowerMode.Differential;
 yellowLED.TurnOn();
 ```
 
+
 ## Timed Power
 
 Pins can be turned on or off for specific lengths of time via the following:
@@ -72,6 +79,7 @@ led.TurnOnFor(TimeSpan.FromSeconds(1)); //will turn off after 1 second
 led.TurnOn();
 led.TurnOffFor(TimeSpan.FromSeconds(0.5)); //will turn back on after 0.5 seconds
 ```
+
 
 ## Techno Dance Parties
 
@@ -91,6 +99,7 @@ Alternatively, you can toggle power a set number of times by passing in a number
 redLED.Toggle(2, 3);
 ```
 
+
 ## What about inputs?
 
 Input components such as buttons can be declared the same way as output components, and the `Power` and `Voltage` can be read from the new variable:
@@ -100,6 +109,7 @@ var isPressed = button.Power == PowerValue.On;
 ```
 
 The `Direct` Power Mode for an input component expects power from e.g. the 3v3 pin, so that electricity flows through to the GPIO pin when the button is depressed.
+
 
 ## Reacting to Change
 
@@ -116,6 +126,7 @@ redLED.OnPowerChange(() => buzzer.Toggle(1, 1));
 
 Whenever the button is pressed down, the LED will turn on. When the button is released, the LED will turn off. Whenever the LED turns on or off, the buzzer will beep for half a second (reminder why: because Toggle will complete a single cycle at 1Hz, which means 0.5s on, then 0.5s off).
 
+
 ## Cleaning up
 
 If you want to turn off everything that was turned on while your application was running, simply `Dispose()` of your `RaspberryPi` at the end of your code.
@@ -126,9 +137,11 @@ pi.Dispose();
 
 This will turn off and close all open GPIO pins. As with all `IDisposable`s, this also works if you wrap the `RaspberryPi` you're using in a `using(){}` block.
 
+
 ## Components
 
 Several components have been implemented to help make development easier.
+
 
 ### RGB LED
 
@@ -152,6 +165,7 @@ rgbLED.TurnWhite();
 rgbLED.TurnOff();
 ```
 
+
 ### Rotary Encoder
 
 Rotary encoders have actions that can be performed when the dial is turned.
@@ -163,6 +177,7 @@ dial.OnDecrease(() => Console.WriteLine("down"));
 ```
 
 Built-in button functionality is not yet supported.
+
 
 ### Seven-Segment Display
 
@@ -183,6 +198,7 @@ Custom characters can also be displayed with:
 //same order:          center,        upper-left,     top,           upper-right,    lower-left,    bottom,         lower-right,   decimal (optional)
 display.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
 ```
+
 
 ### Bidirectional Motor
 
@@ -210,6 +226,7 @@ motor.TurnCounterclockwiseFor(TimeSpan.FromSeconds(2), true); //optional paramet
 If using all 4 inputs on a single driver, declare another `Motor` to handle inputs 3 and 4.
 
 To drive a single-direction motor (by only having input 1 connected), simply pass `null` as the `counterclockwisePin` to the `Motor` constructor. Counterclockwise methods are not expected to function under this condition.
+
 
 ## How can I help?
 
