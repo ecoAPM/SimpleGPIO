@@ -1,4 +1,5 @@
-# SimpleGPIO [![Build Status](https://travis-ci.org/stevedesmond-ca/SimpleGPIO.svg?branch=master)](https://travis-ci.org/stevedesmond-ca/SimpleGPIO)
+# SimpleGPIO [![Build Status](https://github.com/stevedesmond-ca/SimpleGPIO/workflows/CI/badge.svg)](https://github.com/stevedesmond-ca/SimpleGPIO/actions)
+
 A simple, low-ceremony GPIO library for all your IoT needs
 
 ## Overview

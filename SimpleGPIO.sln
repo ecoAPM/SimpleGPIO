@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO", "SimpleGPIO\SimpleGPIO.csproj", "{90EA81A7-E4D2-4D0D-BCF9-3BDA729909D0}"
 EndProject
@@ -17,18 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Compone
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Components.SevenSegmentDisplay", "SimpleGPIO.Examples.Components.SevenSegmentDisplay\SimpleGPIO.Examples.Components.SevenSegmentDisplay.csproj", "{42070653-DC63-4684-B44D-4D3106259C8E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB2B51C3-D0A6-4B70-9557-0A7CE48BC438}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		.travis.yml = .travis.yml
-		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Components.RotaryEncoder", "SimpleGPIO.Examples.Components.RotaryEncoder\SimpleGPIO.Examples.Components.RotaryEncoder.csproj", "{5B531A69-92B9-4911-B286-CBD06C9E288F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Components.Motor", "SimpleGPIO.Examples.Components.Motor\SimpleGPIO.Examples.Components.Motor.csproj", "{07862CDD-EBE5-4E1D-8D4A-AE1F9E0681D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Components.Motor", "SimpleGPIO.Examples.Components.Motor\SimpleGPIO.Examples.Components.Motor.csproj", "{07862CDD-EBE5-4E1D-8D4A-AE1F9E0681D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

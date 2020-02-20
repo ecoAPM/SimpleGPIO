@@ -7,14 +7,14 @@ namespace SimpleGPIO.GPIO
 {
     public class LinuxPinInterface : PinInterface
     {
+        private readonly byte _pin;
+        private readonly IFileSystem _fs;
+
         public LinuxPinInterface(byte bcmIdentifier, IFileSystem fileSystem)
         {
             _pin = bcmIdentifier;
             _fs = fileSystem;
         }
-
-        private readonly byte _pin;
-        private readonly IFileSystem _fs;
 
         private const string BaseDir = "/sys/class/gpio/";
         private string PinDir => BaseDir + "gpio" + _pin;
