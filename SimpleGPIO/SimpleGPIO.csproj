@@ -11,4 +11,7 @@
     <Version>1.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Device.Gpio" Version="1.0.0" />
+  </ItemGroup>
 </Project>
