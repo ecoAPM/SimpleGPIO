@@ -13,9 +13,9 @@ namespace SimpleGPIO.Components
             Counterclockwise
         }
 
+        private readonly IPinInterface _enabled;
         private readonly IPinInterface _clockwise;
         private readonly IPinInterface _counterclockwise;
-        private readonly IPinInterface _enabled;
 
         public Rotation Direction { get; set; } = Rotation.Clockwise;
 
@@ -41,7 +41,7 @@ namespace SimpleGPIO.Components
                 default:
                     throw new InvalidEnumArgumentException(nameof(Direction));
             }
-            _enabled.TurnOn();
+            _enabled?.TurnOn();
         }
 
         public void TurnClockwise()
@@ -83,9 +83,9 @@ namespace SimpleGPIO.Components
         {
             _clockwise.TurnOff();
             _counterclockwise?.TurnOff();
-            _enabled.TurnOff();
+            _enabled?.TurnOff();
         }
 
-        public void Coast() => _enabled.TurnOff();
+        public void Coast() => _enabled?.TurnOff();
     }
 }
