@@ -2,7 +2,7 @@
 {
     public enum PowerValue
     {
-        On,
-        Off
+        On = 1,
+        Off = 0
     }
 }
