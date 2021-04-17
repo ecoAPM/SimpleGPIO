@@ -9,7 +9,7 @@ namespace SimpleGPIO.GPIO
     public abstract class PinInterface : IPinInterface
     {
         public abstract bool Enabled { get; set; }
-        
+
         public IOMode IOMode
         {
             get => Direction.ToIOMode();
@@ -17,8 +17,17 @@ namespace SimpleGPIO.GPIO
         }
 
         public abstract Direction Direction { get; set; }
-        
-        public IPowerMode PowerMode { get; set; } = SimpleGPIO.Power.PowerMode.Direct;
+
+        private IPowerMode _powerMode = SimpleGPIO.Power.PowerMode.Direct;
+        public IPowerMode PowerMode
+        {
+            get => _powerMode;
+            set
+            {
+                _powerMode = value;
+                TurnOff();
+            }
+        }
 
         public PowerValue Power
         {
@@ -81,7 +90,7 @@ namespace SimpleGPIO.GPIO
             Thread.Sleep(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
         }
 
-        private static long Delay(double hz) => (long)(TimeSpan.TicksPerSecond / hz / 2);
+        private static long Delay(double hz) => (long) (TimeSpan.TicksPerSecond / hz / 2);
 
         public void Toggle(double hz, ulong iterations)
         {

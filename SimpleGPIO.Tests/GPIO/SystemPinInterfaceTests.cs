@@ -192,6 +192,24 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
+        public void SettingPowerModeTurnsPinOff()
+        {
+            //arrange
+            var gpio = Substitute.For<IGpioController>();
+            gpio.GetPinMode(123).Returns(PinMode.Input);
+            var pinInterface = new SystemPinInterface(123, gpio)
+            {
+                PowerMode = PowerMode.Direct
+            };
+            
+            //act
+            pinInterface.PowerMode = PowerMode.Differential;
+
+            //assert
+            gpio.Received().Write(123, PinValue.High);
+        }
+
+        [Fact]
         public void EnableOpensPin()
         {
             //arrange
