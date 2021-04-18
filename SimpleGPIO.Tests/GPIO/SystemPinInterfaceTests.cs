@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
@@ -71,6 +72,7 @@ namespace SimpleGPIO.Tests.GPIO
             var io = pinInterface.IOMode;
 
             //assert
+            Assert.Equal(IOMode.Read, io);
             gpio.Received().OpenPin(123);
         }
 
@@ -90,6 +92,7 @@ namespace SimpleGPIO.Tests.GPIO
             };
 
             //assert
+            Assert.NotNull(pinInterface);
             gpio.Received().SetPinMode(123, expected);
         }
 
@@ -106,6 +109,7 @@ namespace SimpleGPIO.Tests.GPIO
             };
 
             //assert
+            Assert.NotNull(pinInterface);
             gpio.Received().OpenPin(123);
         }
 
@@ -148,6 +152,7 @@ namespace SimpleGPIO.Tests.GPIO
             var power = pinInterface.Power;
 
             //assert
+            Assert.IsType<PowerValue>(power);
             gpio.Received().OpenPin(123);
         }
 
@@ -171,6 +176,7 @@ namespace SimpleGPIO.Tests.GPIO
             };
 
             //assert
+            Assert.NotNull(pinInterface);
             gpio.Received().Write(123, expected);
         }
 
@@ -188,6 +194,7 @@ namespace SimpleGPIO.Tests.GPIO
             };
 
             //assert
+            Assert.NotNull(pinInterface);
             gpio.Received().SetPinMode(123, PinMode.Output);
         }
 
@@ -302,7 +309,7 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
-        public void TurnOnForTurnsOffAfter()
+        public async Task TurnOnForTurnsOffAfter()
         {
             //arrange
             var gpio = Substitute.For<IGpioController>();
@@ -311,7 +318,7 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new SystemPinInterface(123, gpio);
 
             //act
-            pinInterface.TurnOnFor(TimeSpan.Zero);
+            await pinInterface.TurnOnFor(TimeSpan.Zero);
 
             //assert
             var calls = gpio.ReceivedCalls().Where(c => c.GetMethodInfo().Name == "Write").ToArray();
@@ -320,7 +327,7 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
-        public void TurnOffForTurnsOnAfter()
+        public async Task TurnOffForTurnsOnAfter()
         {
             //arrange
             var gpio = Substitute.For<IGpioController>();
@@ -329,7 +336,7 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new SystemPinInterface(123, gpio);
 
             //act
-            pinInterface.TurnOffFor(TimeSpan.Zero);
+            await pinInterface.TurnOffFor(TimeSpan.Zero);
 
             //assert
             var calls = gpio.ReceivedCalls().Where(c => c.GetMethodInfo().Name == "Write").ToArray();
@@ -378,7 +385,7 @@ namespace SimpleGPIO.Tests.GPIO
         }
 
         [Fact]
-        public void CanToggleForADuration()
+        public async Task CanToggleForADuration()
         {
             //arrange
             var gpio = Substitute.For<IGpioController>();
@@ -388,14 +395,14 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new SystemPinInterface(123, gpio);
 
             //act
-            pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(1));
+            await pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(1));
 
             //assert
             gpio.Received(2).Write(123, Arg.Any<PinValue>());
         }
 
         [Fact]
-        public void CanToggleForSetIterations()
+        public async Task CanToggleForSetIterations()
         {
             //arrange
             var gpio = Substitute.For<IGpioController>();
@@ -405,7 +412,7 @@ namespace SimpleGPIO.Tests.GPIO
             var pinInterface = new SystemPinInterface(123, gpio);
 
             //act
-            pinInterface.Toggle(TimeSpan.TicksPerMillisecond, 10);
+            await pinInterface.Toggle(TimeSpan.TicksPerMillisecond, 10);
 
             //assert
             gpio.Received(20).Write(123, Arg.Any<PinValue>());
@@ -434,7 +441,7 @@ namespace SimpleGPIO.Tests.GPIO
             var gpio = Substitute.For<IGpioController>();
             gpio.GetPinMode(123).Returns(PinMode.Input);
             gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Rising, Arg.Any<PinChangeEventHandler>()))
-                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null, null));
+                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 
             var pinInterface = new SystemPinInterface(123, gpio)
             {
@@ -472,7 +479,7 @@ namespace SimpleGPIO.Tests.GPIO
             var gpio = Substitute.For<IGpioController>();
             gpio.GetPinMode(123).Returns(PinMode.Input);
             gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Falling, Arg.Any<PinChangeEventHandler>()))
-                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null, null));
+                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 
 
             var pinInterface = new SystemPinInterface(123, gpio)
@@ -511,7 +518,7 @@ namespace SimpleGPIO.Tests.GPIO
             var gpio = Substitute.For<IGpioController>();
             gpio.GetPinMode(123).Returns(PinMode.Input);
             gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, Arg.Any<PinEventTypes>(), Arg.Any<PinChangeEventHandler>()))
-                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null, null));
+                .Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
             var pinInterface = new SystemPinInterface(123, gpio);
             var called = false;
 

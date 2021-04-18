@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using SimpleGPIO.Components;
 using SimpleGPIO.Power;
 using SimpleGPIO.Tests.GPIO;
@@ -89,7 +90,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void RunForStopsWhenDone()
+        public async Task RunForStopsWhenDone()
         {
             //arrange
             var enabled = new StubPinInterface(1);
@@ -98,7 +99,7 @@ namespace SimpleGPIO.Tests.Components
             var motor = new Motor(enabled, clockwise, counterclockwise);
 
             //act
-            motor.RunFor(TimeSpan.Zero);
+            await motor.RunFor(TimeSpan.Zero);
 
             //assert
             Assert.Equal(PowerValue.Off, clockwise.Power);
@@ -106,7 +107,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void RunForCanCoastWhenDone()
+        public async Task RunForCanCoastWhenDone()
         {
             //arrange
             var enabled = new StubPinInterface(1);
@@ -115,7 +116,7 @@ namespace SimpleGPIO.Tests.Components
             var motor = new Motor(enabled, clockwise, counterclockwise);
 
             //act
-            motor.RunFor(TimeSpan.Zero, true);
+            await motor.RunFor(TimeSpan.Zero, true);
 
             //assert
             Assert.Equal(PowerValue.Off, enabled.Power);
@@ -124,7 +125,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TurnClockwiseForSetsDirection()
+        public async Task TurnClockwiseForSetsDirection()
         {
             //arrange
             var enabled = new StubPinInterface(1);
@@ -133,14 +134,14 @@ namespace SimpleGPIO.Tests.Components
             var motor = new Motor(enabled, clockwise, counterclockwise);
 
             //act
-            motor.TurnClockwiseFor(TimeSpan.Zero);
+            await motor.TurnClockwiseFor(TimeSpan.Zero);
 
             //assert
             Assert.Equal(Motor.Rotation.Clockwise, motor.Direction);
         }
 
         [Fact]
-        public void TurnCounterclockwiseForSetsDirection()
+        public async Task TurnCounterclockwiseForSetsDirection()
         {
             //arrange
             var enabled = new StubPinInterface(1);
@@ -149,7 +150,7 @@ namespace SimpleGPIO.Tests.Components
             var motor = new Motor(enabled, clockwise, counterclockwise);
 
             //act
-            motor.TurnCounterclockwiseFor(TimeSpan.Zero);
+            await motor.TurnCounterclockwiseFor(TimeSpan.Zero);
 
             //assert
             Assert.Equal(Motor.Rotation.Counterclockwise, motor.Direction);

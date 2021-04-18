@@ -72,7 +72,7 @@ namespace SimpleGPIO.GPIO
             if (!Enabled)
                 Enable();
 
-            _controller.RegisterCallbackForPinValueChangedEvent(_pin, PinEventTypes.Rising, (pin, args) => action());
+            _controller.RegisterCallbackForPinValueChangedEvent(_pin, PinEventTypes.Rising, (_, _) => action());
         }
 
         public override void OnPowerOff(Action action)
@@ -80,7 +80,7 @@ namespace SimpleGPIO.GPIO
             if (!Enabled)
                 Enable();
 
-            _controller.RegisterCallbackForPinValueChangedEvent(_pin, PinEventTypes.Falling, (pin, args) => action());
+            _controller.RegisterCallbackForPinValueChangedEvent(_pin, PinEventTypes.Falling, (_, _) => action());
         }
 
         public override void OnPowerChange(Action action)

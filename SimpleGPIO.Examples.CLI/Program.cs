@@ -6,7 +6,7 @@ namespace SimpleGPIO.Examples.CLI
 {
     internal static class Program
     {
-        private static async Task Main()
+        public static async Task Main()
         {
             var pi = new RaspberryPi();
             var redLED = pi.Pin16;

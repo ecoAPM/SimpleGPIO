@@ -32,9 +32,10 @@ namespace SimpleGPIO.Tests.Boards
             var pin0 = board.GPIO0;
 
             //act
-            pin0 = board.GPIO0;
+            var pin1 = board.GPIO0;
 
             //assert
+            Assert.Equal(pin0, pin1);
             newPin.Received(1).Invoke(0);
         }
 
@@ -49,7 +50,7 @@ namespace SimpleGPIO.Tests.Boards
 
             //act
             for (var x = 0; x < 28; x++)
-                pins[x] = (StubPinInterface)board.GetType().GetProperty($"GPIO{x}").GetValue(board);
+                pins[x] = (StubPinInterface)board.GetType().GetProperty($"GPIO{x}")?.GetValue(board);
 
             //assert
             for (var x = 0; x < 28; x++)
@@ -65,7 +66,7 @@ namespace SimpleGPIO.Tests.Boards
             newPin.Invoke(Arg.Any<byte>()).Returns(p => pin);
             var board = new BroadcomBoard(newPin);
             for (var x = 0; x < 28; x++)
-                board.GetType().GetProperty($"GPIO{x}").GetValue(board);
+                board.GetType().GetProperty($"GPIO{x}")?.GetValue(board);
 
             //act
             board.Dispose();

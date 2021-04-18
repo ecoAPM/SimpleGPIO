@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using SimpleGPIO.IO;
 using SimpleGPIO.Power;
 
@@ -20,12 +21,12 @@ namespace SimpleGPIO.GPIO
         void TurnOn();
         void TurnOff();
         void Spike();
-        void TurnOnFor(TimeSpan length);
-        void TurnOffFor(TimeSpan length);
+        Task TurnOnFor(TimeSpan length);
+        Task TurnOffFor(TimeSpan length);
         
         void Toggle();
-        void Toggle(double hz, TimeSpan duration);
-        void Toggle(double hz, ulong iterations);
+        Task Toggle(double hz, TimeSpan duration);
+        Task Toggle(double hz, ulong iterations);
         
         void OnPowerOn(Action action);
         void OnPowerOff(Action action);

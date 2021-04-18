@@ -1,6 +1,4 @@
-﻿using NSubstitute;
-using SimpleGPIO.Components;
-using SimpleGPIO.GPIO;
+﻿using SimpleGPIO.Components;
 using SimpleGPIO.Power;
 using SimpleGPIO.Tests.GPIO;
 using Xunit;
@@ -10,7 +8,7 @@ namespace SimpleGPIO.Tests.Components
     public class RGBLEDTests
     {
         [Fact]
-        public void TestRed()
+        public void Red()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -28,7 +26,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestYellow()
+        public void Yellow()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -46,7 +44,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestGreen()
+        public void Green()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -64,7 +62,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestCyan()
+        public void Cyan()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -82,7 +80,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestBlue()
+        public void Blue()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -100,7 +98,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestPurple()
+        public void Purple()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -118,7 +116,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestWhite()
+        public void White()
         {
             //arrange
             var red = new StubPinInterface(1);
@@ -136,7 +134,7 @@ namespace SimpleGPIO.Tests.Components
         }
 
         [Fact]
-        public void TestOff()
+        public void Off()
         {
             //arrange
             var red = new StubPinInterface(1);

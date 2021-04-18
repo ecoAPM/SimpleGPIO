@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading;
+using System.Threading.Tasks;
 using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Components
@@ -56,10 +56,10 @@ namespace SimpleGPIO.Components
             Start();
         }
 
-        public void RunFor(TimeSpan length, bool coast = false)
+        public async Task RunFor(TimeSpan length, bool coast = false)
         {
             Start();
-            Thread.Sleep(length);
+            await Task.Delay(length);
 
             if (coast)
                 Coast();
@@ -67,16 +67,16 @@ namespace SimpleGPIO.Components
                 Stop();
         }
 
-        public void TurnClockwiseFor(TimeSpan length, bool coast = false)
+        public async Task TurnClockwiseFor(TimeSpan length, bool coast = false)
         {
             Direction = Rotation.Clockwise;
-            RunFor(length, coast);
+            await RunFor(length, coast);
         }
 
-        public void TurnCounterclockwiseFor(TimeSpan length, bool coast = false)
+        public async Task TurnCounterclockwiseFor(TimeSpan length, bool coast = false)
         {
             Direction = Rotation.Counterclockwise;
-            RunFor(length, coast);
+            await RunFor(length, coast);
         }
 
         public void Stop()

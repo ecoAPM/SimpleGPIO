@@ -55,7 +55,7 @@ namespace SimpleGPIO.Components
         {
             get
             {
-                return mappings ?? (mappings = new Dictionary<char, Action>
+                return mappings ??= new Dictionary<char, Action>
                 {
                     { ' ', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
                     { '"', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
@@ -147,7 +147,7 @@ namespace SimpleGPIO.Components
                     { '|', () => mappings['I']() },
                     { '}', () => mappings[')']() },
                     { '~', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-                });
+                };
             }
         }
     }

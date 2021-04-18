@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
+using System.Threading.Tasks;
 using SimpleGPIO.IO;
 using SimpleGPIO.Power;
 
@@ -49,56 +49,56 @@ namespace SimpleGPIO.GPIO
             TurnOff();
         }
 
-        public void TurnOnFor(TimeSpan length)
+        public async Task TurnOnFor(TimeSpan length)
         {
             TurnOn();
-            Thread.Sleep(length);
+            await Task.Delay(length);
             TurnOff();
         }
 
-        public void TurnOffFor(TimeSpan length)
+        public async Task TurnOffFor(TimeSpan length)
         {
             TurnOff();
-            Thread.Sleep(length);
+            await Task.Delay(length);
             TurnOn();
         }
 
         public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
 
-        public void Toggle(double hz, TimeSpan duration)
+        public async Task Toggle(double hz, TimeSpan duration)
         {
             var delay = Delay(hz);
             var stopwatch = Stopwatch.StartNew();
             var expected = hz * duration.TotalSeconds;
             var count = 0;
             while (stopwatch.Elapsed.Ticks <= duration.Ticks && count++ < expected)
-                RunToggleIteration(stopwatch, delay);
+                await RunToggleIteration(stopwatch, delay);
         }
 
-        private void RunToggleIteration(Stopwatch stopwatch, long delay)
+        private async Task RunToggleIteration(Stopwatch stopwatch, long delay)
         {
-            RunToggleHalfIteration(stopwatch, delay);
-            RunToggleHalfIteration(stopwatch, delay);
+            await RunToggleHalfIteration(stopwatch, delay);
+            await RunToggleHalfIteration(stopwatch, delay);
         }
 
-        private void RunToggleHalfIteration(Stopwatch stopwatch, long delay)
+        private async Task RunToggleHalfIteration(Stopwatch stopwatch, long delay)
         {
             var start = stopwatch.Elapsed.Ticks;
             Toggle();
             var end = stopwatch.Elapsed.Ticks;
             var spent = end - start;
-            Thread.Sleep(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
+            await Task.Delay(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
         }
 
         private static long Delay(double hz) => (long) (TimeSpan.TicksPerSecond / hz / 2);
 
-        public void Toggle(double hz, ulong iterations)
+        public async Task Toggle(double hz, ulong iterations)
         {
             var delay = Delay(hz);
             var stopwatch = Stopwatch.StartNew();
             ulong run = 0;
             while (run++ < iterations)
-                RunToggleIteration(stopwatch, delay);
+                await RunToggleIteration(stopwatch, delay);
         }
 
         public abstract void OnPowerOn(Action action);
