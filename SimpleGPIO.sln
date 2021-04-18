@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGPIO.Examples.Compone
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Components.BitShiftRegister", "SimpleGPIO.Examples.Components.BitShiftRegister\SimpleGPIO.Examples.Components.BitShiftRegister.csproj", "{47382BF9-5DEE-4227-868E-76950939745A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGPIO.Examples.Components.DotMatrix", "SimpleGPIO.Examples.Components.DotMatrix\SimpleGPIO.Examples.Components.DotMatrix.csproj", "{85917140-8E65-4D64-972F-84E7930872CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,18 @@ Global
 		{07862CDD-EBE5-4E1D-8D4A-AE1F9E0681D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B531A69-92B9-4911-B286-CBD06C9E288F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B531A69-92B9-4911-B286-CBD06C9E288F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|x64.Build.0 = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Debug|x86.Build.0 = Debug|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|x64.ActiveCfg = Release|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|x64.Build.0 = Release|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{85917140-8E65-4D64-972F-84E7930872CD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
