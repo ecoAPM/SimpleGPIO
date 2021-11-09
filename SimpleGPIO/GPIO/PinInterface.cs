@@ -75,6 +75,15 @@ namespace SimpleGPIO.GPIO
                 await RunToggleIteration(stopwatch, delay);
         }
 
+        public async Task Toggle(double hz, ulong iterations)
+        {
+	        var delay = Delay(hz);
+	        var stopwatch = Stopwatch.StartNew();
+	        ulong run = 0;
+	        while (run++ < iterations)
+		        await RunToggleIteration(stopwatch, delay);
+        }
+
         private async Task RunToggleIteration(Stopwatch stopwatch, long delay)
         {
             await RunToggleHalfIteration(stopwatch, delay);
@@ -91,15 +100,6 @@ namespace SimpleGPIO.GPIO
         }
 
         private static long Delay(double hz) => (long) (TimeSpan.TicksPerSecond / hz / 2);
-
-        public async Task Toggle(double hz, ulong iterations)
-        {
-            var delay = Delay(hz);
-            var stopwatch = Stopwatch.StartNew();
-            ulong run = 0;
-            while (run++ < iterations)
-                await RunToggleIteration(stopwatch, delay);
-        }
 
         public abstract void OnPowerOn(Action action);
         public abstract void OnPowerOff(Action action);
