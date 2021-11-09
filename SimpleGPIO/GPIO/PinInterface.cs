@@ -105,6 +105,18 @@ namespace SimpleGPIO.GPIO
         public abstract void OnPowerOff(Action action);
         public abstract void OnPowerChange(Action action);
 
-        public void Dispose() => Disable();
+        public void Dispose()
+        {
+	        Dispose(true);
+	        GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+	        if (disposing)
+	        {
+		        Disable();
+	        }
+        }
     }
 }
