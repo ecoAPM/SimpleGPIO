@@ -2,7 +2,13 @@
 
 A simple, low-ceremony GPIO library for all your IoT needs
 
-[![Build Status](https://github.com/stevedesmond-ca/SimpleGPIO/workflows/CI/badge.svg)](https://github.com/stevedesmond-ca/SimpleGPIO/actions)
+[![NuGet version](https://img.shields.io/nuget/v/SimpleGPIO?logo=nuget&label=Install)](https://nuget.org/packages/SimpleGPIO)
+[![CI](https://github.com/ecoAPM/SimpleGPIO/actions/workflows/CI.yml/badge.svg)](https://github.com/ecoAPM/SimpleGPIO/actions/workflows/CI.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_SimpleGPIO&metric=coverage)](https://sonarcloud.io/dashboard?id=ecoAPM_SimpleGPIO)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_SimpleGPIO&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_SimpleGPIO)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_SimpleGPIO&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_SimpleGPIO)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_SimpleGPIO&metric=security_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_SimpleGPIO)
 
 ## Overview
 
