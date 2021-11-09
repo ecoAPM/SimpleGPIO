@@ -1,9 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <title>SimpleGPIO Web Example</title>
     <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 </head>
 
 <body class="bg-dark">
@@ -11,15 +11,15 @@
         <h1 style="color: white;">SimpleGPIO Web Example</h1>
 
         <p>
-            <a href="#" onclick="axios.post('/red');" style="color: red;">Red</a>
+            <a href="#" onclick="fetch('/red', { method: 'POST' });" style="color: red;">Red</a>
         </p>
 
         <p>
-            <a href="#" onclick="axios.post('/yellow');" style="color: yellow;">Yellow</a>
+            <a href="#" onclick="fetch('/yellow', { method: 'POST' });" style="color: yellow;">Yellow</a>
         </p>
 
         <p>
-            <a href="#" onclick="axios.post('/green');" style="color: yellowgreen;">Green</a>
+            <a href="#" onclick="fetch('/green', { method: 'POST' });" style="color: yellowgreen;">Green</a>
         </p>
 
     </div>
