@@ -1,0 +1,26 @@
+name: NuGet
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        ref: ${{ github.ref }}
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Run tests
+      run: dotnet test
+
+    - name: Package
+      run: dotnet pack -c Release -p:ContinuousIntegrationBuild=true
+
+    - name: Publish
+      run: dotnet nuget push SimpleGPIO/bin/Release/SimpleGPIO.$(echo ${{ github.ref }} | sed 's/refs\/tags\///').nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
