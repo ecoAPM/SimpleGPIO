@@ -1,21 +1,62 @@
 name: CI
 
-on: [push]
+on: push
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.202
-    - name: Restore
-      run: dotnet restore
-    - name: Build
-      run: dotnet build
-    - name: Test
-      run: dotnet test
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  Code-Quality:
+    needs: Build
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Install Sonar Scanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Start Sonar Analysis
+        run: dotnet-sonarscanner begin /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /o:"ecoapm" /k:"ecoAPM_SimpleGPIO" /d:sonar.cs.vstest.reportsPaths="SimpleGPIO.Tests/**/results.trx" /d:sonar.cs.opencover.reportsPaths="SimpleGPIO.Tests/**/coverage.opencover.xml"
+
+      - name: Build
+        run: dotnet build --no-restore
+        env:
+          SONAR_DOTNET_ENABLE_CONCURRENT_EXECUTION: true
+
+      - name: Test
+        run: dotnet test --no-build --logger "trx;LogFileName=results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Finish Sonar Analysis
+        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
