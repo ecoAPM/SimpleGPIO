@@ -1,10 +1,16 @@
-# SimpleGPIO [![Build Status](https://github.com/stevedesmond-ca/SimpleGPIO/workflows/CI/badge.svg)](https://github.com/stevedesmond-ca/SimpleGPIO/actions)
+# SimpleGPIO
 
 A simple, low-ceremony GPIO library for all your IoT needs
+
+[![Build Status](https://github.com/stevedesmond-ca/SimpleGPIO/workflows/CI/badge.svg)](https://github.com/stevedesmond-ca/SimpleGPIO/actions)
 
 ## Overview
 
 `SimpleGPIO` takes a high-level, object-oriented approach to IoT programming, in the same way that high-level programming languages provide features that help abstract what's happening on the metal away from the code.
+
+## Requirements
+
+`SimpleGPIO` is a .NET Standard 2.0 library, and therefore should work with all actively supported .NET runtimes.
 
 ## Installation
 
