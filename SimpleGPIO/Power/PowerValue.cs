@@ -1,8 +1,7 @@
-﻿namespace SimpleGPIO.Power
+namespace SimpleGPIO.Power;
+
+public enum PowerValue
 {
-    public enum PowerValue
-    {
-        On = 1,
-        Off = 0
-    }
+	On = 1,
+	Off = 0
 }

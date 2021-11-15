@@ -1,8 +1,7 @@
-﻿namespace SimpleGPIO.Power
+namespace SimpleGPIO.Power;
+
+public enum Voltage
 {
-    public enum Voltage
-    {
-        Low = 0,
-        High = 1
-    }
+	Low = 0,
+	High = 1
 }

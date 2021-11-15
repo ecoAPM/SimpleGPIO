@@ -1,8 +1,7 @@
-﻿namespace SimpleGPIO.Power
+namespace SimpleGPIO.Power;
+
+public interface IPowerMode
 {
-    public interface IPowerMode
-    {
-        Voltage On { get; }
-        Voltage Off { get; }
-    }
+	Voltage On { get; }
+	Voltage Off { get; }
 }

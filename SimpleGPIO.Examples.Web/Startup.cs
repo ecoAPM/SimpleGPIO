@@ -1,28 +1,27 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleGPIO.Boards;
 
-namespace SimpleGPIO.Examples.Web
+namespace SimpleGPIO.Examples.Web;
+
+public class Startup
 {
-    public class Startup
-    {
-        public IConfiguration Configuration { get; }
+	public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration) => Configuration = configuration;
+	public Startup(IConfiguration configuration) => Configuration = configuration;
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc();
-            services.AddSingleton<RaspberryPi>();
-        }
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddMvc();
+		services.AddSingleton<RaspberryPi>();
+	}
 
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseEndpoints(c => c.MapControllers());
-        }
-    }
+	public void Configure(IApplicationBuilder app)
+	{
+		app.UseDefaultFiles();
+		app.UseStaticFiles();
+		app.UseRouting();
+		app.UseEndpoints(c => c.MapControllers());
+	}
 }

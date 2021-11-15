@@ -1,197 +1,196 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using SimpleGPIO.Components;
 using SimpleGPIO.Power;
 using SimpleGPIO.Tests.GPIO;
 using Xunit;
 
-namespace SimpleGPIO.Tests.Components
+namespace SimpleGPIO.Tests.Components;
+
+public class MotorTests
 {
-    public class MotorTests
-    {
-        [Fact]
-        public void StartWhenClockwiseSetsInputsCorrectly()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise)
-            {
-                Direction = Motor.Rotation.Clockwise
-            };
+	[Fact]
+	public void StartWhenClockwiseSetsInputsCorrectly()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise)
+		{
+			Direction = Motor.Rotation.Clockwise
+		};
 
-            //act
-            motor.Start();
+		//act
+		motor.Start();
 
-            //assert
-            Assert.Equal(PowerValue.On, enabled.Power);
-            Assert.Equal(PowerValue.On, clockwise.Power);
-            Assert.Equal(PowerValue.Off, counterclockwise.Power);
-        }
+		//assert
+		Assert.Equal(PowerValue.On, enabled.Power);
+		Assert.Equal(PowerValue.On, clockwise.Power);
+		Assert.Equal(PowerValue.Off, counterclockwise.Power);
+	}
 
-        [Fact]
-        public void StartWhenCounterclockwiseSetsInputsCorrectly()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise)
-            {
-                Direction = Motor.Rotation.Counterclockwise
-            };
+	[Fact]
+	public void StartWhenCounterclockwiseSetsInputsCorrectly()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise)
+		{
+			Direction = Motor.Rotation.Counterclockwise
+		};
 
-            //act
-            motor.Start();
+		//act
+		motor.Start();
 
-            //assert
-            Assert.Equal(PowerValue.On, enabled.Power);
-            Assert.Equal(PowerValue.Off, clockwise.Power);
-            Assert.Equal(PowerValue.On, counterclockwise.Power);
-        }
+		//assert
+		Assert.Equal(PowerValue.On, enabled.Power);
+		Assert.Equal(PowerValue.Off, clockwise.Power);
+		Assert.Equal(PowerValue.On, counterclockwise.Power);
+	}
 
-        [Fact]
-        public void TurnClockwiseSetsDirection()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise)
-            {
-                Direction = Motor.Rotation.Counterclockwise
-            };
+	[Fact]
+	public void TurnClockwiseSetsDirection()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise)
+		{
+			Direction = Motor.Rotation.Counterclockwise
+		};
 
-            //act
-            motor.TurnClockwise();
+		//act
+		motor.TurnClockwise();
 
-            //assert
-            Assert.Equal(Motor.Rotation.Clockwise, motor.Direction);
-        }
+		//assert
+		Assert.Equal(Motor.Rotation.Clockwise, motor.Direction);
+	}
 
-        [Fact]
-        public void TurnCounterclockwiseSetsDirection()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise)
-            {
-                Direction = Motor.Rotation.Clockwise
-            };
+	[Fact]
+	public void TurnCounterclockwiseSetsDirection()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise)
+		{
+			Direction = Motor.Rotation.Clockwise
+		};
 
-            //act
-            motor.TurnCounterclockwise();
+		//act
+		motor.TurnCounterclockwise();
 
-            //assert
-            Assert.Equal(Motor.Rotation.Counterclockwise, motor.Direction);
-        }
+		//assert
+		Assert.Equal(Motor.Rotation.Counterclockwise, motor.Direction);
+	}
 
-        [Fact]
-        public async Task RunForStopsWhenDone()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
+	[Fact]
+	public async Task RunForStopsWhenDone()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
 
-            //act
-            await motor.RunFor(TimeSpan.Zero);
+		//act
+		await motor.RunFor(TimeSpan.Zero);
 
-            //assert
-            Assert.Equal(PowerValue.Off, clockwise.Power);
-            Assert.Equal(PowerValue.Off, counterclockwise.Power);
-        }
+		//assert
+		Assert.Equal(PowerValue.Off, clockwise.Power);
+		Assert.Equal(PowerValue.Off, counterclockwise.Power);
+	}
 
-        [Fact]
-        public async Task RunForCanCoastWhenDone()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
+	[Fact]
+	public async Task RunForCanCoastWhenDone()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
 
-            //act
-            await motor.RunFor(TimeSpan.Zero, true);
+		//act
+		await motor.RunFor(TimeSpan.Zero, true);
 
-            //assert
-            Assert.Equal(PowerValue.Off, enabled.Power);
-            Assert.Equal(PowerValue.On, clockwise.Power);
-            Assert.Equal(PowerValue.Off, counterclockwise.Power);
-        }
+		//assert
+		Assert.Equal(PowerValue.Off, enabled.Power);
+		Assert.Equal(PowerValue.On, clockwise.Power);
+		Assert.Equal(PowerValue.Off, counterclockwise.Power);
+	}
 
-        [Fact]
-        public async Task TurnClockwiseForSetsDirection()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
+	[Fact]
+	public async Task TurnClockwiseForSetsDirection()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
 
-            //act
-            await motor.TurnClockwiseFor(TimeSpan.Zero);
+		//act
+		await motor.TurnClockwiseFor(TimeSpan.Zero);
 
-            //assert
-            Assert.Equal(Motor.Rotation.Clockwise, motor.Direction);
-        }
+		//assert
+		Assert.Equal(Motor.Rotation.Clockwise, motor.Direction);
+	}
 
-        [Fact]
-        public async Task TurnCounterclockwiseForSetsDirection()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
+	[Fact]
+	public async Task TurnCounterclockwiseForSetsDirection()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
 
-            //act
-            await motor.TurnCounterclockwiseFor(TimeSpan.Zero);
+		//act
+		await motor.TurnCounterclockwiseFor(TimeSpan.Zero);
 
-            //assert
-            Assert.Equal(Motor.Rotation.Counterclockwise, motor.Direction);
-        }
+		//assert
+		Assert.Equal(Motor.Rotation.Counterclockwise, motor.Direction);
+	}
 
-        [Fact]
-        public void StopTurnsOffAllPins()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
-            motor.Start();
+	[Fact]
+	public void StopTurnsOffAllPins()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
+		motor.Start();
 
-            //act
-            motor.Stop();
+		//act
+		motor.Stop();
 
-            //assert
-            Assert.Equal(PowerValue.Off, enabled.Power);
-            Assert.Equal(PowerValue.Off, clockwise.Power);
-            Assert.Equal(PowerValue.Off, counterclockwise.Power);
-        }
+		//assert
+		Assert.Equal(PowerValue.Off, enabled.Power);
+		Assert.Equal(PowerValue.Off, clockwise.Power);
+		Assert.Equal(PowerValue.Off, counterclockwise.Power);
+	}
 
-        [Fact]
-        public void CoastKeepsInputsOn()
-        {
-            //arrange
-            var enabled = new StubPinInterface(1);
-            var clockwise = new StubPinInterface(2);
-            var counterclockwise = new StubPinInterface(3);
-            var motor = new Motor(enabled, clockwise, counterclockwise);
-            motor.Start();
+	[Fact]
+	public void CoastKeepsInputsOn()
+	{
+		//arrange
+		var enabled = new StubPinInterface(1);
+		var clockwise = new StubPinInterface(2);
+		var counterclockwise = new StubPinInterface(3);
+		var motor = new Motor(enabled, clockwise, counterclockwise);
+		motor.Start();
 
-            //act
-            motor.Coast();
+		//act
+		motor.Coast();
 
-            //assert
-            Assert.Equal(PowerValue.Off, enabled.Power);
-            Assert.Equal(PowerValue.On, clockwise.Power);
-            Assert.Equal(PowerValue.Off, counterclockwise.Power);
-        }
-    }
+		//assert
+		Assert.Equal(PowerValue.Off, enabled.Power);
+		Assert.Equal(PowerValue.On, clockwise.Power);
+		Assert.Equal(PowerValue.Off, counterclockwise.Power);
+	}
 }

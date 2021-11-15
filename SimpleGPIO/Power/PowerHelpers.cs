@@ -1,10 +1,9 @@
-﻿namespace SimpleGPIO.Power
+namespace SimpleGPIO.Power;
+
+public static class PowerHelpers
 {
-    public static class PowerHelpers
-    {
-        public static PowerValue ToPowerValue(this Voltage voltage, IPowerMode powerMode)
-            => voltage == powerMode.On
-                ? PowerValue.On
-                : PowerValue.Off;
-    }
+	public static PowerValue ToPowerValue(this Voltage voltage, IPowerMode powerMode)
+		=> voltage == powerMode.On
+			? PowerValue.On
+			: PowerValue.Off;
 }

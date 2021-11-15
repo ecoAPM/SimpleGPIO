@@ -1,8 +1,7 @@
-﻿namespace SimpleGPIO.IO
+namespace SimpleGPIO.IO;
+
+public enum Direction
 {
-    public enum Direction
-    {
-        In,
-        Out
-    }
+	In,
+	Out
 }

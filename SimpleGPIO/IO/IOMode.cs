@@ -1,8 +1,7 @@
-﻿namespace SimpleGPIO.IO
+namespace SimpleGPIO.IO;
+
+public enum IOMode
 {
-    public enum IOMode
-    {
-        Read = Direction.In,
-        Write = Direction.Out
-    }
+	Read = Direction.In,
+	Write = Direction.Out
 }

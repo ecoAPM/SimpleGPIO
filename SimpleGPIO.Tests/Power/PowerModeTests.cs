@@ -1,28 +1,27 @@
-﻿using SimpleGPIO.Power;
+using SimpleGPIO.Power;
 using Xunit;
 
-namespace SimpleGPIO.Tests.Power
+namespace SimpleGPIO.Tests.Power;
+
+public class PowerModeTests
 {
-    public class PowerModeTests
-    {
-        [Fact]
-        public void CanCreateDirect()
-        {
-            //act
-            var powerMode = PowerMode.Direct;
+	[Fact]
+	public void CanCreateDirect()
+	{
+		//act
+		var powerMode = PowerMode.Direct;
 
-            //assert
-            Assert.IsAssignableFrom<Direct>(powerMode);
-        }
+		//assert
+		Assert.IsAssignableFrom<Direct>(powerMode);
+	}
 
-        [Fact]
-        public void CanCreateDifferential()
-        {
-            //act
-            var powerMode = PowerMode.Differential;
+	[Fact]
+	public void CanCreateDifferential()
+	{
+		//act
+		var powerMode = PowerMode.Differential;
 
-            //assert
-            Assert.IsAssignableFrom<Differential>(powerMode);
-        }
-    }
+		//assert
+		Assert.IsAssignableFrom<Differential>(powerMode);
+	}
 }
