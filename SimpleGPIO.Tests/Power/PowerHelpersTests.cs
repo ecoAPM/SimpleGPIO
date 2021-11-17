@@ -1,4 +1,3 @@
-using System;
 using SimpleGPIO.Power;
 using Xunit;
 
@@ -14,7 +13,7 @@ public class PowerHelpersTests
 	public void CanConvertPowerToVoltage(Type powerModeType, Voltage voltage, PowerValue expected)
 	{
 		//arrange
-		var powerMode = (IPowerMode)Activator.CreateInstance(powerModeType);
+		var powerMode = (IPowerMode)Activator.CreateInstance(powerModeType)!;
 
 		//act
 		var power = voltage.ToPowerValue(powerMode);

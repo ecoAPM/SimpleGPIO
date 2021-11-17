@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SimpleGPIO.Components;
 using SimpleGPIO.Power;
 using SimpleGPIO.Tests.GPIO;

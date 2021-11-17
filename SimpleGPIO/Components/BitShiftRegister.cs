@@ -5,13 +5,13 @@ namespace SimpleGPIO.Components;
 
 public class BitShiftRegister
 {
-	private readonly IPinInterface _enabled;
+	private readonly IPinInterface? _enabled;
 	private readonly IPinInterface _data;
 	private readonly IPinInterface _shift;
 	private readonly IPinInterface _output;
-	private readonly IPinInterface _clear;
+	private readonly IPinInterface? _clear;
 
-	public BitShiftRegister(IPinInterface enabledPin, IPinInterface dataPin, IPinInterface shiftPin, IPinInterface outputPin, IPinInterface clearPin = null)
+	public BitShiftRegister(IPinInterface enabledPin, IPinInterface dataPin, IPinInterface shiftPin, IPinInterface outputPin, IPinInterface? clearPin = null)
 	{
 		_enabled = enabledPin;
 		_data = dataPin;
@@ -44,32 +44,32 @@ public class BitShiftRegister
 			? PowerValue.On
 			: PowerValue.Off;
 
-	public void SetPowerValues(PowerValue A, PowerValue B, PowerValue C, PowerValue D, PowerValue E, PowerValue F, PowerValue G, PowerValue H)
+	public void SetPowerValues(PowerValue a, PowerValue b, PowerValue c, PowerValue d, PowerValue e, PowerValue f, PowerValue g, PowerValue h)
 	{
 		_enabled?.TurnOn();
 
-		_data.Power = A;
+		_data.Power = a;
 		_shift.Spike();
 
-		_data.Power = B;
+		_data.Power = b;
 		_shift.Spike();
 
-		_data.Power = C;
+		_data.Power = c;
 		_shift.Spike();
 
-		_data.Power = D;
+		_data.Power = d;
 		_shift.Spike();
 
-		_data.Power = E;
+		_data.Power = e;
 		_shift.Spike();
 
-		_data.Power = F;
+		_data.Power = f;
 		_shift.Spike();
 
-		_data.Power = G;
+		_data.Power = g;
 		_shift.Spike();
 
-		_data.Power = H;
+		_data.Power = h;
 		_shift.Spike();
 
 		_output.Spike();

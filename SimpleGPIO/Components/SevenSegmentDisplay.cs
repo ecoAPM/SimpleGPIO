@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.Power;
 
@@ -14,9 +12,9 @@ public class SevenSegmentDisplay
 	public IPinInterface LowerLeft { get; }
 	public IPinInterface Bottom { get; }
 	public IPinInterface LowerRight { get; }
-	public IPinInterface Decimal { get; }
+	public IPinInterface? Decimal { get; }
 
-	public SevenSegmentDisplay(IPinInterface centerPin, IPinInterface upperLeftPin, IPinInterface topPin, IPinInterface upperRightPin, IPinInterface lowerLeftPin, IPinInterface bottomPin, IPinInterface lowerRightPin, IPinInterface decimalPin = null)
+	public SevenSegmentDisplay(IPinInterface centerPin, IPinInterface upperLeftPin, IPinInterface topPin, IPinInterface upperRightPin, IPinInterface lowerLeftPin, IPinInterface bottomPin, IPinInterface lowerRightPin, IPinInterface? decimalPin = null)
 	{
 		Center = centerPin;
 		UpperLeft = upperLeftPin;
@@ -50,12 +48,12 @@ public class SevenSegmentDisplay
 		showChar();
 	}
 
-	private IDictionary<char, Action> mappings;
+	private IDictionary<char, Action>? _mappings;
 	private IDictionary<char, Action> CharacterMappings
 	{
 		get
 		{
-			return mappings ??= new Dictionary<char, Action>
+			return _mappings ??= new Dictionary<char, Action>
 				{
 					{ ' ', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
 					{ '"', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
@@ -78,40 +76,40 @@ public class SevenSegmentDisplay
 					{ '8', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
 					{ '9', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On ) },
 
-					{ '<', () => mappings['c']() },
+					{ '<', () => _mappings?['c']() },
 					{ '=', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off) },
 					{ '>', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On ) },
 
 					{ 'A', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'B', () => mappings['8']() },
+					{ 'B', () => _mappings?['8']() },
 					{ 'C', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'D', () => mappings['0']() },
+					{ 'D', () => _mappings?['0']() },
 					{ 'E', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
 					{ 'F', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
 					{ 'G', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
 					{ 'H', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
 					{ 'I', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off , PowerValue.On , PowerValue.Off, PowerValue.Off) },
 					{ 'J', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'K', () => mappings['H']() },
+					{ 'K', () => _mappings?['H']() },
 					{ 'L', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
 					{ 'M', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'N', () => mappings['H']() },
-					{ 'O', () => mappings['0']() },
+					{ 'N', () => _mappings?['H']() },
+					{ 'O', () => _mappings?['0']() },
 					{ 'P', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off) },
 					{ 'Q', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'R', () => mappings['A']() },
-					{ 'S', () => mappings['5']() },
+					{ 'R', () => _mappings?['A']() },
+					{ 'S', () => _mappings?['5']() },
 					{ 'T', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
 					{ 'U', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
 					{ 'V', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'W', () => mappings['U']() },
-					{ 'X', () => mappings['H']() },
-					{ 'Y', () => mappings['4']() },
-					{ 'Z', () => mappings['2']() },
+					{ 'W', () => _mappings?['U']() },
+					{ 'X', () => _mappings?['H']() },
+					{ 'Y', () => _mappings?['4']() },
+					{ 'Z', () => _mappings?['2']() },
 
-					{ '[', () => mappings['(']() },
+					{ '[', () => _mappings?['(']() },
 					{ '\\',() => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ ']', () => mappings[')']() },
+					{ ']', () => _mappings?[')']() },
 					{ '^', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
 					{ '_', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off) },
 					{ '`', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
@@ -121,31 +119,31 @@ public class SevenSegmentDisplay
 					{ 'c', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
 					{ 'd', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
 					{ 'e', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off ) },
-					{ 'f', () => mappings['F']() },
-					{ 'g', () => mappings['9']() },
+					{ 'f', () => _mappings?['F']() },
+					{ 'g', () => _mappings?['9']() },
 					{ 'h', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On ) },
 					{ 'i', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
 					{ 'j', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On ) },
-					{ 'k', () => mappings['h']() },
-					{ 'l', () => mappings['I']() },
+					{ 'k', () => _mappings?['h']() },
+					{ 'l', () => _mappings?['I']() },
 					{ 'm', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'n', () => mappings['m']() },
+					{ 'n', () => _mappings?['m']() },
 					{ 'o', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'p', () => mappings['P']() },
+					{ 'p', () => _mappings?['P']() },
 					{ 'q', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On ) },
 					{ 'r', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 's', () => mappings['S']() },
+					{ 's', () => _mappings?['S']() },
 					{ 't', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
 					{ 'u', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'v', () => mappings['u']() },
-					{ 'w', () => mappings['u']() },
-					{ 'x', () => mappings['X']() },
-					{ 'y', () => mappings['Y']() },
-					{ 'z', () => mappings['Z']() },
+					{ 'v', () => _mappings?['u']() },
+					{ 'w', () => _mappings?['u']() },
+					{ 'x', () => _mappings?['X']() },
+					{ 'y', () => _mappings?['Y']() },
+					{ 'z', () => _mappings?['Z']() },
 
-					{ '{', () => mappings['(']() },
-					{ '|', () => mappings['I']() },
-					{ '}', () => mappings[')']() },
+					{ '{', () => _mappings?['(']() },
+					{ '|', () => _mappings?['I']() },
+					{ '}', () => _mappings?[')']() },
 					{ '~', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
 				};
 		}

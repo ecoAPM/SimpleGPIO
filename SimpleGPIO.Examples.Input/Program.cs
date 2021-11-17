@@ -1,4 +1,3 @@
-using System;
 using SimpleGPIO.Boards;
 
 namespace SimpleGPIO.Examples.Input;

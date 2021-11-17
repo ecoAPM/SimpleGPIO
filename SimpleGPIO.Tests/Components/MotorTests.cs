@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using SimpleGPIO.Components;
 using SimpleGPIO.Power;
 using SimpleGPIO.Tests.GPIO;

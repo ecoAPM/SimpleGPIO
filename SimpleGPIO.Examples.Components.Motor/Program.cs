@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using SimpleGPIO.Boards;
 
 namespace SimpleGPIO.Examples.Components.Motor;

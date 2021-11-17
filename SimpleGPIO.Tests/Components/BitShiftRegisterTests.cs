@@ -1,4 +1,3 @@
-using System.Linq;
 using NSubstitute;
 using SimpleGPIO.Components;
 using SimpleGPIO.GPIO;

@@ -1,4 +1,3 @@
-using System;
 using NSubstitute;
 using SimpleGPIO.Boards;
 using SimpleGPIO.GPIO;
@@ -48,9 +47,9 @@ public class RaspberryPiTests
 		var board = new RaspberryPi(newPin);
 
 		//act
-		var pin = (StubPinInterface)board.GetType().GetProperty($"Pin{physical}")?.GetValue(board);
+		var pin = (StubPinInterface)board.GetType().GetProperty($"Pin{physical}")?.GetValue(board)!;
 
 		//assert
-		Assert.Equal(bcm, pin?.Pin);
+		Assert.Equal(bcm, pin.Pin);
 	}
 }

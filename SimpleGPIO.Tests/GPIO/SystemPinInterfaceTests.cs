@@ -1,7 +1,4 @@
-using System;
 using System.Device.Gpio;
-using System.Linq;
-using System.Threading.Tasks;
 using NSubstitute;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
@@ -127,7 +124,7 @@ public class SystemPinInterfaceTests
 		var pinInterface = new SystemPinInterface(123, gpio)
 		{
 			Direction = Direction.Out,
-			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)
+			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)!
 		};
 
 		//act
@@ -171,7 +168,7 @@ public class SystemPinInterfaceTests
 		var pinInterface = new SystemPinInterface(123, gpio)
 		{
 			Enabled = true,
-			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType),
+			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)!,
 			Power = power
 		};
 
@@ -428,7 +425,7 @@ public class SystemPinInterfaceTests
 		var pinInterface = new SystemPinInterface(123, gpio);
 
 		//act
-		pinInterface.OnPowerOn(null);
+		pinInterface.OnPowerOn(() => { });
 
 		//assert
 		gpio.Received().OpenPin(123);
@@ -440,7 +437,8 @@ public class SystemPinInterfaceTests
 		//arrange
 		var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Rising, Arg.Any<PinChangeEventHandler>()))
+		gpio.When(g =>
+				g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Rising, Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 
 		var pinInterface = new SystemPinInterface(123, gpio)
@@ -466,7 +464,7 @@ public class SystemPinInterfaceTests
 		var pinInterface = new SystemPinInterface(123, gpio);
 
 		//act
-		pinInterface.OnPowerOff(null);
+		pinInterface.OnPowerOff(() => { });
 
 		//assert
 		gpio.Received().OpenPin(123);
@@ -478,7 +476,8 @@ public class SystemPinInterfaceTests
 		//arrange
 		var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Falling, Arg.Any<PinChangeEventHandler>()))
+		gpio.When(g =>
+				g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Falling, Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 
 
@@ -505,7 +504,7 @@ public class SystemPinInterfaceTests
 		var pinInterface = new SystemPinInterface(123, gpio);
 
 		//act
-		pinInterface.OnPowerChange(null);
+		pinInterface.OnPowerChange(() => { });
 
 		//assert
 		gpio.Received().OpenPin(123);
@@ -517,7 +516,9 @@ public class SystemPinInterfaceTests
 		//arrange
 		var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		gpio.When(g => g.RegisterCallbackForPinValueChangedEvent(123, Arg.Any<PinEventTypes>(), Arg.Any<PinChangeEventHandler>()))
+		gpio.When(g =>
+				g.RegisterCallbackForPinValueChangedEvent(123, Arg.Any<PinEventTypes>(),
+					Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 		var pinInterface = new SystemPinInterface(123, gpio);
 		var called = false;

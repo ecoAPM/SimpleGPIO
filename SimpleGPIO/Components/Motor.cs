@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Components;
@@ -13,13 +11,13 @@ public class Motor
 		Counterclockwise
 	}
 
-	private readonly IPinInterface _enabled;
+	private readonly IPinInterface? _enabled;
 	private readonly IPinInterface _clockwise;
-	private readonly IPinInterface _counterclockwise;
+	private readonly IPinInterface? _counterclockwise;
 
 	public Rotation Direction { get; set; } = Rotation.Clockwise;
 
-	public Motor(IPinInterface enabledPin, IPinInterface clockwisePin, IPinInterface counterclockwisePin = null)
+	public Motor(IPinInterface? enabledPin, IPinInterface clockwisePin, IPinInterface? counterclockwisePin = null)
 	{
 		_enabled = enabledPin;
 		_clockwise = clockwisePin;

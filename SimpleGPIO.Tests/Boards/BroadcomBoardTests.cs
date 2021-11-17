@@ -1,4 +1,3 @@
-using System;
 using NSubstitute;
 using SimpleGPIO.Boards;
 using SimpleGPIO.GPIO;
@@ -50,7 +49,7 @@ public class BroadcomBoardTests
 
 		//act
 		for (var x = 0; x < 28; x++)
-			pins[x] = (StubPinInterface)board.GetType().GetProperty($"GPIO{x}")?.GetValue(board);
+			pins[x] = (StubPinInterface)board.GetType().GetProperty($"GPIO{x}")?.GetValue(board)!;
 
 		//assert
 		for (var x = 0; x < 28; x++)
@@ -63,7 +62,7 @@ public class BroadcomBoardTests
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
 		var pin = Substitute.For<IPinInterface>();
-		newPin.Invoke(Arg.Any<byte>()).Returns(p => pin);
+		newPin.Invoke(Arg.Any<byte>()).Returns(_ => pin);
 		var board = new BroadcomBoard(newPin);
 		for (var x = 0; x < 28; x++)
 			board.GetType().GetProperty($"GPIO{x}")?.GetValue(board);

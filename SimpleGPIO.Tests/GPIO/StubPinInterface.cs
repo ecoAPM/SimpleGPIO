@@ -1,4 +1,3 @@
-using System;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
 using SimpleGPIO.Power;

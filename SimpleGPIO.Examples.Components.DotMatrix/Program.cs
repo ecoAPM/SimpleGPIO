@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using SimpleGPIO.Boards;
 using SimpleGPIO.Power;
 
@@ -12,8 +11,8 @@ public static class Program
 		var matrix = new SimpleGPIO.Components.DotMatrix(
 			new SimpleGPIO.Components.DotMatrix.PinSet
 			{
-					//rows
-					Pin1 = pi.GPIO5,
+				//rows
+				Pin1 = pi.GPIO5,
 				Pin2 = pi.GPIO7,
 				Pin3 = pi.GPIO12,
 				Pin4 = pi.GPIO13,
@@ -22,8 +21,8 @@ public static class Program
 				Pin7 = pi.GPIO6,
 				Pin8 = pi.GPIO3,
 
-					//columns
-					Pin9 = pi.GPIO1,
+				//columns
+				Pin9 = pi.GPIO1,
 				Pin10 = pi.GPIO14,
 				Pin11 = pi.GPIO16,
 				Pin12 = pi.GPIO4,

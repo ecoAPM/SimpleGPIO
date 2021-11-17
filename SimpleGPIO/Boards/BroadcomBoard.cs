@@ -1,4 +1,3 @@
-using System;
 using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Boards;
@@ -7,17 +6,15 @@ public class BroadcomBoard : IDisposable
 {
 	private readonly Func<byte, IPinInterface> _pinInterfaceFactory;
 
-	public BroadcomBoard(Func<byte, IPinInterface> pinInterfaceFactory = null)
+	public BroadcomBoard(Func<byte, IPinInterface>? pinInterfaceFactory = null)
 	{
 		_pinInterfaceFactory = pinInterfaceFactory ?? PinInterfaceFactory.NewPinInterface;
 	}
 
-	private readonly IPinInterface[] gpio = new IPinInterface[28];
+	private readonly IPinInterface?[] _gpio = new IPinInterface[28];
 
 	private IPinInterface GetGPIO(byte bcmIdentifier)
-	{
-		return gpio[bcmIdentifier] ?? (gpio[bcmIdentifier] = _pinInterfaceFactory(bcmIdentifier));
-	}
+		=> _gpio[bcmIdentifier] ??= _pinInterfaceFactory(bcmIdentifier);
 
 	public IPinInterface GPIO0 => GetGPIO(0);
 	public IPinInterface GPIO1 => GetGPIO(1);
@@ -63,7 +60,7 @@ public class BroadcomBoard : IDisposable
 
 		for (var id = 0; id < 28; id++)
 		{
-			gpio[id]?.Dispose();
+			_gpio[id]?.Dispose();
 		}
 	}
 }
