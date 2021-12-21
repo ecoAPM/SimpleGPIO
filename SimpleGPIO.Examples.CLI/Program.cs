@@ -1,19 +1,11 @@
 using SimpleGPIO.Boards;
 
-namespace SimpleGPIO.Examples.CLI;
+var pi = new RaspberryPi();
+var redLED = pi.Pin16;
+redLED.TurnOn();
 
-internal static class Program
-{
-	public static async Task Main()
-	{
-		var pi = new RaspberryPi();
-		var redLED = pi.Pin16;
-		redLED.TurnOn();
+await Task.Delay(TimeSpan.FromSeconds(5));
 
-		await Task.Delay(TimeSpan.FromSeconds(5));
-
-		// I always pick up my playthings, and so
-		// I will show you another good trick that I know
-		pi.Dispose();
-	}
-}
+// I always pick up my playthings, and so
+// I will show you another good trick that I know
+pi.Dispose();

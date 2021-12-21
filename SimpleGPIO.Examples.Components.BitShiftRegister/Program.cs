@@ -1,22 +1,15 @@
 using SimpleGPIO.Boards;
+using SimpleGPIO.Components;
 
-namespace SimpleGPIO.Examples.Components.BitShiftRegister;
+using var pi = new RaspberryPi();
+var register = new BitShiftRegister(pi.Pin13, pi.Pin11, pi.Pin15, pi.Pin16, pi.Pin18);
 
-public static class Program
+for (byte x = 0; x < byte.MaxValue; x++)
 {
-	public static async Task Main()
-	{
-		using var pi = new RaspberryPi();
-		var register = new SimpleGPIO.Components.BitShiftRegister(pi.Pin13, pi.Pin11, pi.Pin15, pi.Pin16, pi.Pin18);
-
-		for (byte x = 0; x < byte.MaxValue; x++)
-		{
-			Console.WriteLine(x);
-			register.SetValue(x);
-			await Task.Delay(200);
-		}
-
-		await Task.Delay(400);
-		register.Clear();
-	}
+	Console.WriteLine(x);
+	register.SetValue(x);
+	await Task.Delay(200);
 }
+
+await Task.Delay(400);
+register.Clear();
