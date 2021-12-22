@@ -5,41 +5,26 @@ namespace SimpleGPIO.IO;
 public static class IOHelpers
 {
 	public static IOMode ToIOMode(this Direction direction)
-	{
-		switch (direction)
+		=> direction switch
 		{
-			case Direction.In:
-				return IOMode.Read;
-			case Direction.Out:
-				return IOMode.Write;
-			default:
-				throw new InvalidEnumArgumentException(nameof(direction));
-		}
-	}
+			Direction.In => IOMode.Read,
+			Direction.Out => IOMode.Write,
+			_ => throw new InvalidEnumArgumentException(nameof(direction))
+		};
 
 	public static Direction ToDirection(this IOMode io)
-	{
-		switch (io)
+		=> io switch
 		{
-			case IOMode.Read:
-				return Direction.In;
-			case IOMode.Write:
-				return Direction.Out;
-			default:
-				throw new InvalidEnumArgumentException(nameof(io));
-		}
-	}
+			IOMode.Read => Direction.In,
+			IOMode.Write => Direction.Out,
+			_ => throw new InvalidEnumArgumentException(nameof(io))
+		};
 
 	public static Direction ToDirection(this string direction)
-	{
-		switch (direction.ToLower())
+		=> direction.ToLower() switch
 		{
-			case "in":
-				return Direction.In;
-			case "out":
-				return Direction.Out;
-			default:
-				throw new InvalidEnumArgumentException(nameof(direction));
-		}
-	}
+			"in" => Direction.In,
+			"out" => Direction.Out,
+			_ => throw new InvalidEnumArgumentException(nameof(direction))
+		};
 }
