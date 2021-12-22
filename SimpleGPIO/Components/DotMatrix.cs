@@ -54,21 +54,21 @@ public sealed class DotMatrix
 
 	public sealed class PinSet
 	{
-		public IPinInterface Pin1 { get; set; } = null!;
-		public IPinInterface Pin2 { get; set; } = null!;
-		public IPinInterface Pin3 { get; set; } = null!;
-		public IPinInterface Pin4 { get; set; } = null!;
-		public IPinInterface Pin5 { get; set; } = null!;
-		public IPinInterface Pin6 { get; set; } = null!;
-		public IPinInterface Pin7 { get; set; } = null!;
-		public IPinInterface Pin8 { get; set; } = null!;
-		public IPinInterface Pin9 { get; set; } = null!;
-		public IPinInterface Pin10 { get; set; } = null!;
-		public IPinInterface Pin11 { get; set; } = null!;
-		public IPinInterface Pin12 { get; set; } = null!;
-		public IPinInterface Pin13 { get; set; } = null!;
-		public IPinInterface Pin14 { get; set; } = null!;
-		public IPinInterface Pin15 { get; set; } = null!;
-		public IPinInterface Pin16 { get; set; } = null!;
+		public IPinInterface Pin1 { get; init; } = null!;
+		public IPinInterface Pin2 { get; init; } = null!;
+		public IPinInterface Pin3 { get; init; } = null!;
+		public IPinInterface Pin4 { get; init; } = null!;
+		public IPinInterface Pin5 { get; init; } = null!;
+		public IPinInterface Pin6 { get; init; } = null!;
+		public IPinInterface Pin7 { get; init; } = null!;
+		public IPinInterface Pin8 { get; init; } = null!;
+		public IPinInterface Pin9 { get; init; } = null!;
+		public IPinInterface Pin10 { get; init; } = null!;
+		public IPinInterface Pin11 { get; init; } = null!;
+		public IPinInterface Pin12 { get; init; } = null!;
+		public IPinInterface Pin13 { get; init; } = null!;
+		public IPinInterface Pin14 { get; init; } = null!;
+		public IPinInterface Pin15 { get; init; } = null!;
+		public IPinInterface Pin16 { get; init; } = null!;
 	}
 }
