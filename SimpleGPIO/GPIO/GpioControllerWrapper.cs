@@ -4,16 +4,7 @@ namespace SimpleGPIO.GPIO;
 
 public class GpioControllerWrapper : IGpioController
 {
-	private readonly GpioController _controller;
-
-	public GpioControllerWrapper()
-		=> _controller = new GpioController();
-
-	public GpioControllerWrapper(PinNumberingScheme scheme)
-		=> _controller = new GpioController(scheme);
-
-	public GpioControllerWrapper(PinNumberingScheme scheme, GpioDriver driver)
-		=> _controller = new GpioController(scheme, driver);
+	private readonly GpioController _controller = new GpioController();
 
 	public bool IsPinOpen(byte pin) => _controller.IsPinOpen(pin);
 	public void OpenPin(byte pin) => _controller.OpenPin(pin);
