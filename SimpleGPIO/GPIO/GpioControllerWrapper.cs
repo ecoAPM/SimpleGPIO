@@ -2,9 +2,9 @@ using System.Device.Gpio;
 
 namespace SimpleGPIO.GPIO;
 
-public class GpioControllerWrapper : IGpioController
+public sealed class GpioControllerWrapper : IGpioController
 {
-	private readonly GpioController _controller = new GpioController();
+	private readonly GpioController _controller = new();
 
 	public bool IsPinOpen(byte pin) => _controller.IsPinOpen(pin);
 	public void OpenPin(byte pin) => _controller.OpenPin(pin);
@@ -18,4 +18,6 @@ public class GpioControllerWrapper : IGpioController
 
 	public void RegisterCallbackForPinValueChangedEvent(byte pin, PinEventTypes rising, PinChangeEventHandler e)
 		=> _controller.RegisterCallbackForPinValueChangedEvent(pin, rising, e);
+
+	public void Dispose() => _controller.Dispose();
 }

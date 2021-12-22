@@ -2,7 +2,7 @@ using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Components;
 
-public class RGBLED
+public sealed class RGBLED
 {
 	private readonly IPinInterface _red;
 	private readonly IPinInterface _green;

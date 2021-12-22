@@ -4,7 +4,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public class RotaryEncoderTests
+public sealed class RotaryEncoderTests
 {
 	[Fact]
 	public void OnIncreasePerformsActionWhenSet()

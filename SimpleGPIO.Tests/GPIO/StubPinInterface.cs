@@ -4,7 +4,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Tests.GPIO;
 
-public class StubPinInterface : PinInterface
+public sealed class StubPinInterface : PinInterface
 {
 	public StubPinInterface(byte pin) => Pin = pin;
 

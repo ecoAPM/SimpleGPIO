@@ -2,7 +2,7 @@ using System.Device.Gpio;
 
 namespace SimpleGPIO.GPIO;
 
-public interface IGpioController
+public interface IGpioController : IDisposable
 {
 	bool IsPinOpen(byte pin);
 	void OpenPin(byte pin);

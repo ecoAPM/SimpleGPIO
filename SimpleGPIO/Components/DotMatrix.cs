@@ -3,7 +3,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
-public class DotMatrix
+public sealed class DotMatrix
 {
 	public IPinInterface[] Row { get; }
 	public IPinInterface[] Column { get; }
@@ -52,7 +52,7 @@ public class DotMatrix
 		SetAllColumns(power);
 	}
 
-	public class PinSet
+	public sealed class PinSet
 	{
 		public IPinInterface Pin1 { get; set; } = null!;
 		public IPinInterface Pin2 { get; set; } = null!;

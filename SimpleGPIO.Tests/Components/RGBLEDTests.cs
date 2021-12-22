@@ -5,7 +5,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public class RGBLEDTests
+public sealed class RGBLEDTests
 {
 	[Fact]
 	public void Red()

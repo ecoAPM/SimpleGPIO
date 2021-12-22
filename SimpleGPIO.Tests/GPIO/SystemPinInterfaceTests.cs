@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.GPIO;
 
-public class SystemPinInterfaceTests
+public sealed class SystemPinInterfaceTests
 {
 	[Fact]
 	public void EnabledIfPinOpen()

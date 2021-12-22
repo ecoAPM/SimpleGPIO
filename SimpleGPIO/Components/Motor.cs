@@ -3,7 +3,7 @@ using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Components;
 
-public class Motor
+public sealed class Motor
 {
 	public enum Rotation
 	{

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Power;
 
-public class PowerHelpersTests
+public sealed class PowerHelpersTests
 {
 	[Theory]
 	[InlineData(typeof(Direct), Voltage.Low, PowerValue.Off)]

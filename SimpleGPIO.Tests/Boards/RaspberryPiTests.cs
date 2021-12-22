@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Boards;
 
-public class RaspberryPiTests
+public sealed class RaspberryPiTests
 {
 	// courtesy of the "pinout" python command
 	// with some regex magic

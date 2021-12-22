@@ -3,7 +3,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.IO;
 
-public class IOHelpersTests
+public sealed class IOHelpersTests
 {
 	[Theory]
 	[InlineData(Direction.In, IOMode.Read)]

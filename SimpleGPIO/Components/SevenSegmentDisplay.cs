@@ -3,7 +3,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
-public class SevenSegmentDisplay
+public sealed class SevenSegmentDisplay
 {
 	public IPinInterface Center { get; }
 	public IPinInterface UpperLeft { get; }

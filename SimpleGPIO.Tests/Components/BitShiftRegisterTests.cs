@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public class BitShiftRegisterTests
+public sealed class BitShiftRegisterTests
 {
 	[Theory]
 	[InlineData(146, 7, PowerValue.On)]

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Power;
 
-public class PowerModeTests
+public sealed class PowerModeTests
 {
 	[Fact]
 	public void CanCreateDirect()

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public class MotorTests
+public sealed class MotorTests
 {
 	[Fact]
 	public void StartWhenClockwiseSetsInputsCorrectly()

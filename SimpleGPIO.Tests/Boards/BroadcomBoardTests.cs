@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Boards;
 
-public class BroadcomBoardTests
+public sealed class BroadcomBoardTests
 {
 	[Fact]
 	public void CanGetPinInterface()

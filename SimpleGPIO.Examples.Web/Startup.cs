@@ -2,7 +2,7 @@ using SimpleGPIO.Boards;
 
 namespace SimpleGPIO.Examples.Web;
 
-public class Startup
+public sealed class Startup
 {
 	public IConfiguration Configuration { get; }
 

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public class DotMatrixTests
+public sealed class DotMatrixTests
 {
 	private static DotMatrix.PinSet StubPinSet(IReadOnlyList<StubPinInterface> pins)
 	{

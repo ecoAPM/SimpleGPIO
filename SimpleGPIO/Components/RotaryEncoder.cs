@@ -3,7 +3,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
-public class RotaryEncoder
+public sealed class RotaryEncoder
 {
 	private readonly IPinInterface _increase;
 	private readonly IPinInterface _decrease;

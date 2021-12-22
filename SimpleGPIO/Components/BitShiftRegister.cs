@@ -3,7 +3,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
-public class BitShiftRegister
+public sealed class BitShiftRegister
 {
 	private readonly IPinInterface? _enabled;
 	private readonly IPinInterface _data;

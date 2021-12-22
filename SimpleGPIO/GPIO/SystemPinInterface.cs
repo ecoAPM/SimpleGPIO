@@ -4,7 +4,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO;
 
-public class SystemPinInterface : PinInterface
+public sealed class SystemPinInterface : PinInterface
 {
 	private readonly byte _pin;
 	private readonly IGpioController _controller;

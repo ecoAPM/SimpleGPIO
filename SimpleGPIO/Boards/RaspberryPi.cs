@@ -2,7 +2,7 @@ using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Boards;
 
-public class RaspberryPi : BroadcomBoard
+public sealed class RaspberryPi : BroadcomBoard
 {
 	public RaspberryPi(Func<byte, IPinInterface>? newPin = null) : base(newPin)
 	{
