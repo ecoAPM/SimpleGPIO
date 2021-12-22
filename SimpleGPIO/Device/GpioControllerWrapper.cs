@@ -1,9 +1,8 @@
 using System.Device.Gpio;
-using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Device;
 
-public sealed class GpioControllerWrapper : IGpioController
+internal sealed class GpioControllerWrapper : IGpioController
 {
 	public GpioController Base { get; } = new();
 

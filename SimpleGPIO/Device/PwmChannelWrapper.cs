@@ -1,10 +1,9 @@
 ﻿using System.Device.Pwm;
 using System.Device.Pwm.Drivers;
-using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Device;
 
-public sealed class PwmChannelWrapper : IPwmChannel
+internal sealed class PwmChannelWrapper : IPwmChannel
 {
 	private readonly PwmChannel _pwm;
 
