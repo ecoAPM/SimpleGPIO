@@ -1,4 +1,5 @@
 using System.Device.Gpio;
+using SimpleGPIO.Device;
 using SimpleGPIO.IO;
 using SimpleGPIO.Power;
 

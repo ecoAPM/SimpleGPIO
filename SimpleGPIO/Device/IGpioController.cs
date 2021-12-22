@@ -1,6 +1,6 @@
 using System.Device.Gpio;
 
-namespace SimpleGPIO.GPIO;
+namespace SimpleGPIO.Device;
 
 public interface IGpioController : IDisposable
 {

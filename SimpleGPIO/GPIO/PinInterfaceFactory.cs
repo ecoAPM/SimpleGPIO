@@ -1,3 +1,5 @@
+using SimpleGPIO.Device;
+
 namespace SimpleGPIO.GPIO;
 
 public static class PinInterfaceFactory

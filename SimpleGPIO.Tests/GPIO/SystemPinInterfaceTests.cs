@@ -1,5 +1,6 @@
 using System.Device.Gpio;
 using NSubstitute;
+using SimpleGPIO.Device;
 using SimpleGPIO.GPIO;
 using SimpleGPIO.IO;
 using SimpleGPIO.Power;
