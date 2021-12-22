@@ -12,6 +12,7 @@ public interface IPinInterface : IDisposable
 	IPowerMode PowerMode { get; set; }
 	PowerValue Power { get; set; }
 	Voltage Voltage { get; set; }
+	double Strength { get; set; }
 
 	void Enable();
 	void Disable();

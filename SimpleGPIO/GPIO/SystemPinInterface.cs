@@ -9,11 +9,13 @@ public sealed class SystemPinInterface : PinInterface
 {
 	private readonly byte _pin;
 	private readonly IGpioController _controller;
+	private readonly IPwmChannel _pwm;
 
-	public SystemPinInterface(byte bcmIdentifier, IGpioController controller)
+	public SystemPinInterface(byte bcmIdentifier, IGpioController controller, IPwmChannel pwm)
 	{
 		_pin = bcmIdentifier;
 		_controller = controller;
+		_pwm = pwm;
 	}
 
 	public override bool Enabled
@@ -64,6 +66,44 @@ public sealed class SystemPinInterface : PinInterface
 				IOMode = IOMode.Write;
 
 			_controller.Write(_pin, value == Voltage.High ? PinValue.High : PinValue.Low);
+
+			RefreshPWM();
+		}
+	}
+
+	private double _strength;
+
+	public override double Strength
+	{
+		get => _strength;
+		set
+		{
+			_strength = Math.Clamp(value, 0, 100);
+			_pwm.DutyCycle = Math.Clamp(value / 100.0, 0, 1);
+
+			if (Power == PowerValue.On && _strength == 0)
+			{
+				TurnOff();
+			}
+
+			RefreshPWM();
+
+			if (Power != PowerValue.On && _strength > 0)
+			{
+				TurnOn();
+			}
+		}
+	}
+
+	private void RefreshPWM()
+	{
+		if (Power == PowerValue.On && _strength is > 0 and < 100)
+		{
+			_pwm.Start();
+		}
+		else
+		{
+			_pwm.Stop();
 		}
 	}
 
@@ -87,5 +127,15 @@ public sealed class SystemPinInterface : PinInterface
 	{
 		OnPowerOn(action);
 		OnPowerOff(action);
+	}
+
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing)
+		{
+			_pwm.Dispose();
+		}
+
+		base.Dispose(true);
 	}
 }

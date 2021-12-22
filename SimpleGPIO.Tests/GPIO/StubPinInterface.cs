@@ -14,6 +14,7 @@ public sealed class StubPinInterface : PinInterface
 	public override Direction Direction { get; set; }
 
 	public override Voltage Voltage { get; set; }
+	public override double Strength { get; set; }
 
 	public override void OnPowerOn(Action action) => action();
 	public override void OnPowerOff(Action action) => action();

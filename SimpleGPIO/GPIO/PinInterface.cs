@@ -34,6 +34,7 @@ public abstract class PinInterface : IPinInterface
 	}
 
 	public abstract Voltage Voltage { get; set; }
+	public abstract double Strength { get; set; }
 
 	public void Enable() => Enabled = true;
 	public void Disable() => Enabled = false;
