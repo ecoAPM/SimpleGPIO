@@ -4,6 +4,7 @@ namespace SimpleGPIO.GPIO;
 
 public interface IGpioController : IDisposable
 {
+	GpioController Base { get; }
 	bool IsPinOpen(byte pin);
 	void OpenPin(byte pin);
 	void ClosePin(byte pin);
