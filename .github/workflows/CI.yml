@@ -21,3 +21,6 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
+
+      - name: Build Examples
+        run: dotnet build -c Examples

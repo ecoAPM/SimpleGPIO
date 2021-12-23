@@ -4,9 +4,10 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>SimpleGPIO.Examples.Components.SevenSegmentDisplay</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SimpleGPIO\SimpleGPIO.csproj"/>
+        <ProjectReference Include="../../../SimpleGPIO/SimpleGPIO.csproj" />
     </ItemGroup>
 </Project>

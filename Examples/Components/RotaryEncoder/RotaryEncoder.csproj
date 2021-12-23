@@ -7,6 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SimpleGPIO\SimpleGPIO.csproj"/>
+        <ProjectReference Include="../../../SimpleGPIO/SimpleGPIO.csproj" />
     </ItemGroup>
 </Project>
