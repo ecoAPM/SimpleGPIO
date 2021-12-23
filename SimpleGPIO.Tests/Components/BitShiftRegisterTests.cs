@@ -38,8 +38,20 @@ public sealed class BitShiftRegisterTests
 		var clear = new StubPinInterface(4);
 		var register = new BitShiftRegister(enabled, data, shift, output, clear);
 
+		var values = new BitShiftRegister.PowerSet
+		{
+			A = PowerValue.Off,
+			B = PowerValue.On,
+			C = PowerValue.Off,
+			D = PowerValue.Off,
+			E = PowerValue.On,
+			F = PowerValue.Off,
+			G = PowerValue.Off,
+			H = PowerValue.On
+		};
+
 		//act
-		register.SetPowerValues(PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.Off, PowerValue.On);
+		register.SetPowerValues(values);
 
 		//assert
 		var calls = data.ReceivedCalls().ToArray();

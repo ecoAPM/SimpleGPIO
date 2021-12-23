@@ -28,15 +28,17 @@ public sealed class BitShiftRegister
 
 	public void SetValue(byte value)
 	{
-		var a = GetBinaryDigitPowerValue(value, 7);
-		var b = GetBinaryDigitPowerValue(value, 6);
-		var c = GetBinaryDigitPowerValue(value, 5);
-		var d = GetBinaryDigitPowerValue(value, 4);
-		var e = GetBinaryDigitPowerValue(value, 3);
-		var f = GetBinaryDigitPowerValue(value, 2);
-		var g = GetBinaryDigitPowerValue(value, 1);
-		var h = GetBinaryDigitPowerValue(value, 0);
-		SetPowerValues(a, b, c, d, e, f, g, h);
+		SetPowerValues(new PowerSet
+		{
+			A = GetBinaryDigitPowerValue(value, 7),
+			B = GetBinaryDigitPowerValue(value, 6),
+			C = GetBinaryDigitPowerValue(value, 5),
+			D = GetBinaryDigitPowerValue(value, 4),
+			E = GetBinaryDigitPowerValue(value, 3),
+			F = GetBinaryDigitPowerValue(value, 2),
+			G = GetBinaryDigitPowerValue(value, 1),
+			H = GetBinaryDigitPowerValue(value, 0)
+		});
 	}
 
 	public static PowerValue GetBinaryDigitPowerValue(byte value, byte digit)
@@ -44,32 +46,32 @@ public sealed class BitShiftRegister
 			? PowerValue.On
 			: PowerValue.Off;
 
-	public void SetPowerValues(PowerValue a, PowerValue b, PowerValue c, PowerValue d, PowerValue e, PowerValue f, PowerValue g, PowerValue h)
+	public void SetPowerValues(PowerSet values)
 	{
 		_enabled?.TurnOn();
 
-		_data.Power = a;
+		_data.Power = values.A;
 		_shift.Spike();
 
-		_data.Power = b;
+		_data.Power = values.B;
 		_shift.Spike();
 
-		_data.Power = c;
+		_data.Power = values.C;
 		_shift.Spike();
 
-		_data.Power = d;
+		_data.Power = values.D;
 		_shift.Spike();
 
-		_data.Power = e;
+		_data.Power = values.E;
 		_shift.Spike();
 
-		_data.Power = f;
+		_data.Power = values.F;
 		_shift.Spike();
 
-		_data.Power = g;
+		_data.Power = values.G;
 		_shift.Spike();
 
-		_data.Power = h;
+		_data.Power = values.H;
 		_shift.Spike();
 
 		_output.Spike();
@@ -80,5 +82,17 @@ public sealed class BitShiftRegister
 		_clear?.TurnOn();
 		_output.Spike();
 		_clear?.TurnOff();
+	}
+
+	public sealed class PowerSet
+	{
+		public PowerValue A { get; init; }
+		public PowerValue B { get; init; }
+		public PowerValue C { get; init; }
+		public PowerValue D { get; init; }
+		public PowerValue E { get; init; }
+		public PowerValue F { get; init; }
+		public PowerValue G { get; init; }
+		public PowerValue H { get; init; }
 	}
 }
