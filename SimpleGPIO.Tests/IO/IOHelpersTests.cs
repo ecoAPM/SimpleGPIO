@@ -16,10 +16,4 @@ public sealed class IOHelpersTests
 	[InlineData(IOMode.Write, Direction.Out)]
 	public void CanGetDirectionFromIOMode(IOMode io, Direction expected)
 		=> Assert.Equal(expected, io.ToDirection());
-
-	[Theory]
-	[InlineData("in", Direction.In)]
-	[InlineData("out", Direction.Out)]
-	public void CanGetDirectionFromString(string direction, Direction expected)
-		=> Assert.Equal(expected, direction.ToDirection());
 }

@@ -19,12 +19,4 @@ public static class IOHelpers
 			IOMode.Write => Direction.Out,
 			_ => throw new InvalidEnumArgumentException(nameof(io))
 		};
-
-	public static Direction ToDirection(this string direction)
-		=> direction.ToLower() switch
-		{
-			"in" => Direction.In,
-			"out" => Direction.Out,
-			_ => throw new InvalidEnumArgumentException(nameof(direction))
-		};
 }
