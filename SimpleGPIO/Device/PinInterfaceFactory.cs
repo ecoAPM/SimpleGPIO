@@ -1,6 +1,6 @@
-using SimpleGPIO.Device;
+using SimpleGPIO.GPIO;
 
-namespace SimpleGPIO.GPIO;
+namespace SimpleGPIO.Device;
 
 internal static class PinInterfaceFactory
 {

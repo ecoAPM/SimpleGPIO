@@ -1,3 +1,4 @@
+using SimpleGPIO.Device;
 using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Boards;
