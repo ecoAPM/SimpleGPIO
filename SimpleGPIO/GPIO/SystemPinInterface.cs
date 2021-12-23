@@ -71,32 +71,10 @@ public sealed class SystemPinInterface : PinInterface
 		}
 	}
 
-	private double _strength;
-
-	public override double Strength
+	protected override void RefreshPWM()
 	{
-		get => _strength;
-		set
-		{
-			_strength = Math.Clamp(value, 0, 100);
-			_pwm.DutyCycle = Math.Clamp(value / 100.0, 0, 1);
+		_pwm.DutyCycle = _strength / 100;
 
-			if (Power == PowerValue.On && _strength == 0)
-			{
-				TurnOff();
-			}
-
-			RefreshPWM();
-
-			if (Power != PowerValue.On && _strength > 0)
-			{
-				TurnOn();
-			}
-		}
-	}
-
-	private void RefreshPWM()
-	{
 		if (Power == PowerValue.On && _strength is > 0 and < 100)
 		{
 			_pwm.Start();

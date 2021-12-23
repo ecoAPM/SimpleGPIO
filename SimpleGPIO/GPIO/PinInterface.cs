@@ -34,7 +34,31 @@ public abstract class PinInterface : IPinInterface
 	}
 
 	public abstract Voltage Voltage { get; set; }
-	public abstract double Strength { get; set; }
+
+	protected double _strength;
+
+	public double Strength
+	{
+		get => _strength;
+		set
+		{
+			_strength = Math.Clamp(value, 0, 100);
+
+			if (Power == PowerValue.On && _strength == 0)
+			{
+				TurnOff();
+			}
+
+			RefreshPWM();
+
+			if (Power != PowerValue.On && _strength > 0)
+			{
+				TurnOn();
+			}
+		}
+	}
+
+	protected abstract void RefreshPWM();
 
 	public void Enable() => Enabled = true;
 	public void Disable() => Enabled = false;

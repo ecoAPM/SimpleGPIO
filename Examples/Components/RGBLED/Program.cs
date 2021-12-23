@@ -1,30 +1,31 @@
+using System.Drawing;
 using SimpleGPIO.Boards;
 using SimpleGPIO.Components;
 
 using var pi = new RaspberryPi();
-var led = new RGBLED(pi.GPIO23, pi.GPIO24, pi.GPIO25);
+var led = new RGBLED(pi.GPIO5, pi.GPIO6, pi.GPIO13);
 var wait = TimeSpan.FromSeconds(0.5);
 
-led.TurnRed();
+led.SetColor(Color.Red);
 await Task.Delay(wait);
 
-led.TurnYellow();
+led.SetColor(Color.Yellow);
 await Task.Delay(wait);
 
-led.TurnGreen();
+led.SetColor(Color.Lime);
 await Task.Delay(wait);
 
-led.TurnCyan();
+led.SetColor(Color.Cyan);
 await Task.Delay(wait);
 
-led.TurnBlue();
+led.SetColor(Color.Blue);
 await Task.Delay(wait);
 
-led.TurnPurple();
+led.SetColor(Color.Magenta);
 await Task.Delay(wait);
 
-led.TurnOff();
+led.SetColor(Color.Black);
 await Task.Delay(wait);
 
-led.TurnWhite();
+led.SetColor(Color.White);
 await Task.Delay(wait);

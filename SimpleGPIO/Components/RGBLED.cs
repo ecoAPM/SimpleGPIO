@@ -1,4 +1,6 @@
+using System.Drawing;
 using SimpleGPIO.GPIO;
+using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
@@ -15,59 +17,15 @@ public sealed class RGBLED
 		_blue = bluePin;
 	}
 
-	public void TurnRed()
+	public void SetColor(Color color)
 	{
-		_red.TurnOn();
-		_green.TurnOff();
-		_blue.TurnOff();
+		SetComponent(_red, color.R);
+		SetComponent(_green, color.G);
+		SetComponent(_blue, color.B);
 	}
 
-	public void TurnYellow()
-	{
-		_red.TurnOn();
-		_green.TurnOn();
-		_blue.TurnOff();
-	}
+	private static void SetComponent(IPinInterface pin, byte value)
+		=> pin.Strength = value / 2.55;
 
-	public void TurnGreen()
-	{
-		_red.TurnOff();
-		_green.TurnOn();
-		_blue.TurnOff();
-	}
-
-	public void TurnCyan()
-	{
-		_red.TurnOff();
-		_green.TurnOn();
-		_blue.TurnOn();
-	}
-
-	public void TurnBlue()
-	{
-		_red.TurnOff();
-		_green.TurnOff();
-		_blue.TurnOn();
-	}
-
-	public void TurnPurple()
-	{
-		_red.TurnOn();
-		_green.TurnOff();
-		_blue.TurnOn();
-	}
-
-	public void TurnWhite()
-	{
-		_red.TurnOn();
-		_green.TurnOn();
-		_blue.TurnOn();
-	}
-
-	public void TurnOff()
-	{
-		_red.TurnOff();
-		_green.TurnOff();
-		_blue.TurnOff();
-	}
+	public void TurnOff() => SetColor(Color.Black);
 }
