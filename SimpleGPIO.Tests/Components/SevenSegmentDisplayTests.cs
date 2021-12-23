@@ -12,30 +12,33 @@ public sealed class SevenSegmentDisplayTests
 	public void TestCharacters(char character, string expected)
 	{
 		//arrange
-		var center = new StubPinInterface(1);
-		var upperLeft = new StubPinInterface(2);
-		var top = new StubPinInterface(3);
-		var upperRight = new StubPinInterface(4);
-		var lowerLeft = new StubPinInterface(5);
-		var bottom = new StubPinInterface(6);
-		var lowerRight = new StubPinInterface(7);
-		var decimalPoint = new StubPinInterface(8);
-		var display = new SevenSegmentDisplay(center, upperLeft, top, upperRight, lowerLeft, bottom, lowerRight, decimalPoint);
+		var segments = new SevenSegmentDisplay.PinSet
+		{
+			Center = new StubPinInterface(1),
+			UpperLeft = new StubPinInterface(2),
+			Top = new StubPinInterface(3),
+			UpperRight = new StubPinInterface(4),
+			LowerLeft = new StubPinInterface(5),
+			Bottom = new StubPinInterface(6),
+			LowerRight = new StubPinInterface(7),
+			Decimal = new StubPinInterface(8)
+		};
+		var display = new SevenSegmentDisplay(segments);
 
 		//act
 		display.Show(character);
 
 		//assert
-		Assert.Equal(expected[1] == '*' ? PowerValue.On : PowerValue.Off, top.Power);
-		Assert.Equal(expected[3] == '*' ? PowerValue.On : PowerValue.Off, upperLeft.Power);
-		Assert.Equal(expected[5] == '*' ? PowerValue.On : PowerValue.Off, upperRight.Power);
-		Assert.Equal(expected[7] == '*' ? PowerValue.On : PowerValue.Off, center.Power);
-		Assert.Equal(expected[9] == '*' ? PowerValue.On : PowerValue.Off, lowerLeft.Power);
-		Assert.Equal(expected[11] == '*' ? PowerValue.On : PowerValue.Off, lowerRight.Power);
-		Assert.Equal(expected[13] == '*' ? PowerValue.On : PowerValue.Off, bottom.Power);
+		Assert.Equal(expected[1] == '*' ? PowerValue.On : PowerValue.Off, segments.Top.Power);
+		Assert.Equal(expected[3] == '*' ? PowerValue.On : PowerValue.Off, segments.UpperLeft.Power);
+		Assert.Equal(expected[5] == '*' ? PowerValue.On : PowerValue.Off, segments.UpperRight.Power);
+		Assert.Equal(expected[7] == '*' ? PowerValue.On : PowerValue.Off, segments.Center.Power);
+		Assert.Equal(expected[9] == '*' ? PowerValue.On : PowerValue.Off, segments.LowerLeft.Power);
+		Assert.Equal(expected[11] == '*' ? PowerValue.On : PowerValue.Off, segments.LowerRight.Power);
+		Assert.Equal(expected[13] == '*' ? PowerValue.On : PowerValue.Off, segments.Bottom.Power);
 
 		if (expected.Length > 15)
-			Assert.Equal(expected[15] == '*' ? PowerValue.On : PowerValue.Off, decimalPoint.Power);
+			Assert.Equal(expected[15] == '*' ? PowerValue.On : PowerValue.Off, segments.Decimal.Power);
 	}
 
 	private sealed class CharacterData : IEnumerable<object[]>

@@ -5,39 +5,49 @@ namespace SimpleGPIO.Components;
 
 public sealed class SevenSegmentDisplay
 {
-	public IPinInterface Center { get; }
-	public IPinInterface UpperLeft { get; }
-	public IPinInterface Top { get; }
-	public IPinInterface UpperRight { get; }
-	public IPinInterface LowerLeft { get; }
-	public IPinInterface Bottom { get; }
-	public IPinInterface LowerRight { get; }
-	public IPinInterface? Decimal { get; }
-
-	public SevenSegmentDisplay(IPinInterface centerPin, IPinInterface upperLeftPin, IPinInterface topPin, IPinInterface upperRightPin, IPinInterface lowerLeftPin, IPinInterface bottomPin, IPinInterface lowerRightPin, IPinInterface? decimalPin = null)
+	public sealed class PinSet : Set<IPinInterface>
 	{
-		Center = centerPin;
-		UpperLeft = upperLeftPin;
-		Top = topPin;
-		UpperRight = upperRightPin;
-		LowerLeft = lowerLeftPin;
-		Bottom = bottomPin;
-		LowerRight = lowerRightPin;
-		Decimal = decimalPin;
 	}
 
-	public void SetPowerValues(PowerValue center, PowerValue upperLeft, PowerValue top, PowerValue upperRight, PowerValue lowerLeft, PowerValue bottom, PowerValue lowerRight, PowerValue decimalPoint = PowerValue.Off)
+	public sealed class PowerSet : Set<PowerValue>
 	{
-		Center.Power = center;
-		UpperLeft.Power = upperLeft;
-		Top.Power = top;
-		UpperRight.Power = upperRight;
-		LowerLeft.Power = lowerLeft;
-		Bottom.Power = bottom;
-		LowerRight.Power = lowerRight;
+	}
 
-		if (Decimal != null)
-			Decimal.Power = decimalPoint;
+	public abstract class Set<T>
+	{
+		public T? Center { get; init; }
+		public T? UpperLeft { get; init; }
+		public T? Top { get; init; }
+		public T? UpperRight { get; init; }
+		public T? LowerLeft { get; init; }
+		public T? Bottom { get; init; }
+		public T? LowerRight { get; init; }
+		public T? Decimal { get; init; }
+	}
+
+	public PinSet Segments { get; }
+
+	public SevenSegmentDisplay(PinSet segments)
+		=> Segments = segments;
+
+	private void SetPowerValues(PowerSet segments)
+	{
+		SetPowerValue(Segments.Center, segments.Center);
+		SetPowerValue(Segments.UpperLeft, segments.UpperLeft);
+		SetPowerValue(Segments.Top, segments.Top);
+		SetPowerValue(Segments.UpperRight, segments.UpperRight);
+		SetPowerValue(Segments.LowerLeft, segments.LowerLeft);
+		SetPowerValue(Segments.Bottom, segments.Bottom);
+		SetPowerValue(Segments.LowerRight, segments.LowerRight);
+		SetPowerValue(Segments.Decimal, segments.Decimal);
+	}
+
+	private static void SetPowerValue(IPinInterface? segment, PowerValue value)
+	{
+		if (segment != null)
+		{
+			segment.Power = value;
+		}
 	}
 
 	public void Show(char character)
@@ -49,103 +59,99 @@ public sealed class SevenSegmentDisplay
 	}
 
 	private IDictionary<char, Action>? _mappings;
+
 	private IDictionary<char, Action> CharacterMappings
-	{
-		get
+		=> _mappings ??= new Dictionary<char, Action>
 		{
-			return _mappings ??= new Dictionary<char, Action>
-				{
-					{ ' ', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-					{ '"', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-					{ '\'',() => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-					{ '(', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ ')', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On ) },
-					{ ',', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ '-', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-					{ '.', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ '/', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off) },
+			{ ' ', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '"', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '\'', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '(', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ ')', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ ',', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '-', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '.', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.On }) },
+			{ '/', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
 
-					{ '0', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ '1', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ '2', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ '3', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On ) },
-					{ '4', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ '5', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On ) },
-					{ '6', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ '7', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ '8', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ '9', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On ) },
+			{ '0', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '1', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '2', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '3', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '4', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '5', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '6', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '7', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '8', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ '9', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
 
-					{ '<', () => _mappings?['c']() },
-					{ '=', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off) },
-					{ '>', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On ) },
+			{ '<', () => _mappings?['c']() },
+			{ '=', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '>', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
 
-					{ 'A', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'B', () => _mappings?['8']() },
-					{ 'C', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'D', () => _mappings?['0']() },
-					{ 'E', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'F', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'G', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'H', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'I', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off , PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'J', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'K', () => _mappings?['H']() },
-					{ 'L', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'M', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'N', () => _mappings?['H']() },
-					{ 'O', () => _mappings?['0']() },
-					{ 'P', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'Q', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'R', () => _mappings?['A']() },
-					{ 'S', () => _mappings?['5']() },
-					{ 'T', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'U', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'V', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'W', () => _mappings?['U']() },
-					{ 'X', () => _mappings?['H']() },
-					{ 'Y', () => _mappings?['4']() },
-					{ 'Z', () => _mappings?['2']() },
+			{ 'A', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'B', () => _mappings?['8']() },
+			{ 'C', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'D', () => _mappings?['0']() },
+			{ 'E', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'F', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'G', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'H', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'I', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'J', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'K', () => _mappings?['H']() },
+			{ 'L', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'M', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'N', () => _mappings?['H']() },
+			{ 'O', () => _mappings?['0']() },
+			{ 'P', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'Q', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.On }) },
+			{ 'R', () => _mappings?['A']() },
+			{ 'S', () => _mappings?['5']() },
+			{ 'T', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'U', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'V', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'W', () => _mappings?['U']() },
+			{ 'X', () => _mappings?['H']() },
+			{ 'Y', () => _mappings?['4']() },
+			{ 'Z', () => _mappings?['2']() },
 
-					{ '[', () => _mappings?['(']() },
-					{ '\\',() => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ ']', () => _mappings?[')']() },
-					{ '^', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-					{ '_', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off) },
-					{ '`', () => SetPowerValues(PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
+			{ '[', () => _mappings?['(']() },
+			{ '\\', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ ']', () => _mappings?[')']() },
+			{ '^', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '_', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ '`', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
 
-					{ 'a', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'b', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'c', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'd', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'e', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off ) },
-					{ 'f', () => _mappings?['F']() },
-					{ 'g', () => _mappings?['9']() },
-					{ 'h', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'i', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 'j', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On ) },
-					{ 'k', () => _mappings?['h']() },
-					{ 'l', () => _mappings?['I']() },
-					{ 'm', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.On ) },
-					{ 'n', () => _mappings?['m']() },
-					{ 'o', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'p', () => _mappings?['P']() },
-					{ 'q', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On ) },
-					{ 'r', () => SetPowerValues(PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off) },
-					{ 's', () => _mappings?['S']() },
-					{ 't', () => SetPowerValues(PowerValue.On , PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.Off) },
-					{ 'u', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.On , PowerValue.On ) },
-					{ 'v', () => _mappings?['u']() },
-					{ 'w', () => _mappings?['u']() },
-					{ 'x', () => _mappings?['X']() },
-					{ 'y', () => _mappings?['Y']() },
-					{ 'z', () => _mappings?['Z']() },
+			{ 'a', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'b', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'c', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'd', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'e', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'f', () => _mappings?['F']() },
+			{ 'g', () => _mappings?['9']() },
+			{ 'h', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'i', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'j', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'k', () => _mappings?['h']() },
+			{ 'l', () => _mappings?['I']() },
+			{ 'm', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'n', () => _mappings?['m']() },
+			{ 'o', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'p', () => _mappings?['P']() },
+			{ 'q', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.On, UpperRight = PowerValue.On, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'r', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 's', () => _mappings?['S']() },
+			{ 't', () => SetPowerValues(new PowerSet { Center = PowerValue.On, UpperLeft = PowerValue.On, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+			{ 'u', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.Off, UpperRight = PowerValue.Off, LowerLeft = PowerValue.On, Bottom = PowerValue.On, LowerRight = PowerValue.On, Decimal = PowerValue.Off }) },
+			{ 'v', () => _mappings?['u']() },
+			{ 'w', () => _mappings?['u']() },
+			{ 'x', () => _mappings?['X']() },
+			{ 'y', () => _mappings?['Y']() },
+			{ 'z', () => _mappings?['Z']() },
 
-					{ '{', () => _mappings?['(']() },
-					{ '|', () => _mappings?['I']() },
-					{ '}', () => _mappings?[')']() },
-					{ '~', () => SetPowerValues(PowerValue.Off, PowerValue.Off, PowerValue.On , PowerValue.Off, PowerValue.Off, PowerValue.Off, PowerValue.Off) },
-				};
-		}
-	}
+			{ '{', () => _mappings?['(']() },
+			{ '|', () => _mappings?['I']() },
+			{ '}', () => _mappings?[')']() },
+			{ '~', () => SetPowerValues(new PowerSet { Center = PowerValue.Off, UpperLeft = PowerValue.Off, Top = PowerValue.On, UpperRight = PowerValue.Off, LowerLeft = PowerValue.Off, Bottom = PowerValue.Off, LowerRight = PowerValue.Off, Decimal = PowerValue.Off }) },
+		};
 }
