@@ -179,7 +179,7 @@ Built-in button functionality is not yet supported.
 
 ### Seven-Segment Display
 
-Seven-segment displays are currently supported for direct connections to GPIO pins (support for bit-shift registers coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
+Seven-segment displays are currently supported for direct connections to GPIO pins (support for shift register input coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
 
 ```C#
 var display = new SevenSegmentDisplay(centerPin, upperLeftPin, topPin, upperRightPin, lowerLeftPin, bottomPin, lowerRightPin, /*optional*/decimalPin);
@@ -226,9 +226,9 @@ If using all 4 inputs on a single driver, declare another `Motor` to handle inpu
 
 To drive a single-direction motor (by only having input 1 connected), simply pass `null` as the `counterclockwisePin` to the `Motor` constructor. Counterclockwise methods are not expected to function under this condition.
 
-### Bit Shift Register
+### Shift Register
 
-A bit shift register allows you to control more outputs than you have inputs. The `BitShiftRegister` component abstracts the implementation details of the integrated circuit away, so you can simply send the data you want as a `byte`!
+A shift register allows you to control more outputs than you have inputs. The `ShiftRegister` component abstracts the implementation details of the 595-style integrated circuit away, so you can simply send the data you want as a `byte`!
 
 ```C#
 var enabledPin = pi.Pin11;
@@ -236,7 +236,7 @@ var dataPin = pi.Pin13;
 var shiftPin = pi.Pin15;
 var outputPin = pi.Pin16; //aka "latch"
 var clearPin = pi.Pin18;
-var bsr = new BitShiftRegister(enabledPin, dataPin, shiftPin, outputPin, clearPin);
+var bsr = new ShiftRegister(enabledPin, dataPin, shiftPin, outputPin, clearPin);
 
 bsr.SetValue(255); //sets all 8 bits to On
 bsr.SetValue(0b11111111); //does the same

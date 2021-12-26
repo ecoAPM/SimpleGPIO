@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWM", "Examples\PWM\PWM.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Examples\Web\Web.csproj", "{FBDE5D8F-BC2D-4441-BF43-CB02224E62E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitShiftRegister", "Examples\Components\BitShiftRegister\BitShiftRegister.csproj", "{D677060A-4476-420E-AB6F-1E0C7E317F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftRegister", "Examples\Components\ShiftRegister\ShiftRegister.csproj", "{D677060A-4476-420E-AB6F-1E0C7E317F60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMatrix", "Examples\Components\DotMatrix\DotMatrix.csproj", "{1032759C-F88C-40BE-8F4A-57C51DF248A2}"
 EndProject

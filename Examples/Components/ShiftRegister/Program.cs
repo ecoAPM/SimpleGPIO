@@ -2,7 +2,7 @@ using SimpleGPIO.Boards;
 using SimpleGPIO.Components;
 
 using var pi = new RaspberryPi();
-var register = new BitShiftRegister(pi.Pin13, pi.Pin11, pi.Pin15, pi.Pin16, pi.Pin18);
+var register = new ShiftRegister(pi.Pin13, pi.Pin11, pi.Pin15, pi.Pin16, pi.Pin18);
 
 for (byte x = 0; x < byte.MaxValue; x++)
 {

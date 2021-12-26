@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SimpleGPIO.Tests.Components;
 
-public sealed class BitShiftRegisterTests
+public sealed class ShiftRegisterTests
 {
 	[Theory]
 	[InlineData(146, 7, PowerValue.On)]
@@ -21,7 +21,7 @@ public sealed class BitShiftRegisterTests
 	public void CanSetPowerValueForBinaryDigit(byte value, byte digit, PowerValue expected)
 	{
 		//arrange/act
-		var result = BitShiftRegister.GetBinaryDigitPowerValue(value, digit);
+		var result = ShiftRegister.GetBinaryDigitPowerValue(value, digit);
 
 		//assert
 		Assert.Equal(expected, result);
@@ -36,9 +36,9 @@ public sealed class BitShiftRegisterTests
 		var shift = new StubPinInterface(2);
 		var output = new StubPinInterface(3);
 		var clear = new StubPinInterface(4);
-		var register = new BitShiftRegister(enabled, data, shift, output, clear);
+		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
-		var values = new BitShiftRegister.PowerSet
+		var values = new ShiftRegister.PowerSet
 		{
 			A = PowerValue.Off,
 			B = PowerValue.On,
@@ -74,7 +74,7 @@ public sealed class BitShiftRegisterTests
 		var shift = new StubPinInterface(2);
 		var output = new StubPinInterface(3);
 		var clear = new StubPinInterface(4);
-		var register = new BitShiftRegister(enabled, data, shift, output, clear);
+		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
 		//act
 		register.SetValue(146);
@@ -100,7 +100,7 @@ public sealed class BitShiftRegisterTests
 		var shift = new StubPinInterface(3);
 		var output = Substitute.For<IPinInterface>();
 		var clear = Substitute.For<IPinInterface>();
-		var register = new BitShiftRegister(enabled, data, shift, output, clear);
+		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
 		//act
 		register.Clear();
