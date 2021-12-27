@@ -154,15 +154,15 @@ var bluePin = pi.Pin18;
 
 var rgbLED = new RGBLED(redPin, greenPin, bluePin);
 
-rgbLED.TurnRed();
-rgbLED.TurnOrange();
-rgbLED.TurnYellow();
-rgbLED.TurnGreen();
-rgbLED.TurnCyan();
-rgbLED.TurnBlue();
-rgbLED.TurnPurple();
-rgbLED.TurnWhite();
-rgbLED.TurnOff();
+rgbLED.SetColor(Color.Red);
+rgbLED.SetColor(Color.Orange);
+rgbLED.SetColor(Color.Yellow);
+rgbLED.SetColor(Color.Green);
+rgbLED.SetColor(Color.Cyan);
+rgbLED.SetColor(Color.Blue);
+rgbLED.SetColor(Color.Purple);
+rgbLED.SetColor(Color.White);
+rgbLED.SetColor(Color.Black); //same as rgbLED.TurnOff();
 ```
 
 ### Rotary Encoder
