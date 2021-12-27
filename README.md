@@ -236,13 +236,25 @@ var dataPin = pi.Pin13;
 var shiftPin = pi.Pin15;
 var outputPin = pi.Pin16; //aka "latch"
 var clearPin = pi.Pin18;
-var bsr = new ShiftRegister(enabledPin, dataPin, shiftPin, outputPin, clearPin);
+var register = new ShiftRegister(enabledPin, dataPin, shiftPin, outputPin, clearPin);
 
-bsr.SetValue(255); //sets all 8 bits to On
-bsr.SetValue(0b11111111); //does the same
+register.SetValue(255); //sets all 8 bits to On
+register.SetValue(0b11111111); //does the same
 
-bsr.SetValue(0b10101010); //these two are also identical to each other
-bsr.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
+//these two are also identical to each other
+register.SetValue(0b10101010);
+var values = new PowerSet
+{
+	A = PowerValue.On,
+	B = PowerValue.Off,
+	C = PowerValue.On,
+	D = PowerValue.Off,
+	E = PowerValue.On,
+	F = PowerValue.Off,
+	G = PowerValue.On,
+	H = PowerValue.Off
+};
+register.SetPowerValues(values);
 
 //you can also accomplish this more manually
 dataPin.TurnOn();
