@@ -5,6 +5,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO;
 
+/// <summary>A GPIO pin backed by .NET's IoT libraries</summary>
 public sealed class SystemPinInterface : PinInterface
 {
 	private readonly byte _pin;

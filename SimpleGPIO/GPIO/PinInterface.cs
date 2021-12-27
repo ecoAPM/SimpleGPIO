@@ -4,6 +4,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.GPIO;
 
+/// <summary>An abstract GPIO pin</summary>
 public abstract class PinInterface : IPinInterface
 {
 	public abstract bool Enabled { get; set; }
