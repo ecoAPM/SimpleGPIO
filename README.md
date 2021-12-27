@@ -182,7 +182,18 @@ Built-in button functionality is not yet supported.
 Seven-segment displays are currently supported for direct connections to GPIO pins (support for shift register input coming soon) and can be passed a character (all ASCII letters, numbers, and several other symbols)
 
 ```C#
-var display = new SevenSegmentDisplay(centerPin, upperLeftPin, topPin, upperRightPin, lowerLeftPin, bottomPin, lowerRightPin, /*optional*/decimalPin);
+var segments = new PinSet
+{
+	Center = centerPin,
+	UpperLeft = upperLeftPin,
+	Top = topPin,
+ 	UpperRight = upperRightPin,
+	LowerLeft = lowerLeftPin,
+	Bottom = bottomPin,
+	LowerRight = lowerRightPin,
+	Decimal = decimalPin //optional
+};
+var display = new SevenSegmentDisplay(segments);
 display.Show('A');
 display.Show('B');
 display.Show('C');
@@ -191,10 +202,21 @@ display.Show('2');
 display.Show('3');
 ```
 
-Custom characters can also be displayed with:
+Custom characters can also be displayed passing a `PowerSet` to `SetPowerValues()`:
+
 ```C#
-//same order:          center,        upper-left,     top,           upper-right,    lower-left,    bottom,         lower-right,   decimal (optional)
-display.SetPowerValues(PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off, PowerValue.On, PowerValue.Off);
+var custom = new PowerSet
+{
+	Center = PowerValue.On,
+	UpperLeft = PowerValue.Off,
+	Top = PowerValue.On,
+	UpperRight = PowerValue.Off,
+	LowerLeft = PowerValue.On,
+	Bottom = PowerValue.Off,
+	LowerRight = PowerValue.On,
+	Decimal = PowerValue.Off //optional
+};
+display.SetPowerValues(custom);
 ```
 
 ### Bidirectional Motor
