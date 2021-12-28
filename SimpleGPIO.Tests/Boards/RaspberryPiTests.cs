@@ -43,11 +43,11 @@ public sealed class RaspberryPiTests
 	{
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
-		newPin.Invoke(Arg.Any<byte>()).Returns(p => new StubPinInterface(p.Arg<byte>()));
+		newPin.Invoke(Arg.Any<byte>()).Returns(p => new PinStub(p.Arg<byte>()));
 		var board = new RaspberryPi(newPin);
 
 		//act
-		var pin = (StubPinInterface)board.GetType().GetProperty($"Pin{physical}")?.GetValue(board)!;
+		var pin = (PinStub)board.GetType().GetProperty($"Pin{physical}")?.GetValue(board)!;
 
 		//assert
 		Assert.Equal(bcm, pin.Pin);

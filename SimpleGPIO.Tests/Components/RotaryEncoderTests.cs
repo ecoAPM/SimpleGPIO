@@ -10,8 +10,8 @@ public sealed class RotaryEncoderTests
 	public void OnIncreasePerformsActionWhenSet()
 	{
 		//arrange
-		var increasePin = new StubPinInterface(1);
-		var decreasePin = new StubPinInterface(2);
+		var increasePin = new PinStub(1);
+		var decreasePin = new PinStub(2);
 		var dial = new RotaryEncoder(increasePin, decreasePin);
 
 		var called = false;
@@ -28,8 +28,8 @@ public sealed class RotaryEncoderTests
 	public void OnDecreasePerformsActionWhenSet()
 	{
 		//arrange
-		var increasePin = new StubPinInterface(1);
-		var decreasePin = new StubPinInterface(2);
+		var increasePin = new PinStub(1);
+		var decreasePin = new PinStub(2);
 		var dial = new RotaryEncoder(increasePin, decreasePin);
 		var called = false;
 		dial.OnDecrease(() => called = true);

@@ -11,9 +11,9 @@ public sealed class MotorTests
 	public void StartWhenClockwiseSetsInputsCorrectly()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise)
 		{
 			Direction = Motor.Rotation.Clockwise
@@ -32,9 +32,9 @@ public sealed class MotorTests
 	public void StartWhenCounterclockwiseSetsInputsCorrectly()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise)
 		{
 			Direction = Motor.Rotation.Counterclockwise
@@ -53,9 +53,9 @@ public sealed class MotorTests
 	public void TurnClockwiseSetsDirection()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise)
 		{
 			Direction = Motor.Rotation.Counterclockwise
@@ -72,9 +72,9 @@ public sealed class MotorTests
 	public void TurnCounterclockwiseSetsDirection()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise)
 		{
 			Direction = Motor.Rotation.Clockwise
@@ -91,9 +91,9 @@ public sealed class MotorTests
 	public async Task RunForStopsWhenDone()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 
 		//act
@@ -108,9 +108,9 @@ public sealed class MotorTests
 	public async Task RunForCanCoastWhenDone()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 
 		//act
@@ -126,9 +126,9 @@ public sealed class MotorTests
 	public async Task TurnClockwiseForSetsDirection()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 
 		//act
@@ -142,9 +142,9 @@ public sealed class MotorTests
 	public async Task TurnCounterclockwiseForSetsDirection()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 
 		//act
@@ -158,9 +158,9 @@ public sealed class MotorTests
 	public void StopTurnsOffAllPins()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 		motor.Start();
 
@@ -177,9 +177,9 @@ public sealed class MotorTests
 	public void CoastKeepsInputsOn()
 	{
 		//arrange
-		var enabled = new StubPinInterface(1);
-		var clockwise = new StubPinInterface(2);
-		var counterclockwise = new StubPinInterface(3);
+		var enabled = new PinStub(1);
+		var clockwise = new PinStub(2);
+		var counterclockwise = new PinStub(3);
 		var motor = new Motor(enabled, clockwise, counterclockwise);
 		motor.Start();
 

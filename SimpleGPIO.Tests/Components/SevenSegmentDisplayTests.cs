@@ -14,14 +14,14 @@ public sealed class SevenSegmentDisplayTests
 		//arrange
 		var segments = new SevenSegmentDisplay.PinSet
 		{
-			Center = new StubPinInterface(1),
-			UpperLeft = new StubPinInterface(2),
-			Top = new StubPinInterface(3),
-			UpperRight = new StubPinInterface(4),
-			LowerLeft = new StubPinInterface(5),
-			Bottom = new StubPinInterface(6),
-			LowerRight = new StubPinInterface(7),
-			Decimal = new StubPinInterface(8)
+			Center = new PinStub(1),
+			UpperLeft = new PinStub(2),
+			Top = new PinStub(3),
+			UpperRight = new PinStub(4),
+			LowerLeft = new PinStub(5),
+			Bottom = new PinStub(6),
+			LowerRight = new PinStub(7),
+			Decimal = new PinStub(8)
 		};
 		var display = new SevenSegmentDisplay(segments);
 

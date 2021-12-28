@@ -14,9 +14,9 @@ public sealed class RGBLEDTests
 	public void ColorsMatch(Color color, double r, double g, double b)
 	{
 		//arrange
-		var red = new StubPinInterface(1);
-		var green = new StubPinInterface(2);
-		var blue = new StubPinInterface(3);
+		var red = new PinStub(1);
+		var green = new PinStub(2);
+		var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act
@@ -36,9 +36,9 @@ public sealed class RGBLEDTests
 	public void TurnOffTurnsOffAllPins()
 	{
 		//arrange
-		var red = new StubPinInterface(1);
-		var green = new StubPinInterface(2);
-		var blue = new StubPinInterface(3);
+		var red = new PinStub(1);
+		var green = new PinStub(2);
+		var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act

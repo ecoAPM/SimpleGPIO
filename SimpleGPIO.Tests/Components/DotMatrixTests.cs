@@ -7,7 +7,7 @@ namespace SimpleGPIO.Tests.Components;
 
 public sealed class DotMatrixTests
 {
-	private static DotMatrix.PinSet StubPinSet(IReadOnlyList<StubPinInterface> pins)
+	private static DotMatrix.PinSet StubPinSet(IReadOnlyList<PinStub> pins)
 	{
 		return new DotMatrix.PinSet
 		{
@@ -31,12 +31,12 @@ public sealed class DotMatrixTests
 		};
 	}
 
-	private static StubPinInterface[] StubPins()
+	private static PinStub[] StubPins()
 	{
 		const byte numPins = 16;
-		var pins = new StubPinInterface[numPins + 1];
+		var pins = new PinStub[numPins + 1];
 		for (byte x = 1; x <= numPins; x++)
-			pins[x] = new StubPinInterface(x);
+			pins[x] = new PinStub(x);
 
 		return pins;
 	}

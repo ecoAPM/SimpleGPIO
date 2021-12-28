@@ -4,9 +4,9 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Tests.GPIO;
 
-public sealed class StubPinInterface : PinInterface
+public sealed class PinStub : PinInterface
 {
-	public StubPinInterface(byte pin) => Pin = pin;
+	public PinStub(byte pin) => Pin = pin;
 
 	public byte Pin { get; }
 
