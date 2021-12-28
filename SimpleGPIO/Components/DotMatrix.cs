@@ -3,11 +3,17 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
+/// <summary>An 8x8 dot matrix LED array</summary>
 public sealed class DotMatrix
 {
+	/// <summary>The set of pins representing the rows of the matrix</summary>
 	public IPinInterface[] Row { get; }
+
+	/// <summary>The set of pins representing the rows of the matrix</summary>
 	public IPinInterface[] Column { get; }
 
+	/// <summary>Creates a new 8x8 dot matrix LED array</summary>
+	/// <param name="input">The set of pins controlling the component</param>
 	public DotMatrix(PinSet input)
 	{
 		Row = new[] { input.Pin9, input.Pin14, input.Pin8, input.Pin12, input.Pin1, input.Pin7, input.Pin2, input.Pin5 };
@@ -19,6 +25,8 @@ public sealed class DotMatrix
 		}
 	}
 
+	/// <summary>Sets the values for each row in the display</summary>
+	/// <param name="rows">The power values for each row</param>
 	public void SetRows(PowerSet rows)
 	{
 		Row[0].Power = rows.Item1;
@@ -31,6 +39,8 @@ public sealed class DotMatrix
 		Row[7].Power = rows.Item8;
 	}
 
+	/// <summary>Sets the values for each column in the display</summary>
+	/// <param name="columns">The power values for each column</param>
 	public void SetColumns(PowerSet columns)
 	{
 		Column[0].Power = columns.Item1;
@@ -43,6 +53,8 @@ public sealed class DotMatrix
 		Column[7].Power = columns.Item8;
 	}
 
+	/// <summary>Sets each row to the same value</summary>
+	/// <param name="power">The power value to set each row to</param>
 	public void SetAllRows(PowerValue power)
 		=> SetRows(new PowerSet
 		{
@@ -56,6 +68,8 @@ public sealed class DotMatrix
 			Item8 = power
 		});
 
+	/// <summary>Sets each column to the same value</summary>
+	/// <param name="power">The power value to set each column to</param>
 	public void SetAllColumns(PowerValue power)
 		=> SetColumns(new PowerSet
 		{
@@ -69,12 +83,15 @@ public sealed class DotMatrix
 			Item8 = power
 		});
 
+	/// <summary>Sets all pixels to the same value</summary>
+	/// <param name="power">The power value to set each pixel to</param>
 	public void SetAll(PowerValue power)
 	{
 		SetAllRows(power);
 		SetAllColumns(power);
 	}
 
+	/// <summary>The set of pins input into the component</summary>
 	public sealed class PinSet
 	{
 		public IPinInterface Pin1 { get; init; } = null!;
@@ -95,6 +112,7 @@ public sealed class DotMatrix
 		public IPinInterface Pin16 { get; init; } = null!;
 	}
 
+	/// <summary>The set of power values for a row or column</summary>
 	public sealed class PowerSet
 	{
 		public PowerValue Item1 { get; init; }

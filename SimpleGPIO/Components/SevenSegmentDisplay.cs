@@ -3,12 +3,15 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
+/// <summary>A seven segment display</summary>
 public sealed class SevenSegmentDisplay
 {
+	/// <summary>The set of pins connected to the component</summary>
 	public sealed class PinSet : Set<IPinInterface>
 	{
 	}
 
+	/// <summary>The set of power values for each segment in the component</summary>
 	public sealed class PowerSet : Set<PowerValue>
 	{
 	}
@@ -25,8 +28,11 @@ public sealed class SevenSegmentDisplay
 		public T? Decimal { get; init; }
 	}
 
+	/// <summary>The set of pins connected to each segment in the component</summary>
 	public PinSet Segments { get; }
 
+	/// <summary>Creates a seven segment display</summary>
+	/// <param name="segments">The set of pins connected to the component</param>
 	public SevenSegmentDisplay(PinSet segments)
 		=> Segments = segments;
 
@@ -50,6 +56,8 @@ public sealed class SevenSegmentDisplay
 		}
 	}
 
+	/// <summary>Displays a given character on the display</summary>
+	/// <param name="character">The character to show</param>
 	public void Show(char character)
 	{
 		var showChar = CharacterMappings.ContainsKey(character)

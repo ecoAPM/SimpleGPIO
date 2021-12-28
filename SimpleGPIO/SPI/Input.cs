@@ -3,6 +3,7 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.SPI;
 
+/// <summary>A component that accepts SPI input</summary>
 public abstract class Input
 {
 	private readonly IPinInterface _clock;
@@ -14,12 +15,16 @@ public abstract class Input
 		_data = data;
 	}
 
+	/// <summary>Sends a power value to the component</summary>
+	/// <param name="value">The power value to send</param>
 	public void Send(PowerValue value)
 	{
 		_data.Power = value;
 		_clock.Spike();
 	}
 
+	/// <summary>Sends a set of power values to the component</summary>
+	/// <param name="values">The power values to send</param>
 	public void Send(IEnumerable<PowerValue> values)
 	{
 		foreach (var value in values)
@@ -28,6 +33,8 @@ public abstract class Input
 		}
 	}
 
+	/// <summary>Sends a byte of data to the component</summary>
+	/// <param name="value">The byte to send</param>
 	public void Send(byte value)
 	{
 		var values = new[]
@@ -44,6 +51,8 @@ public abstract class Input
 		Send(values);
 	}
 
+	/// <summary>Sends a set of bytes to the component</summary>
+	/// <param name="values">The bytes to send</param>
 	public void Send(IEnumerable<byte> values)
 	{
 		foreach (var value in values)
