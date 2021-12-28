@@ -1,21 +1,13 @@
-using SimpleGPIO.Device;
 using SimpleGPIO.GPIO;
 
 namespace SimpleGPIO.Boards;
 
 /// <summary>A device with a BCM2xxx series chip</summary>
-public class BroadcomBoard : IDisposable
+public abstract class BroadcomBoard : IDisposable
 {
 	private readonly Func<byte, IPinInterface> _pinInterfaceFactory;
 
-	/// <summary>Creates a new device with a BCM2xxx series chip</summary>
-	public BroadcomBoard() : this(PinInterfaceFactory.NewPinInterface)
-	{
-	}
-
-	/// <summary>Internal constructor for unit testing</summary>
-	/// <param name="pinInterfaceFactory">The factory method to create pin interfaces</param>
-	public BroadcomBoard(Func<byte, IPinInterface> pinInterfaceFactory)
+	protected BroadcomBoard(Func<byte, IPinInterface> pinInterfaceFactory)
 	{
 		_pinInterfaceFactory = pinInterfaceFactory;
 	}
