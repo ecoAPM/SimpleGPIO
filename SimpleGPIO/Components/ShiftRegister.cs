@@ -3,19 +3,15 @@ using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
-public sealed class ShiftRegister
+public sealed class ShiftRegister : SPI.Input
 {
 	private readonly IPinInterface? _enabled;
-	private readonly IPinInterface _data;
-	private readonly IPinInterface _shift;
 	private readonly IPinInterface _output;
 	private readonly IPinInterface? _clear;
 
-	public ShiftRegister(IPinInterface enabledPin, IPinInterface dataPin, IPinInterface shiftPin, IPinInterface outputPin, IPinInterface? clearPin = null)
+	public ShiftRegister(IPinInterface enabledPin, IPinInterface dataPin, IPinInterface shiftPin, IPinInterface outputPin, IPinInterface? clearPin = null) : base(dataPin, shiftPin)
 	{
 		_enabled = enabledPin;
-		_data = dataPin;
-		_shift = shiftPin;
 		_output = outputPin;
 		_clear = clearPin;
 
@@ -26,54 +22,12 @@ public sealed class ShiftRegister
 			_clear.PowerMode = PowerMode.Differential;
 	}
 
-	public void SetValue(byte value)
-	{
-		SetPowerValues(new PowerSet
-		{
-			A = GetBinaryDigitPowerValue(value, 7),
-			B = GetBinaryDigitPowerValue(value, 6),
-			C = GetBinaryDigitPowerValue(value, 5),
-			D = GetBinaryDigitPowerValue(value, 4),
-			E = GetBinaryDigitPowerValue(value, 3),
-			F = GetBinaryDigitPowerValue(value, 2),
-			G = GetBinaryDigitPowerValue(value, 1),
-			H = GetBinaryDigitPowerValue(value, 0)
-		});
-	}
-
-	public static PowerValue GetBinaryDigitPowerValue(byte value, byte digit)
-		=> ((value >> digit) & 1) == 1
-			? PowerValue.On
-			: PowerValue.Off;
+	public void SetValue(byte value) => Send(value);
 
 	public void SetPowerValues(PowerSet values)
 	{
 		_enabled?.TurnOn();
-
-		_data.Power = values.A;
-		_shift.Spike();
-
-		_data.Power = values.B;
-		_shift.Spike();
-
-		_data.Power = values.C;
-		_shift.Spike();
-
-		_data.Power = values.D;
-		_shift.Spike();
-
-		_data.Power = values.E;
-		_shift.Spike();
-
-		_data.Power = values.F;
-		_shift.Spike();
-
-		_data.Power = values.G;
-		_shift.Spike();
-
-		_data.Power = values.H;
-		_shift.Spike();
-
+		Send(new[] { values.A, values.B, values.C, values.D, values.E, values.F, values.G, values.H });
 		_output.Spike();
 	}
 

@@ -9,24 +9,6 @@ namespace SimpleGPIO.Tests.Components;
 
 public sealed class ShiftRegisterTests
 {
-	[Theory]
-	[InlineData(146, 7, PowerValue.On)]
-	[InlineData(146, 6, PowerValue.Off)]
-	[InlineData(146, 5, PowerValue.Off)]
-	[InlineData(146, 4, PowerValue.On)]
-	[InlineData(146, 3, PowerValue.Off)]
-	[InlineData(146, 2, PowerValue.Off)]
-	[InlineData(146, 1, PowerValue.On)]
-	[InlineData(146, 0, PowerValue.Off)]
-	public void CanSetPowerValueForBinaryDigit(byte value, byte digit, PowerValue expected)
-	{
-		//arrange/act
-		var result = ShiftRegister.GetBinaryDigitPowerValue(value, digit);
-
-		//assert
-		Assert.Equal(expected, result);
-	}
-
 	[Fact]
 	public void SetPowerValuesSetsCorrectDataBits()
 	{
