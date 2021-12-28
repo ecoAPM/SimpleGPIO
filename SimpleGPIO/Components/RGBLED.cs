@@ -1,6 +1,5 @@
 using System.Drawing;
 using SimpleGPIO.GPIO;
-using SimpleGPIO.Power;
 
 namespace SimpleGPIO.Components;
 
@@ -28,4 +27,20 @@ public sealed class RGBLED
 		=> pin.Strength = value / 2.55;
 
 	public void TurnOff() => SetColor(Color.Black);
+
+	public async Task FadeTo(Color color, TimeSpan duration)
+		=> await Task.WhenAll(
+			_red.FadeTo(color.R / 2.55, duration),
+			_green.FadeTo(color.G / 2.55, duration),
+			_blue.FadeTo(color.B / 2.55, duration)
+		);
+
+	public async Task FadeOut(TimeSpan duration)
+		=> await FadeTo(Color.Black, duration);
+
+	public async Task Pulse(Color color, TimeSpan duration)
+	{
+		SetColor(color);
+		await FadeOut(duration);
+	}
 }

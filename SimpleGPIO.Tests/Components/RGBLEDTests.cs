@@ -50,6 +50,61 @@ public sealed class RGBLEDTests
 		Assert.Equal(PowerValue.Off, blue.Power);
 	}
 
+	[Fact]
+	public async Task CanFadeToColor()
+	{
+		//arrange
+		var red = new PinStub(1);
+		var green = new PinStub(2);
+		var blue = new PinStub(3);
+		var led = new RGBLED(red, green, blue);
+
+		//act
+		var ecoGreen = Color.FromArgb(83, 141, 67);
+		await led.FadeTo(ecoGreen, TimeSpan.Zero);
+
+		//assert
+		Assert.Equal(32.5, red.Strength, 1);
+		Assert.Equal(55.3, green.Strength, 1);
+		Assert.Equal(26.3, blue.Strength, 1);
+	}
+
+	[Fact]
+	public async Task CanFadeOutToBlack()
+	{
+		//arrange
+		var red = new PinStub(1);
+		var green = new PinStub(2);
+		var blue = new PinStub(3);
+		var led = new RGBLED(red, green, blue);
+
+		//act
+		await led.FadeOut(TimeSpan.Zero);
+
+		//assert
+		Assert.Equal(PowerValue.Off, red.Power);
+		Assert.Equal(PowerValue.Off, green.Power);
+		Assert.Equal(PowerValue.Off, blue.Power);
+	}
+
+	[Fact]
+	public async Task PulseFadesOutCompletely()
+	{
+		//arrange
+		var red = new PinStub(1);
+		var green = new PinStub(2);
+		var blue = new PinStub(3);
+		var led = new RGBLED(red, green, blue);
+
+		//act
+		await led.Pulse(Color.White, TimeSpan.Zero);
+
+		//assert
+		Assert.Equal(PowerValue.Off, red.Power);
+		Assert.Equal(PowerValue.Off, green.Power);
+		Assert.Equal(PowerValue.Off, blue.Power);
+	}
+
 	private sealed class ColorData : IEnumerable<object[]>
 	{
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
