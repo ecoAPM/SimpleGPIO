@@ -63,6 +63,28 @@ public interface IPinInterface : IDisposable
 	/// <param name="iterations">The number of times to toggle power</param>
 	Task Toggle(double hz, ulong iterations);
 
+	/// <summary>Fades the pin's strength from its current value up to 100%</summary>
+	/// <param name="duration">The duration to stretch the fade over</param>
+	Task FadeIn(TimeSpan duration);
+
+	/// <summary>Fades the pin's strength from its current value down to 0%</summary>
+	/// <param name="duration">The duration to stretch the fade over</param>
+	Task FadeOut(TimeSpan duration);
+
+	/// <summary>Fades the pin's strength from its current value to the given value</summary>
+	/// <param name="strength">The strength to fade to</param>
+	/// <param name="duration">The duration to stretch the fade over</param>
+	Task FadeTo(double strength, TimeSpan duration);
+
+	/// <summary>Sets the pin to full strength, then fades it out</summary>
+	/// <param name="duration">The duration to stretch the fade over</param>
+	Task Pulse(TimeSpan duration);
+
+	/// <summary>Sets the pin to the given strength, then fades it out</summary>
+	/// <param name="strength">The maximum strength of the pulse</param>
+	/// <param name="duration">The duration to stretch the fade over</param>
+	Task Pulse(double strength, TimeSpan duration);
+
 	/// <summary>Perform an action when power to the pin is turned on</summary>
 	/// <param name="action">The action to perform</param>
 	void OnPowerOn(Action action);

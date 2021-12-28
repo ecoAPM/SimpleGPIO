@@ -18,6 +18,7 @@ public abstract class PinInterface : IPinInterface
 	public abstract Direction Direction { get; set; }
 
 	private IPowerMode _powerMode = SimpleGPIO.Power.PowerMode.Direct;
+
 	public IPowerMode PowerMode
 	{
 		get => _powerMode;
@@ -59,6 +60,7 @@ public abstract class PinInterface : IPinInterface
 		}
 	}
 
+
 	protected abstract void RefreshPWM();
 
 	public void Enable() => Enabled = true;
@@ -86,6 +88,7 @@ public abstract class PinInterface : IPinInterface
 		await Task.Delay(length);
 		TurnOn();
 	}
+
 
 	public void Toggle() => Power = Power == PowerValue.Off ? PowerValue.On : PowerValue.Off;
 
@@ -123,7 +126,34 @@ public abstract class PinInterface : IPinInterface
 		await Task.Delay(TimeSpan.FromTicks(spent < delay ? delay - spent : 1));
 	}
 
+
 	private static long Delay(double hz) => (long)(TimeSpan.TicksPerSecond / hz / 2);
+
+	public async Task FadeIn(TimeSpan duration) => await FadeTo(100, duration);
+	public async Task FadeOut(TimeSpan duration) => await FadeTo(0, duration);
+
+	public async Task FadeTo(double strength, TimeSpan duration)
+	{
+		var initial = _strength;
+		var timer = Stopwatch.StartNew();
+
+		while (timer.Elapsed < duration)
+		{
+			var progress = timer.Elapsed / duration;
+			Strength = initial + (strength - initial) * progress;
+			await Task.Delay(TimeSpan.FromSeconds(1.0 / 60));
+		}
+
+		Strength = strength;
+	}
+
+	public async Task Pulse(double strength, TimeSpan duration)
+	{
+		Strength = strength;
+		await FadeOut(duration);
+	}
+
+	public async Task Pulse(TimeSpan duration) => await Pulse(100, duration);
 
 	public abstract void OnPowerOn(Action action);
 	public abstract void OnPowerOff(Action action);

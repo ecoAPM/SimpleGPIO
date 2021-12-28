@@ -8,7 +8,7 @@ internal sealed class PwmChannelWrapper : IPwmChannel
 	private readonly PwmChannel _pwm;
 
 	public PwmChannelWrapper(byte pin, IGpioController controller)
-		=> _pwm = new SoftwarePwmChannel(pin, 120, 0, false, controller.Base, false);
+		=> _pwm = new SoftwarePwmChannel(pin, 480, 0, true, controller.Base, false);
 
 	public int Frequency
 	{

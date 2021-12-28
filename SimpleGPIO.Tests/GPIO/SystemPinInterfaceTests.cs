@@ -642,6 +642,87 @@ public sealed class SystemPinInterfaceTests
 	}
 
 	[Fact]
+	public async Task FadeInEndsAtFullStrength()
+	{
+		//arrange
+		var gpio = Substitute.For<IGpioController>();
+		var pwm = Substitute.For<IPwmChannel>();
+		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+
+		//act
+		await pinInterface.FadeIn(TimeSpan.Zero);
+
+		//assert
+		Assert.Equal(100, pinInterface.Strength);
+	}
+
+	[Fact]
+	public async Task FadeOutEndsAtZeroStrength()
+	{
+		//arrange
+		var gpio = Substitute.For<IGpioController>();
+		var pwm = Substitute.For<IPwmChannel>();
+		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+
+		//act
+		await pinInterface.FadeOut(TimeSpan.Zero);
+
+		//assert
+		Assert.Equal(0, pinInterface.Strength);
+	}
+
+	[Fact]
+	public void FadeToScalesStrength()
+	{
+		//arrange
+		var gpio = Substitute.For<IGpioController>();
+		var pwm = Substitute.For<IPwmChannel>();
+		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		{
+			Strength = 75
+		};
+
+		//act
+		_ = pinInterface.FadeTo(25, TimeSpan.FromSeconds(1));
+		SpinWait.SpinUntil(() => pinInterface.Strength < 75);
+
+		//assert
+		Assert.True(pinInterface.Strength > 25);
+	}
+
+	[Fact]
+	public async Task PulseSetsInitialStrength()
+	{
+		//arrange
+		var gpio = Substitute.For<IGpioController>();
+		var pwm = Substitute.For<IPwmChannel>();
+		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+
+		//act
+		await pinInterface.Pulse(50, TimeSpan.Zero);
+
+		//assert
+		pwm.Received().DutyCycle = 0.5;
+		Assert.Equal(0, pinInterface.Strength);
+	}
+
+	[Fact]
+	public async Task DefaultPulseSetsToFullStrength()
+	{
+		//arrange
+		var gpio = Substitute.For<IGpioController>();
+		var pwm = Substitute.For<IPwmChannel>();
+		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+
+		//act
+		await pinInterface.Pulse(TimeSpan.Zero);
+
+		//assert
+		pwm.Received().DutyCycle = 1;
+		Assert.Equal(0, pinInterface.Strength);
+	}
+
+	[Fact]
 	public void OnPowerOnEnablesIfNotEnabled()
 	{
 		//arrange
