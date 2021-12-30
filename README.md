@@ -104,6 +104,24 @@ Alternatively, you can toggle power a set number of times by passing in a number
 redLED.Toggle(2, 3);
 ```
 
+### Pulse Width Modulation
+
+Pins can have their "strength" set using Pulse Width Modulation (PWM) via the `Strength` property on the pin:
+```C#
+var led = pi.Pin18;
+led.Strength = 50; //valid range: 0-100
+```
+
+There are also several helper methods to make smooth transitions easier:
+```C#
+led.FadeIn(TimeSpan.FromSeconds(1));
+led.FadeOut(TimeSpan.FromSeconds(2));
+led.FadeTo(50,TimeSpan.FromSeconds(0.5));
+
+led.Pulse(TimeSpan.FromSeconds(1));
+led.Pulse(50, TimeSpan.FromSeconds(1));
+```
+
 ## What about inputs?
 
 Input components such as buttons can be declared the same way as output components, and the `Power` and `Voltage` can be read from the new variable:
@@ -153,17 +171,23 @@ var greenPin = pi.Pin16;
 var bluePin = pi.Pin18;
 
 var rgbLED = new RGBLED(redPin, greenPin, bluePin);
-
-rgbLED.SetColor(Color.Red);
-rgbLED.SetColor(Color.Orange);
-rgbLED.SetColor(Color.Yellow);
-rgbLED.SetColor(Color.Green);
-rgbLED.SetColor(Color.Cyan);
-rgbLED.SetColor(Color.Blue);
-rgbLED.SetColor(Color.Purple);
-rgbLED.SetColor(Color.White);
-rgbLED.SetColor(Color.Black); //same as rgbLED.TurnOff();
 ```
+
+Colors can then be set using the `SetColor()` method:
+```C#
+rgbLED.SetColor(Color.Red);
+rgbLED.SetColor(Color.Yellow);
+rgbLED.SetColor(Color.Purple);
+```
+
+Several helpers also exist:
+```C#
+rgbLED.FadeTo(Color.White, TimeSpan.FromSeconds(1));
+rgbLED.Pulse(Color.Green, TimeSpan.FromSeconds(0.5));
+rgbLED.TurnOff(); // same as rgbLED.SetColor(Color.Black);
+```
+
+See [the example](Examples/Components/RGBLED/Program.cs) for more details.
 
 ### Rotary Encoder
 
@@ -176,6 +200,8 @@ dial.OnDecrease(() => Console.WriteLine("down"));
 ```
 
 Built-in button functionality is not yet supported.
+
+See [the example](Examples/Components/RotartEncoder/Program.cs) for more details.
 
 ### Seven-Segment Display
 
@@ -219,6 +245,34 @@ var custom = new PowerSet
 display.SetPowerValues(custom);
 ```
 
+See [the example](Examples/Components/SevenSegmentDisplay/Program.cs) for more details.
+
+### Dot Matrix Display
+
+The dot matrix display required 16 inputs, one for each row and one for each column. Like the seven segment display, these are initialized via a `PinSet`, with pins numbered counter-clockwise starting from the bottom left:
+```C#
+var set = new DotMatrix.PinSet
+{
+	//rows
+	Pin1 = pi.GPIO5, Pin2 = pi.GPIO7, Pin3 = pi.GPIO12, Pin4 = pi.GPIO13, Pin5 = pi.GPIO8, Pin6 = pi.GPIO15, Pin7 = pi.GPIO6, Pin8 = pi.GPIO3,
+
+	//columns
+	Pin9 = pi.GPIO1, Pin10 = pi.GPIO14, Pin11 = pi.GPIO16, Pin12 = pi.GPIO4, Pin13 = pi.GPIO11, Pin14 = pi.GPIO2, Pin15 = pi.GPIO17, Pin16 = pi.GPIO18
+};
+var matrix = new DotMatrix(set);
+```
+
+You can then set rows or columns individually or all together:
+```C#
+matrix.SetAllRows(PowerValue.On);
+matrix.SetAllColumns(PowerValue.Off);
+
+matrix.SetRows(new DotMatrix.PowerSet { ... });
+matrix.SetColumns(new DotMatrix.PowerSet { ... });
+```
+
+See [the example](Examples/Components/DotMatrix/Program.cs) for more details.
+
 ### Bidirectional Motor
 
 The wiring required to safely run a motor is rather complicated. The code, however, can be quite eloquent. The `Motor` component assumes an L293D-compatible driver.
@@ -247,6 +301,8 @@ If you never need to coast (only stop) and your `enabled` pin is always on (e.g.
 If using all 4 inputs on a single driver, declare another `Motor` to handle inputs 3 and 4.
 
 To drive a single-direction motor (by only having input 1 connected), simply pass `null` as the `counterclockwisePin` to the `Motor` constructor. Counterclockwise methods are not expected to function under this condition.
+
+See [the example](Examples/Components/Motor/Program.cs) for more details.
 
 ### Shift Register
 
@@ -287,6 +343,8 @@ outputPin.Spike();
 ```
 
 Similar to the `Motor` component, the `enabled` and `clear` parameters are optional; if you choose to have the register always on/enabled by connecting it to the 3.3 or 5V rail, set the first param to `null`. If you never need to clear, and that pin is also connected to 3.3 or 5V, just leave the last param out.
+
+See [the example](Examples/Components/ShiftRegister/Program.cs) for more details.
 
 ## "Wow, this is great! How can I help?"
 
