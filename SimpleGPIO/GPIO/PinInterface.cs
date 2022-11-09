@@ -44,7 +44,7 @@ public abstract class PinInterface : IPinInterface
 		get => _strength;
 		set
 		{
-			_strength = Math.Clamp(value, 0, 100);
+			_strength = value.Clamp(0, 100);
 
 			if (Power == PowerValue.On && _strength == 0)
 			{
@@ -59,7 +59,6 @@ public abstract class PinInterface : IPinInterface
 			}
 		}
 	}
-
 
 	protected abstract void RefreshPWM();
 
@@ -127,7 +126,7 @@ public abstract class PinInterface : IPinInterface
 	}
 
 
-	private static long Delay(double hz) => (long)(TimeSpan.TicksPerSecond / hz / 2);
+	private static long Delay(double hz) => (long) (TimeSpan.TicksPerSecond / hz / 2);
 
 	public async Task FadeIn(TimeSpan duration) => await FadeTo(100, duration);
 	public async Task FadeOut(TimeSpan duration) => await FadeTo(0, duration);
@@ -139,7 +138,7 @@ public abstract class PinInterface : IPinInterface
 
 		while (timer.Elapsed < duration)
 		{
-			var progress = timer.Elapsed / duration;
+			var progress = timer.Elapsed.TotalMilliseconds / duration.TotalMilliseconds;
 			Strength = initial + (strength - initial) * progress;
 			await Task.Delay(TimeSpan.FromSeconds(1.0 / 60));
 		}
