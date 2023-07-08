@@ -98,7 +98,7 @@ public sealed class InputTests
 			bytesOut[byteNum] = byteSum;
 		}
 
-		var chars = Encoding.ASCII.GetChars(bytesOut);
-		Assert.Equal("Abc123", chars);
+		var output = Encoding.ASCII.GetString(bytesOut);
+		Assert.Equal("Abc123", output);
 	}
 }
