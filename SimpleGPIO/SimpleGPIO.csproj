@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Version>2.0.1</Version>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -20,9 +20,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
+		<PackageReference Include="Iot.Device.Bindings" Version="3.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
-		<PackageReference Include="System.Device.Gpio" Version="2.2.0" />
+		<PackageReference Include="System.Device.Gpio" Version="3.0.0" />
 		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="." />
 	</ItemGroup>
 </Project>
