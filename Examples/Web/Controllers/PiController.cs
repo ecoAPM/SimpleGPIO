@@ -5,6 +5,7 @@ using SimpleGPIO.GPIO;
 namespace SimpleGPIO.Examples.Web.Controllers;
 
 [ApiController]
+[Route("")]
 public sealed class PiController : ControllerBase
 {
 	private readonly IPinInterface _redLED;
