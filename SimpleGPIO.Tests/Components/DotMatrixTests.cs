@@ -7,7 +7,7 @@ namespace SimpleGPIO.Tests.Components;
 
 public sealed class DotMatrixTests
 {
-	private static DotMatrix.PinSet StubPinSet(IReadOnlyList<PinStub> pins)
+	private static DotMatrix.PinSet StubPinSet(PinStub[] pins)
 	{
 		return new DotMatrix.PinSet
 		{
