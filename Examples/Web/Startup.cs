@@ -8,13 +8,13 @@ public sealed class Startup
 
 	public Startup(IConfiguration configuration) => Configuration = configuration;
 
-	public void ConfigureServices(IServiceCollection services)
+	public static void ConfigureServices(IServiceCollection services)
 	{
 		services.AddMvc();
 		services.AddSingleton<RaspberryPi>();
 	}
 
-	public void Configure(IApplicationBuilder app)
+	public static void Configure(IApplicationBuilder app)
 	{
 		app.UseDefaultFiles();
 		app.UseStaticFiles();
