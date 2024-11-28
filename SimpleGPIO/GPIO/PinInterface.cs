@@ -46,14 +46,14 @@ public abstract class PinInterface : IPinInterface
 		{
 			_strength = value.Clamp(0, 100);
 
-			if (Power == PowerValue.On && _strength == 0)
+			if (Power == PowerValue.On && System.Math.Abs(_strength) < double.Epsilon)
 			{
 				TurnOff();
 			}
 
 			RefreshPWM();
 
-			if (Power != PowerValue.On && _strength > 0)
+			if (Power != PowerValue.On && _strength > double.Epsilon)
 			{
 				TurnOn();
 			}

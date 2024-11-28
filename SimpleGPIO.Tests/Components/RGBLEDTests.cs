@@ -111,14 +111,14 @@ public sealed class RGBLEDTests
 
 		public IEnumerator<object[]> GetEnumerator()
 		{
-			yield return new object[] { Color.Red, 100, 0, 0 };
-			yield return new object[] { Color.Yellow, 100, 100, 0 };
-			yield return new object[] { Color.Lime, 0, 100, 0 };
-			yield return new object[] { Color.Cyan, 0, 100, 100 };
-			yield return new object[] { Color.Blue, 0, 0, 100 };
-			yield return new object[] { Color.Magenta, 100, 0, 100 };
-			yield return new object[] { Color.White, 100, 100, 100 };
-			yield return new object[] { Color.Black, 0, 0, 0 };
+			yield return [Color.Red, 100, 0, 0];
+			yield return [Color.Yellow, 100, 100, 0];
+			yield return [Color.Lime, 0, 100, 0];
+			yield return [Color.Cyan, 0, 100, 100];
+			yield return [Color.Blue, 0, 0, 100];
+			yield return [Color.Magenta, 100, 0, 100];
+			yield return [Color.White, 100, 100, 100];
+			yield return [Color.Black, 0, 0, 0];
 		}
 	}
 }
