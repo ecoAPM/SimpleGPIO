@@ -18,7 +18,7 @@ public sealed class BroadcomBoardTests
 		var pin0 = board.GPIO0;
 
 		//assert
-		Assert.IsAssignableFrom<IPinInterface>(pin0);
+		Assert.IsType<IPinInterface>(pin0, exactMatch: false);
 	}
 
 	[Fact]

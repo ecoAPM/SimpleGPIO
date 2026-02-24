@@ -12,7 +12,7 @@ public sealed class PowerModeTests
 		var powerMode = PowerMode.Direct;
 
 		//assert
-		Assert.IsAssignableFrom<Direct>(powerMode);
+		Assert.IsType<Direct>(powerMode);
 	}
 
 	[Fact]
@@ -22,6 +22,6 @@ public sealed class PowerModeTests
 		var powerMode = PowerMode.Differential;
 
 		//assert
-		Assert.IsAssignableFrom<Differential>(powerMode);
+		Assert.IsType<Differential>(powerMode);
 	}
 }
