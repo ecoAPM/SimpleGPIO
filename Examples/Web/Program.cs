@@ -9,7 +9,7 @@ public static class Program
 		var builder = WebApplication.CreateBuilder(args);
 		ConfigureServices(builder.Services);
 
-		var app = builder.Build();
+		await using var app = builder.Build();
 		Configure(app);
 
 		await app.RunAsync();

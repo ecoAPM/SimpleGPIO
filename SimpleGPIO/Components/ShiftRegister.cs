@@ -38,7 +38,7 @@ public sealed class ShiftRegister : SPI.Input
 	public void SetPowerValues(PowerSet values)
 	{
 		_enabled?.TurnOn();
-		Send(new[] { values.A, values.B, values.C, values.D, values.E, values.F, values.G, values.H });
+		Send([values.A, values.B, values.C, values.D, values.E, values.F, values.G, values.H]);
 		_output.Spike();
 	}
 

@@ -16,8 +16,8 @@ public sealed class DotMatrix
 	/// <param name="input">The set of pins controlling the component</param>
 	public DotMatrix(PinSet input)
 	{
-		Row = new[] { input.Pin9, input.Pin14, input.Pin8, input.Pin12, input.Pin1, input.Pin7, input.Pin2, input.Pin5 };
-		Column = new[] { input.Pin13, input.Pin3, input.Pin4, input.Pin10, input.Pin6, input.Pin11, input.Pin15, input.Pin16 };
+		Row = [input.Pin9, input.Pin14, input.Pin8, input.Pin12, input.Pin1, input.Pin7, input.Pin2, input.Pin5];
+		Column = [input.Pin13, input.Pin3, input.Pin4, input.Pin10, input.Pin6, input.Pin11, input.Pin15, input.Pin16];
 
 		foreach (var column in Column)
 		{

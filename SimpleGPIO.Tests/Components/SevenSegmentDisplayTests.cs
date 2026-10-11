@@ -47,761 +47,761 @@ public sealed class SevenSegmentDisplayTests
 
 		public IEnumerator<object[]> GetEnumerator()
 		{
-			yield return new object[]
-			{
+			yield return
+			[
 				' ', "   " +
 				     "   " +
 				     "   " +
 				     "   " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'"', "   " +
 				     "* *" +
 				     "   " +
 				     "   " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'\'', "   " +
 				      "  *" +
 				      "   " +
 				      "   " +
 				      "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'(', " * " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				')', " * " +
 				     "  *" +
 				     "   " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				',', "   " +
 				     "   " +
 				     "   " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'-', "   " +
 				     "   " +
 				     " * " +
 				     "   " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'.', "   " +
 				     "   " +
 				     "   " +
 				     "   " +
 				     "   *"
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'/', "   " +
 				     "  *" +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'0', " * " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'1', "   " +
 				     "  *" +
 				     "   " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'2', " * " +
 				     "  *" +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'3', " * " +
 				     "  *" +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'4', "   " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'5', " * " +
 				     "*  " +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'6', " * " +
 				     "*  " +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'7', " * " +
 				     "  *" +
 				     "   " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'8', " * " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'9', " * " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'<', "   " +
 				     "   " +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'=', "   " +
 				     "   " +
 				     " * " +
 				     "   " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'>', "   " +
 				     "   " +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'A', " * " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'B', " * " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'C', " * " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'D', " * " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'E', " * " +
 				     "*  " +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'F', " * " +
 				     "*  " +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'G', " * " +
 				     "*  " +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'H', "   " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'I', "   " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'J', "   " +
 				     "  *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'K', "   " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'L', "   " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'M', " * " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'N', "   " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'O', " * " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'P', " * " +
 				     "* *" +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'Q', " * " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * *"
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'R', " * " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'S', " * " +
 				     "*  " +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'T', " * " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'U', "   " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'V', "   " +
 				     "* *" +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'W', "   " +
 				     "* *" +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'X', "   " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'Y', "   " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'Z', " * " +
 				     "  *" +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'[', " * " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'\\', "   " +
 				      "*  " +
 				      " * " +
 				      "  *" +
 				      "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				']', " * " +
 				     "  *" +
 				     "   " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'^', " * " +
 				     "* *" +
 				     "   " +
 				     "   " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'_', "   " +
 				     "   " +
 				     "   " +
 				     "   " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'`', "   " +
 				     "*  " +
 				     "   " +
 				     "   " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'a', " * " +
 				     "  *" +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'b', "   " +
 				     "*  " +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'c', "   " +
 				     "   " +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'd', "   " +
 				     "  *" +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'e', " * " +
 				     "* *" +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'f', " * " +
 				     "*  " +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'g', " * " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'h', "   " +
 				     "*  " +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'i', "   " +
 				     "   " +
 				     "   " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'j', "   " +
 				     "   " +
 				     "   " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'k', "   " +
 				     "*  " +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'l', "   " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'm', "   " +
 				     "   " +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'n', "   " +
 				     "   " +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'o', "   " +
 				     "   " +
 				     " * " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'p', " * " +
 				     "* *" +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'q', " * " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'r', "   " +
 				     "   " +
 				     " * " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				's', " * " +
 				     "*  " +
 				     " * " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				't', "   " +
 				     "*  " +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'u', "   " +
 				     "   " +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'v', "   " +
 				     "   " +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'w', "   " +
 				     "   " +
 				     "   " +
 				     "* *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'x', "   " +
 				     "* *" +
 				     " * " +
 				     "* *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'y', "   " +
 				     "* *" +
 				     " * " +
 				     "  *" +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'z', " * " +
 				     "  *" +
 				     " * " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'{', " * " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'|', "   " +
 				     "*  " +
 				     "   " +
 				     "*  " +
 				     "   "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'}', " * " +
 				     "  *" +
 				     "   " +
 				     "  *" +
 				     " * "
-			};
+			];
 
-			yield return new object[]
-			{
+			yield return
+			[
 				'~', " * " +
 				     "   " +
 				     "   " +
 				     "   " +
 				     "   "
-			};
+			];
 		}
 	}
 }

@@ -12,10 +12,10 @@ public sealed class BroadcomBoardTests
 	{
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
-		var board = new BroadcomStub(newPin);
+		using var board = new BroadcomStub(newPin);
 
 		//act
-		var pin0 = board.GPIO0;
+		using var pin0 = board.GPIO0;
 
 		//assert
 		Assert.IsType<IPinInterface>(pin0, exactMatch: false);
@@ -26,11 +26,11 @@ public sealed class BroadcomBoardTests
 	{
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
-		var board = new BroadcomStub(newPin);
-		var pin0 = board.GPIO0;
+		using var board = new BroadcomStub(newPin);
+		using var pin0 = board.GPIO0;
 
 		//act
-		var pin1 = board.GPIO0;
+		using var pin1 = board.GPIO0;
 
 		//assert
 		Assert.Equal(pin0, pin1);
@@ -43,7 +43,7 @@ public sealed class BroadcomBoardTests
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
 		newPin.Invoke(Arg.Any<byte>()).Returns(p => new PinStub(p.Arg<byte>()));
-		var board = new BroadcomStub(newPin);
+		using var board = new BroadcomStub(newPin);
 		var pins = new PinStub[28];
 
 		//act
@@ -60,9 +60,9 @@ public sealed class BroadcomBoardTests
 	{
 		//arrange
 		var newPin = Substitute.For<Func<byte, IPinInterface>>();
-		var pin = Substitute.For<IPinInterface>();
+		using var pin = Substitute.For<IPinInterface>();
 		newPin.Invoke(Arg.Any<byte>()).Returns(_ => pin);
-		var board = new BroadcomStub(newPin);
+		using var board = new BroadcomStub(newPin);
 		for (var x = 0; x < 28; x++)
 			board.GetType().GetProperty($"GPIO{x}")?.GetValue(board);
 

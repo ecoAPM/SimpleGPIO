@@ -13,8 +13,8 @@ public sealed class InputTests
 	public void CanSendPowerValue()
 	{
 		//arrange
-		var data = Substitute.For<IPinInterface>();
-		var clock = new PinStub(2);
+		using var data = Substitute.For<IPinInterface>();
+		using var clock = new PinStub(2);
 		var input = new InputStub(data, clock);
 
 		//act
@@ -28,8 +28,8 @@ public sealed class InputTests
 	public void SendByteSendsCorrectPowerValues()
 	{
 		//arrange
-		var data = Substitute.For<IPinInterface>();
-		var clock = new PinStub(2);
+		using var data = Substitute.For<IPinInterface>();
+		using var clock = new PinStub(2);
 		var input = new InputStub(data, clock);
 
 		//act
@@ -51,8 +51,8 @@ public sealed class InputTests
 	public void SendPowerArraySendsCorrectPowerValues()
 	{
 		//arrange
-		var data = Substitute.For<IPinInterface>();
-		var clock = new PinStub(2);
+		using var data = Substitute.For<IPinInterface>();
+		using var clock = new PinStub(2);
 		var input = new InputStub(data, clock);
 		var values = new[] { PowerValue.On, PowerValue.Off, PowerValue.Off, PowerValue.On };
 
@@ -72,8 +72,8 @@ public sealed class InputTests
 	{
 		//arrange
 
-		var data = Substitute.For<IPinInterface>();
-		var clock = new PinStub(2);
+		using var data = Substitute.For<IPinInterface>();
+		using var clock = new PinStub(2);
 		var input = new InputStub(data, clock);
 		var bytesIn = Encoding.ASCII.GetBytes("Abc123");
 

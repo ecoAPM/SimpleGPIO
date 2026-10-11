@@ -14,10 +14,10 @@ public sealed class SystemPinInterfaceTests
 	public void EnabledIfPinOpen()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.IsPinOpen(123).Returns(true);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		var enabled = pinInterface.Enabled;
@@ -30,10 +30,10 @@ public sealed class SystemPinInterfaceTests
 	public void NotEnabledIfPinNotOpen()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.IsPinOpen(123).Returns(false);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		var enabled = pinInterface.Enabled;
@@ -48,10 +48,10 @@ public sealed class SystemPinInterfaceTests
 	public void CanGetIOMode(PinMode value, IOMode expected)
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(value);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		var io = pinInterface.IOMode;
@@ -64,10 +64,10 @@ public sealed class SystemPinInterfaceTests
 	public void GettingIOModeEnablesPinIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		var io = pinInterface.IOMode;
@@ -83,11 +83,11 @@ public sealed class SystemPinInterfaceTests
 	public void CanSetIOMode(IOMode io, PinMode expected)
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
 
 		//act
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Enabled = true,
 			IOMode = io
@@ -102,11 +102,11 @@ public sealed class SystemPinInterfaceTests
 	public void SettingIOModeEnablesPinIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
 
 		//act
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			IOMode = IOMode.Write
 		};
@@ -124,10 +124,10 @@ public sealed class SystemPinInterfaceTests
 	public void CanGetPower(Type powerModeType, byte value, PowerValue expected)
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(value);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Direction = Direction.Out,
 			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)!
@@ -144,10 +144,10 @@ public sealed class SystemPinInterfaceTests
 	public void GettingPowerEnablesPinIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Direction = Direction.In
 		};
@@ -168,12 +168,12 @@ public sealed class SystemPinInterfaceTests
 	public void CanSetPower(Type powerModeType, PowerValue power, byte expected)
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
+		using var pwm = Substitute.For<IPwmChannel>();
 
 		//act
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Enabled = true,
 			PowerMode = (IPowerMode)Activator.CreateInstance(powerModeType)!,
@@ -189,12 +189,12 @@ public sealed class SystemPinInterfaceTests
 	public void SettingPowerSetsIOModeIfNotWrite()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
+		using var pwm = Substitute.For<IPwmChannel>();
 
 		//act
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.On
 		};
@@ -208,10 +208,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingPowerModeTurnsPinOff()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			PowerMode = PowerMode.Direct
 		};
@@ -227,9 +227,9 @@ public sealed class SystemPinInterfaceTests
 	public void EnableOpensPin()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Enabled = false
 		};
@@ -245,9 +245,9 @@ public sealed class SystemPinInterfaceTests
 	public void DisableSetsEnabledFalse()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Enabled = true
 		};
@@ -268,9 +268,9 @@ public sealed class SystemPinInterfaceTests
 	public void StrengthSetsDutyCycle(double strength, double expected)
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = strength;
@@ -283,10 +283,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthTurnsOffIfOnAndZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 0;
@@ -299,10 +299,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthDoesNotTurnOffIfOnAndNonZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 1;
@@ -315,10 +315,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthDoesNotTurnOffIfAlreadyOff()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.Low);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 0;
@@ -331,10 +331,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthTurnsOnIfOffAndNonZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.Low);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 1;
@@ -347,10 +347,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthDoesNotTurnOnIfOffAndZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 0;
@@ -363,10 +363,10 @@ public sealed class SystemPinInterfaceTests
 	public void SettingStrengthDoesNotTurnOnIfAlreadyOn()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Strength = 1;
@@ -379,10 +379,10 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOnSetsPowerOn()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.Off
 		};
@@ -398,10 +398,10 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOffSetsPowerOff()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.On
 		};
@@ -417,10 +417,10 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOnDoesNotStartPWMByDefault()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.Off
 		};
@@ -436,11 +436,11 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOnStartsPWMWhenStrengthSet()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Strength = 50
 		};
@@ -456,11 +456,11 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOnStopsPWMWhenFullStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Strength = 100
 		};
@@ -477,11 +477,11 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOnStopsPWMWhenZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Strength = 0
 		};
@@ -498,10 +498,10 @@ public sealed class SystemPinInterfaceTests
 	public void TurnOffStopsPWM()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.On
 		};
@@ -517,10 +517,10 @@ public sealed class SystemPinInterfaceTests
 	public void SpikeTurnsOnThenOff()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Spike();
@@ -535,10 +535,10 @@ public sealed class SystemPinInterfaceTests
 	public async Task TurnOnForTurnsOffAfter()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.TurnOnFor(TimeSpan.Zero);
@@ -553,10 +553,10 @@ public sealed class SystemPinInterfaceTests
 	public async Task TurnOffForTurnsOnAfter()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.TurnOffFor(TimeSpan.Zero);
@@ -571,11 +571,11 @@ public sealed class SystemPinInterfaceTests
 	public void ToggleTurnsOnIfOff()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.Low);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.Off
 		};
@@ -591,11 +591,11 @@ public sealed class SystemPinInterfaceTests
 	public void ToggleTurnsOffIfOn()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.High);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.On
 		};
@@ -611,11 +611,11 @@ public sealed class SystemPinInterfaceTests
 	public async Task CanToggleForADuration()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.Low);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.Toggle(1000, TimeSpan.FromMilliseconds(1));
@@ -628,11 +628,11 @@ public sealed class SystemPinInterfaceTests
 	public async Task CanToggleForSetIterations()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
 		gpio.Read(123).Returns(PinValue.Low);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.Toggle(TimeSpan.TicksPerMillisecond, 10);
@@ -645,9 +645,9 @@ public sealed class SystemPinInterfaceTests
 	public async Task FadeInEndsAtFullStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.FadeIn(TimeSpan.Zero);
@@ -660,9 +660,9 @@ public sealed class SystemPinInterfaceTests
 	public async Task FadeOutEndsAtZeroStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.FadeOut(TimeSpan.Zero);
@@ -675,9 +675,9 @@ public sealed class SystemPinInterfaceTests
 	public void FadeToScalesStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Strength = 75
 		};
@@ -694,9 +694,9 @@ public sealed class SystemPinInterfaceTests
 	public async Task PulseSetsInitialStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.Pulse(50, TimeSpan.Zero);
@@ -710,9 +710,9 @@ public sealed class SystemPinInterfaceTests
 	public async Task DefaultPulseSetsToFullStrength()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var gpio = Substitute.For<IGpioController>();
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		await pinInterface.Pulse(TimeSpan.Zero);
@@ -726,10 +726,10 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerOnEnablesIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.OnPowerOn(() => { });
@@ -742,13 +742,13 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerOnPerformsAction()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
 		gpio.When(g =>
 				g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Rising, Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.On
 		};
@@ -765,10 +765,10 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerOffEnablesIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.OnPowerOff(() => { });
@@ -781,14 +781,14 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerOffPerformsAction()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
 		gpio.When(g =>
 				g.RegisterCallbackForPinValueChangedEvent(123, PinEventTypes.Falling, Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
 
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm)
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm)
 		{
 			Power = PowerValue.Off
 		};
@@ -805,10 +805,10 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerChangeEnablesIfNotEnabled()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.OnPowerChange(() => { });
@@ -821,14 +821,14 @@ public sealed class SystemPinInterfaceTests
 	public void OnPowerChangePerformsAction()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Input);
 		gpio.When(g =>
 				g.RegisterCallbackForPinValueChangedEvent(123, Arg.Any<PinEventTypes>(),
 					Arg.Any<PinChangeEventHandler>()))
 			.Do(c => c.Arg<PinChangeEventHandler>().Invoke(null!, null!));
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 		var called = false;
 
 		//act
@@ -842,10 +842,10 @@ public sealed class SystemPinInterfaceTests
 	public void DisablesOnDispose()
 	{
 		//arrange
-		var gpio = Substitute.For<IGpioController>();
+		using var gpio = Substitute.For<IGpioController>();
 		gpio.GetPinMode(123).Returns(PinMode.Output);
-		var pwm = Substitute.For<IPwmChannel>();
-		var pinInterface = new SystemPinInterface(123, gpio, pwm);
+		using var pwm = Substitute.For<IPwmChannel>();
+		using var pinInterface = new SystemPinInterface(123, gpio, pwm);
 
 		//act
 		pinInterface.Dispose();

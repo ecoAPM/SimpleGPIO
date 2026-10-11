@@ -14,9 +14,9 @@ public sealed class RGBLEDTests
 	public void ColorsMatch(Color color, double r, double g, double b)
 	{
 		//arrange
-		var red = new PinStub(1);
-		var green = new PinStub(2);
-		var blue = new PinStub(3);
+		using var red = new PinStub(1);
+		using var green = new PinStub(2);
+		using var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act
@@ -36,9 +36,9 @@ public sealed class RGBLEDTests
 	public void TurnOffTurnsOffAllPins()
 	{
 		//arrange
-		var red = new PinStub(1);
-		var green = new PinStub(2);
-		var blue = new PinStub(3);
+		using var red = new PinStub(1);
+		using var green = new PinStub(2);
+		using var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act
@@ -54,9 +54,9 @@ public sealed class RGBLEDTests
 	public async Task CanFadeToColor()
 	{
 		//arrange
-		var red = new PinStub(1);
-		var green = new PinStub(2);
-		var blue = new PinStub(3);
+		using var red = new PinStub(1);
+		using var green = new PinStub(2);
+		using var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act
@@ -73,9 +73,9 @@ public sealed class RGBLEDTests
 	public async Task CanFadeOutToBlack()
 	{
 		//arrange
-		var red = new PinStub(1);
-		var green = new PinStub(2);
-		var blue = new PinStub(3);
+		using var red = new PinStub(1);
+		using var green = new PinStub(2);
+		using var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act
@@ -91,9 +91,9 @@ public sealed class RGBLEDTests
 	public async Task PulseFadesOutCompletely()
 	{
 		//arrange
-		var red = new PinStub(1);
-		var green = new PinStub(2);
-		var blue = new PinStub(3);
+		using var red = new PinStub(1);
+		using var green = new PinStub(2);
+		using var blue = new PinStub(3);
 		var led = new RGBLED(red, green, blue);
 
 		//act

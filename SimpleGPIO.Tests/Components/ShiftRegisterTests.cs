@@ -13,11 +13,11 @@ public sealed class ShiftRegisterTests
 	public void SetPowerValuesSetsCorrectDataBits()
 	{
 		//arrange
-		var enabled = new PinStub(1);
-		var data = Substitute.For<IPinInterface>();
-		var shift = new PinStub(2);
-		var output = new PinStub(3);
-		var clear = new PinStub(4);
+		using var enabled = new PinStub(1);
+		using var data = Substitute.For<IPinInterface>();
+		using var shift = new PinStub(2);
+		using var output = new PinStub(3);
+		using var clear = new PinStub(4);
 		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
 		var values = new ShiftRegister.PowerSet
@@ -51,11 +51,11 @@ public sealed class ShiftRegisterTests
 	public void SetValueSetsCorrectDataBits()
 	{
 		//arrange
-		var enabled = new PinStub(1);
-		var data = Substitute.For<IPinInterface>();
-		var shift = new PinStub(2);
-		var output = new PinStub(3);
-		var clear = new PinStub(4);
+		using var enabled = new PinStub(1);
+		using var data = Substitute.For<IPinInterface>();
+		using var shift = new PinStub(2);
+		using var output = new PinStub(3);
+		using var clear = new PinStub(4);
 		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
 		//act
@@ -77,11 +77,11 @@ public sealed class ShiftRegisterTests
 	public void ClearSpikesOutputWhileClearIsOn()
 	{
 		//arrange
-		var enabled = new PinStub(1);
-		var data = new PinStub(2);
-		var shift = new PinStub(3);
-		var output = Substitute.For<IPinInterface>();
-		var clear = Substitute.For<IPinInterface>();
+		using var enabled = new PinStub(1);
+		using var data = new PinStub(2);
+		using var shift = new PinStub(3);
+		using var output = Substitute.For<IPinInterface>();
+		using var clear = Substitute.For<IPinInterface>();
 		var register = new ShiftRegister(enabled, data, shift, output, clear);
 
 		//act
