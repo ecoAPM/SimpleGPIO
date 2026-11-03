@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Examples/">
+    <Project Path="Examples/CLI/CLI.csproj" />
+    <Project Path="Examples/Input/Input.csproj" />
+    <Project Path="Examples/PWM/PWM.csproj" />
+    <Project Path="Examples/Web/Web.csproj" />
+  </Folder>
+  <Folder Name="/Examples/Components/">
+    <Project Path="Examples/Components/DotMatrix/DotMatrix.csproj" />
+    <Project Path="Examples/Components/Motor/Motor.csproj" />
+    <Project Path="Examples/Components/RGBLED/RGBLED.csproj" />
+    <Project Path="Examples/Components/RotaryEncoder/RotaryEncoder.csproj" />
+    <Project Path="Examples/Components/SevenSegmentDisplay/SevenSegmentDisplay.csproj" />
+    <Project Path="Examples/Components/ShiftRegister/ShiftRegister.csproj" />
+  </Folder>
+  <Project Path="SimpleGPIO.Tests/SimpleGPIO.Tests.csproj" />
+  <Project Path="SimpleGPIO/SimpleGPIO.csproj" />
+</Solution>
